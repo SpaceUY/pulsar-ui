@@ -1,24 +1,22 @@
-# react-native-rn-spacedev-uikit
+# rn-spacedev-uikit
 
 react native ui kit for spacedev
 
 ## Installation
 
 ```sh
-npm install react-native-rn-spacedev-uikit
+npm install rn-spacedev-uikit
 ```
 
 ## Usage
 
-
 ```js
-import { multiply } from 'react-native-rn-spacedev-uikit';
+import { multiply } from 'rn-spacedev-uikit';
 
 // ...
 
 const result = await multiply(3, 7);
 ```
-
 
 ## Contributing
 

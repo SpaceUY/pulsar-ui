@@ -1,5 +1,5 @@
 {
-  "name": "react-native-rn-spacedev-uikit",
+  "name": "rn-spacedev-uikit",
   "version": "0.1.0",
   "description": "react native ui kit for spacedev",
   "source": "./src/index.tsx",
@@ -32,7 +32,7 @@
     "!**/.*"
   ],
   "scripts": {
-    "example": "yarn workspace react-native-rn-spacedev-uikit-example",
+    "example": "yarn workspace rn-spacedev-uikit-example",
     "test": "jest",
     "typecheck": "tsc",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
@@ -65,25 +65,35 @@
     "@eslint/js": "^9.22.0",
     "@evilmartians/lefthook": "^1.5.0",
     "@react-native/eslint-config": "^0.78.0",
+    "@react-navigation/elements": "^2.3.8",
     "@release-it/conventional-changelog": "^9.0.2",
     "@types/jest": "^29.5.5",
-    "@types/react": "^19.0.12",
+    "@types/react": "^18.2.0",
     "commitlint": "^19.6.1",
     "del-cli": "^5.1.0",
     "eslint": "^9.22.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-prettier": "^5.2.3",
     "jest": "^29.7.0",
+    "lucide-react-native": "^0.503.0",
     "prettier": "^3.0.3",
     "react": "18.3.1",
     "react-native": "0.76.9",
     "react-native-builder-bob": "^0.40.6",
+    "react-native-gesture-handler": "^2.25.0",
+    "react-native-reanimated": "~3.16.1",
+    "react-native-svg": "^15.11.2",
     "release-it": "^17.10.0",
     "typescript": "^5.2.2"
   },
   "peerDependencies": {
+    "@react-navigation/elements": "^2.3.8",
+    "lucide-react-native": "^0.503.0",
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "react-native-gesture-handler": "^2.25.0",
+    "react-native-reanimated": "~3.16.1",
+    "react-native-svg": "^15.11.2"
   },
   "workspaces": [
     "example"
