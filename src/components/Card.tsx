@@ -1,8 +1,9 @@
+import { useMemo, type PropsWithChildren } from 'react';
 import { StyleSheet, View } from 'react-native';
-import useTheme from '../hooks/useTheme';
-import { useMemo } from 'react';
 
-export default function Card({ children }: { children: React.ReactNode }) {
+import useTheme from '../hooks/useTheme';
+
+export default function Card({ children }: PropsWithChildren) {
   const { theme, colors } = useTheme();
 
   const themeStyle = useMemo(() => {

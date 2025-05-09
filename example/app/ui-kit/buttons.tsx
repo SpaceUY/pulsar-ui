@@ -58,6 +58,16 @@ export default function ButtonsScreen() {
           disabled={selectedTab2.value === 'disabled'}
         />
       ))}
+      <Button
+        text="Save Changes"
+        iconName="Save"
+        variant="flat"
+        size={selectedTab1.value as ButtonSize}
+        onPress={() => handlePress('save')}
+        loading={loadingStates['save']}
+        style={{ marginBottom: 16, alignSelf: 'flex-start' }}
+        disabled={selectedTab2.value === 'disabled'}
+      />
     </View>
   );
 }

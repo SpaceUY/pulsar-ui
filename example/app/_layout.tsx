@@ -3,7 +3,10 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 import { UIKitProvider } from 'rn-spacedev-uikit';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import {
+  SafeAreaProvider,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 import {
   Sora_300Light,
   Sora_400Regular,
@@ -49,51 +52,59 @@ export default function RootLayout() {
   }
 
   return (
-    <GestureHandlerRootView>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
-        <UIKitProvider
-          initialTheme={{
-            colors: {
-              light: {
-                primary: '#09090B',
-                foregroundOnPrimary: '#FFFFFF',
-                background: '#FFFFFF',
-                altBackground: '#FFFFFF',
-                foreground: '#09090B',
-                altForeground: '#FAFAFA',
-                border: '#E4E4E7',
-                destructive: '#DC2626',
-                foregroundOnDestructive: '#FFFFFF',
-              },
-              dark: {
-                primary: '#FAFAFA',
-                foregroundOnPrimary: '#09090B',
-                background: '#09090B',
-                altBackground: '#09090B',
-                foreground: '#FAFAFA',
-                altForeground: '#18181B',
-                border: '#27272A',
-                destructive: '#DC2626',
-                foregroundOnDestructive: '#FFFFFF',
-              },
-            },
-            fonts: {
-              light: 'Sora_300Light',
-              regular: 'Sora_400Regular',
-              medium: 'Sora_500Medium',
-              bold: 'Sora_700Bold',
-            },
-            roundness: 6,
-          }}
-        >
-          <Layout />
-        </UIKitProvider>
+        <Layout />
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );
 }
 
 const Layout = () => {
+  const insets = useSafeAreaInsets();
+  return (
+    <UIKitProvider
+      initialTheme={{
+        colors: {
+          light: {
+            primary: '#09090B',
+            foregroundOnPrimary: '#FFFFFF',
+            background: '#FFFFFF',
+            altBackground: '#FFFFFF',
+            foreground: '#09090B',
+            altForeground: '#FAFAFA',
+            border: '#E4E4E7',
+            destructive: '#DC2626',
+            foregroundOnDestructive: '#FFFFFF',
+          },
+          dark: {
+            primary: '#FAFAFA',
+            foregroundOnPrimary: '#09090B',
+            background: '#09090B',
+            altBackground: '#09090B',
+            foreground: '#FAFAFA',
+            altForeground: '#18181B',
+            border: '#27272A',
+            destructive: '#DC2626',
+            foregroundOnDestructive: '#FFFFFF',
+          },
+        },
+        fonts: {
+          light: 'Sora_300Light',
+          regular: 'Sora_400Regular',
+          medium: 'Sora_500Medium',
+          bold: 'Sora_700Bold',
+        },
+        roundness: 6,
+        insets,
+      }}
+    >
+      <RootNavigator />
+    </UIKitProvider>
+  );
+};
+
+const RootNavigator = () => {
   const { setColorScheme, colors } = useUIKitTheme();
   const colorScheme = useColorScheme();
 
@@ -170,6 +181,18 @@ const Layout = () => {
         name="ui-kit/chips"
         options={{
           title: 'Chips',
+        }}
+      />
+      <Stack.Screen
+        name="ui-kit/icons"
+        options={{
+          title: 'Icons',
+        }}
+      />
+      <Stack.Screen
+        name="ui-kit/icon-buttons"
+        options={{
+          title: 'Icon Buttons',
         }}
       />
       <Stack.Screen

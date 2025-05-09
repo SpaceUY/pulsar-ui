@@ -1,8 +1,4 @@
-export {
-  default as Button,
-  ButtonVariant,
-  ButtonSize,
-} from './components/Button';
+export { default as Button } from './components/Button';
 export { default as Tabs, type Tab } from './components/Tabs';
 export { default as Input } from './components/Input';
 export { default as Text } from './components/Text';
@@ -13,3 +9,6 @@ export { default as useUIKitTheme } from './hooks/useTheme';
 export { default as LoadingIndicator } from './components/LoadingIndicator';
 export { default as Checkbox } from './components/Checkbox';
 export { default as Chip } from './components/Chip';
+export { default as Icon, type IconName } from './components/Icon';
+export { default as IconButton } from './components/IconButton';
+export { ButtonVariant, ButtonSize } from './components/ButtonContainer';

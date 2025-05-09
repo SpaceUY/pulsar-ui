@@ -39,6 +39,7 @@ export default function SelectScreen() {
         <Select
           options={fruits}
           value={selectedFruit}
+          title="Pick a fruit"
           onChange={setSelectedFruit}
           placeholder="Select a fruit"
           style={styles.select}

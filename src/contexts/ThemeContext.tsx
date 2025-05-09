@@ -11,6 +11,7 @@ type Theme = {
   colors: { dark: ColorPalette; light: ColorPalette };
   fonts: { light: string; regular: string; medium: string; bold: string };
   roundness: number;
+  insets: { top: number; left: number; right: number; bottom: number };
 };
 
 const defaultTheme: Theme = {
@@ -22,6 +23,12 @@ const defaultTheme: Theme = {
     bold: 'Inter_700Bold',
   },
   roundness: 6,
+  insets: {
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
 };
 
 type ThemeContextType = {

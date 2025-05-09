@@ -6,6 +6,12 @@ export default function UIKitScreen() {
   return (
     <View style={{ flex: 1, padding: 16 }}>
       <Button
+        text="Icons"
+        variant="flat"
+        onPress={() => router.push('ui-kit/icons')}
+        style={{ marginBottom: 16 }}
+      />
+      <Button
         text="Buttons"
         variant="flat"
         onPress={() => router.push('ui-kit/buttons')}
@@ -57,6 +63,12 @@ export default function UIKitScreen() {
         text="Chips"
         variant="flat"
         onPress={() => router.push('ui-kit/chips')}
+        style={{ marginBottom: 16 }}
+      />
+      <Button
+        text="Icon Buttons"
+        variant="flat"
+        onPress={() => router.push('ui-kit/icon-buttons')}
         style={{ marginBottom: 16 }}
       />
     </View>

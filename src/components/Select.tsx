@@ -1,15 +1,10 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import {
   View,
   StyleSheet,
   type StyleProp,
   type ViewStyle,
-  Modal,
   Pressable,
-  ScrollView,
-  Platform,
-  Dimensions,
-  StatusBar,
 } from 'react-native';
 import Animated, {
   useSharedValue,
@@ -17,11 +12,12 @@ import Animated, {
   useAnimatedStyle,
   interpolateColor,
 } from 'react-native-reanimated';
-import { useHeaderHeight } from '@react-navigation/elements';
-import { Check, ChevronDown } from 'lucide-react-native';
+import { FlatList } from 'react-native-gesture-handler';
 
 import InputContainer from './InputContainer';
+import BottomSheet, { type BottomSheetProps } from './BottomSheet';
 import Text from './Text';
+import Icon from './Icon';
 
 import useTheme from '../hooks/useTheme';
 
@@ -37,14 +33,13 @@ type Props = {
   value?: SelectOption;
   options: SelectOption[];
   onChange: (option: SelectOption) => void;
+  title?: string;
   placeholder?: string;
   label?: string;
   disabled?: boolean;
   error?: boolean;
   hint?: string;
 };
-
-const { height: screenHeight } = Dimensions.get('screen');
 
 const OptionItem = ({
   style,
@@ -77,6 +72,8 @@ const OptionItem = ({
       onPress={() => onChange(option)}
       onPressIn={() => (pressed.value = 1)}
       onPressOut={() => (pressed.value = 0)}
+      onHoverIn={() => (pressed.value = 1)}
+      onHoverOut={() => (pressed.value = 0)}
     >
       <Animated.View
         style={[
@@ -85,10 +82,14 @@ const OptionItem = ({
           animatedPress,
         ]}
       >
-        <Text style={styles.optionText} variant="pm" numberOfLines={1}>
+        <Text
+          style={[styles.optionText, { color: colors.foreground }]}
+          variant="pm"
+          numberOfLines={1}
+        >
           {option.label}
         </Text>
-        {selected && <Check size={16} color={colors.foreground} />}
+        {selected && <Icon name="Check" size={16} color={colors.foreground} />}
       </Animated.View>
     </Pressable>
   );
@@ -104,27 +105,24 @@ export default function Select({
   disabled = false,
   error,
   hint,
+  title,
 }: Props) {
-  const [visible, setVisible] = useState(false);
-  const [coordX, setCoordX] = useState(0);
-  const [coordY, setCoordY] = useState(0);
-  const [width, setWidth] = useState(0);
-  const [height, setHeight] = useState(0);
-  const [optionsContainerHeight, setOptionsContainerHeight] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
   const rotation = useSharedValue(0);
-  const headerHeight = useHeaderHeight();
   const { theme, colors } = useTheme();
-  const selectRef = useRef<View>(null);
+  const bottomSheetRef = useRef<BottomSheetProps>(null);
 
   const handlePress = useCallback(() => {
     if (disabled) return;
+    setIsOpen(true);
     rotation.value = withTiming(1, { duration: 200 });
-    setVisible(true);
+    bottomSheetRef.current?.show();
   }, [disabled, rotation]);
 
   const handleClose = useCallback(() => {
     rotation.value = withTiming(0, { duration: 200 });
-    setVisible(false);
+    setIsOpen(false);
+    bottomSheetRef.current?.hide();
   }, [rotation]);
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -136,38 +134,13 @@ export default function Select({
     return colors.foreground;
   }, [colors.foreground, disabled]);
 
-  const top = useMemo(() => {
-    let header = Platform.OS === 'web' ? 0 : headerHeight;
-    if (Platform.OS === 'android') {
-      header = headerHeight - (StatusBar.currentHeight ?? 0);
-    }
-    let y = height + coordY + header + 4;
-    if (y + optionsContainerHeight > screenHeight) {
-      y = coordY - optionsContainerHeight - 8;
-    }
-    return y;
-  }, [coordY, headerHeight, height, optionsContainerHeight]);
-
   return (
     <>
-      <View
-        style={style}
-        onLayout={() => {
-          selectRef.current?.measure(
-            (_, __, componentWidth, componentHeight, pageX, pageY) => {
-              setCoordX(pageX);
-              setCoordY(pageY);
-              setWidth(componentWidth);
-              setHeight(componentHeight);
-            }
-          );
-        }}
-        ref={selectRef}
-      >
+      <View style={style}>
         <InputContainer
           onPress={handlePress}
           disabled={disabled}
-          focused={visible}
+          focused={isOpen}
           error={error}
           hint={hint}
           label={label}
@@ -185,87 +158,52 @@ export default function Select({
             ]}
             numberOfLines={1}
           >
-            {value?.label || placeholder}
+            {value?.label ?? placeholder}
           </Text>
           <Animated.View style={animatedStyle}>
-            <ChevronDown size={16} color={colors.foreground} />
+            <Icon name="ChevronDown" size={16} color={colors.foreground} />
           </Animated.View>
         </InputContainer>
       </View>
-      {/* TODO: 
-        Need to wrap the modal with a View because there's a strange behavior in Android currently
-        which is not registering onPress events on components inside the modal. It seems to be something
-        related to the new architecture implementation on Andoid, change it once the issue is fixed.
-        See related issues: 
-          - https://github.com/react-native-modal/react-native-modal/issues/737
-          - https://github.com/facebook/react-native/issues/36710
-          - https://github.com/facebook/react-native/issues/44643
-      */}
-      <View>
-        <Modal
-          visible={visible}
-          transparent
-          onRequestClose={handleClose}
-          animationType="fade"
-        >
-          <Pressable
-            style={[
-              StyleSheet.absoluteFill,
-              { backgroundColor: convertHexToRgba(colors.foreground, 0.05) },
-            ]}
-            onPress={handleClose}
-          >
-            <ScrollView
-              onLayout={(event) =>
-                setOptionsContainerHeight(event.nativeEvent.layout.height)
-              }
+      <BottomSheet
+        ref={bottomSheetRef}
+        fullScreen={options.length > 20}
+        onBackdropPress={handleClose}
+      >
+        {title && (
+          <Text style={styles.title} variant="h3">
+            {title}
+          </Text>
+        )}
+        <FlatList
+          data={options}
+          contentContainerStyle={styles.list}
+          renderItem={({ item, index }) => (
+            <OptionItem
               style={[
-                styles.optionsContainer,
-                {
-                  top,
-                  width,
-                  left: coordX,
-                  backgroundColor: colors.background,
-                  borderColor: colors.border,
-                  borderRadius: theme.roundness,
+                styles.option,
+                { borderRadius: theme.roundness - 2 },
+                index === options.length - 1 && {
+                  marginBottom: theme.insets.bottom + 8,
                 },
               ]}
-            >
-              {options.map((option, index) => (
-                <OptionItem
-                  style={[
-                    styles.option,
-                    index === 0 && styles.firstOption,
-                    index === options.length - 1 && styles.lastOption,
-                  ]}
-                  key={option.value}
-                  option={option}
-                  selected={option.value === value?.value}
-                  onChange={(selectedOption) => {
-                    onChange(selectedOption);
-                    handleClose();
-                  }}
-                />
-              ))}
-            </ScrollView>
-          </Pressable>
-        </Modal>
-      </View>
+              option={item}
+              selected={value?.value === item.value}
+              onChange={(selectedOption) => {
+                onChange(selectedOption);
+                handleClose();
+              }}
+            />
+          )}
+        />
+      </BottomSheet>
     </>
   );
 }
 
 const styles = StyleSheet.create({
   selectText: { fontSize: 14, flex: 1 },
-  optionsContainer: {
-    borderWidth: 1,
-    maxHeight: 300,
-    position: 'absolute',
-    boxShadow: '0px 0px 1px 1px rgba(0, 0, 0, 0.05)',
-    paddingHorizontal: 4,
-  },
   optionContent: {
-    flex: 1,
     paddingVertical: 8,
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -276,4 +214,6 @@ const styles = StyleSheet.create({
   firstOption: { paddingTop: 4 },
   lastOption: { paddingBottom: 6 },
   option: { paddingBottom: 2 },
+  list: { paddingHorizontal: 8 },
+  title: { marginBottom: 8, marginHorizontal: 16 },
 });
