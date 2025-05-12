@@ -1,9 +1,12 @@
 import { useMemo, type PropsWithChildren } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 
 import useTheme from '../hooks/useTheme';
 
-export default function Card({ children }: PropsWithChildren) {
+export default function Card({
+  children,
+  style,
+}: PropsWithChildren<{ style?: StyleProp<ViewStyle> }>) {
   const { theme, colors } = useTheme();
 
   const themeStyle = useMemo(() => {
@@ -15,7 +18,7 @@ export default function Card({ children }: PropsWithChildren) {
     };
   }, [colors, theme]);
 
-  return <View style={[styles.card, themeStyle]}>{children}</View>;
+  return <View style={[styles.card, themeStyle, style]}>{children}</View>;
 }
 
 const styles = StyleSheet.create({

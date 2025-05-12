@@ -1,4 +1,10 @@
-import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
 import {
   TextInput,
   StyleSheet,
@@ -8,10 +14,17 @@ import {
   type TextInputProps,
   type TextInputFocusEventData,
   type NativeSyntheticEvent,
+  Platform,
 } from 'react-native';
-import { Eye, EyeClosed } from 'lucide-react-native';
+import Animated, {
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 
 import InputContainer from './InputContainer';
+import Icon, { type IconName } from './Icon';
 
 import useTheme from '../hooks/useTheme';
 
@@ -22,7 +35,9 @@ type Props = TextInputProps & {
   error?: boolean;
   label?: string;
   hint?: string;
+  iconName?: IconName;
   variant?: 'text' | 'password';
+  clearable?: boolean;
 };
 
 export type InputRef = { focus: () => void; blur: () => void };
@@ -31,6 +46,8 @@ export const Input = forwardRef<InputRef, Props>(
   (
     {
       style,
+      onChangeText,
+      value,
       editable = true,
       error,
       label,
@@ -38,6 +55,8 @@ export const Input = forwardRef<InputRef, Props>(
       variant = 'text',
       onBlur,
       onFocus,
+      iconName,
+      clearable = false,
       ...rest
     },
     ref
@@ -46,6 +65,7 @@ export const Input = forwardRef<InputRef, Props>(
     const [showPassword, setShowPassword] = useState(false);
     const { colors, theme } = useTheme();
     const inputRef = useRef<TextInput>(null);
+    const isFocused = useSharedValue(value ? 0 : 1);
 
     useImperativeHandle(ref, () => ({
       focus: () => inputRef.current?.focus(),
@@ -62,6 +82,17 @@ export const Input = forwardRef<InputRef, Props>(
       onBlur?.(e);
     };
 
+    const iconAnimStyle = useAnimatedStyle(() => {
+      return {
+        opacity: interpolate(isFocused.value, [0, 1], [1, 0]),
+        width: interpolate(isFocused.value, [0, 1], [26, 0]),
+      };
+    });
+
+    useEffect(() => {
+      isFocused.value = withTiming(focused ? 1 : 0, { duration: 300 });
+    }, [focused, isFocused]);
+
     return (
       <InputContainer
         style={style}
@@ -73,12 +104,26 @@ export const Input = forwardRef<InputRef, Props>(
         focused={focused}
         disabled={!editable}
       >
+        {iconName && (
+          // TODO: Maybe we should move this to the InputContainer
+          <Animated.View style={iconAnimStyle}>
+            <Icon
+              style={styles.icon}
+              name={iconName}
+              size={18}
+              color={convertHexToRgba(colors.foreground, 0.5)}
+            />
+          </Animated.View>
+        )}
         <TextInput
           {...rest}
+          value={value}
+          onChangeText={onChangeText}
           ref={inputRef}
           style={[
             styles.input,
             { fontFamily: theme.fonts.regular, color: colors.foreground },
+            Platform.OS === 'web' && styles.webInput,
           ]}
           onFocus={handleFocus}
           onBlur={handleBlur}
@@ -86,18 +131,41 @@ export const Input = forwardRef<InputRef, Props>(
           editable={editable}
           secureTextEntry={variant === 'password' && !showPassword}
         />
+        {clearable && value && variant !== 'password' && (
+          <Pressable
+            style={{
+              backgroundColor: colors.border,
+              height: 16,
+              width: 16,
+              borderRadius: 16,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginStart: 8,
+            }}
+            onPress={() => onChangeText?.('')}
+            disabled={!editable}
+            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+          >
+            <Icon
+              style={{ opacity: 0.8 }}
+              name="X"
+              size={10}
+              color={colors.foreground}
+            />
+          </Pressable>
+        )}
         {variant === 'password' && (
           <Pressable
-            style={styles.icon}
+            style={styles.button}
             onPress={() => setShowPassword(!showPassword)}
             disabled={!editable}
             hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
           >
-            {showPassword ? (
-              <EyeClosed size={18} color={colors.foreground} />
-            ) : (
-              <Eye size={18} color={colors.foreground} />
-            )}
+            <Icon
+              name={showPassword ? 'EyeClosed' : 'Eye'}
+              size={18}
+              color={colors.foreground}
+            />
           </Pressable>
         )}
       </InputContainer>
@@ -108,7 +176,9 @@ export const Input = forwardRef<InputRef, Props>(
 const styles = StyleSheet.create({
   container: { flexDirection: 'row', alignItems: 'center' },
   input: { flex: 1, fontSize: 14 },
-  icon: { marginStart: 8 },
+  button: { marginStart: 8 },
+  icon: { marginEnd: 8 },
+  webInput: { outlineWidth: 0 } as ViewStyle, // To remove native focus outline on web
 });
 
 export default Input;

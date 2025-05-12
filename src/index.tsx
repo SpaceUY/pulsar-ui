@@ -11,4 +11,7 @@ export { default as Checkbox } from './components/Checkbox';
 export { default as Chip } from './components/Chip';
 export { default as Icon, type IconName } from './components/Icon';
 export { default as IconButton } from './components/IconButton';
+export { default as Switch } from './components/Switch';
 export { ButtonVariant, ButtonSize } from './components/ButtonContainer';
+export { convertHexToRgba } from './utils/uiUtils';
+export { default as BottomSheet } from './components/BottomSheet';

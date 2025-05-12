@@ -51,16 +51,15 @@ export default function IconsScreen() {
   }, [searchQuery]);
 
   return (
-    <View style={styles.screen}>
-      <View style={styles.searchContainer}>
-        <Icon name="Search" size={18} style={styles.searchIcon} />
-        <Input
-          placeholder="Search icons..."
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-          style={styles.searchInput}
-        />
-      </View>
+    <>
+      <Input
+        style={styles.searchInput}
+        placeholder="Search icons..."
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+        iconName="Search"
+        clearable
+      />
       <FlashList<string[]>
         data={iconRows}
         renderItem={({ item, index }) => (
@@ -83,17 +82,12 @@ export default function IconsScreen() {
           minIndexForVisible: 0,
           autoscrollToTopThreshold: 10,
         }}
-        showsVerticalScrollIndicator={false}
-        ListFooterComponent={<View style={{ height: insets.bottom + 24 }} />}
       />
-    </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-  },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -106,11 +100,11 @@ const styles = StyleSheet.create({
     marginEnd: SPACING / 2,
   },
   searchInput: {
-    flex: 1,
+    margin: SPACING,
   },
   container: {
     paddingHorizontal: SPACING,
-    paddingTop: SPACING / 2,
+    rowGap: SPACING / 2,
   },
   row: {
     flexDirection: 'row',

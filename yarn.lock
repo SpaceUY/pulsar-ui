@@ -13603,6 +13603,7 @@ __metadata:
     react-native-svg: ^15.11.2
     react-native-web: ^0.20.0
     typescript: ~5.8.3
+    zustand: ^5.0.4
   languageName: unknown
   linkType: soft
 
@@ -15839,5 +15840,26 @@ __metadata:
   version: 2.1.2
   resolution: "yoctocolors-cjs@npm:2.1.2"
   checksum: 1c474d4b30a8c130e679279c5c2c33a0d48eba9684ffa0252cc64846c121fb56c3f25457fef902edbe1e2d7a7872130073a9fc8e795299d75e13fa3f5f548f1b
+  languageName: node
+  linkType: hard
+
+"zustand@npm:^5.0.4":
+  version: 5.0.4
+  resolution: "zustand@npm:5.0.4"
+  peerDependencies:
+    "@types/react": ">=18.0.0"
+    immer: ">=9.0.6"
+    react: ">=18.0.0"
+    use-sync-external-store: ">=1.2.0"
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    immer:
+      optional: true
+    react:
+      optional: true
+    use-sync-external-store:
+      optional: true
+  checksum: 75f45c00a799c28afdb56f35c9fdcb1c5861113604daaffa1ffe05beff4e506f1a8b332f585076610ef737e14960be64af653eaa0d3022fb2f1ecec6e2bee1dd
   languageName: node
   linkType: hard

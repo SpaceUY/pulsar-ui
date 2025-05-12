@@ -42,12 +42,13 @@ export default function RootLayout() {
   }, [error]);
 
   useEffect(() => {
-    if (loaded) {
+    if (loaded || Platform.OS === 'web') {
       SplashScreen.hideAsync();
     }
   }, [loaded]);
 
-  if (!loaded) {
+  // On web, we don't need to wait for fonts to load
+  if (!loaded && Platform.OS !== 'web') {
     return null;
   }
 
@@ -62,6 +63,7 @@ export default function RootLayout() {
 
 const Layout = () => {
   const insets = useSafeAreaInsets();
+
   return (
     <UIKitProvider
       initialTheme={{
@@ -134,13 +136,7 @@ const RootNavigator = () => {
         headerLeft: BackButton,
       }}
     >
-      <Stack.Screen
-        name="index"
-        options={{
-          title: 'UI Kit',
-          headerLeft: () => null,
-        }}
-      />
+      <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen
         name="ui-kit/tabs"
         options={{
