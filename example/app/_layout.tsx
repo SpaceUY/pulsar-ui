@@ -198,6 +198,12 @@ const RootNavigator = () => {
         }}
       />
       <Stack.Screen
+        name="ui-kit/otp-input"
+        options={{
+          title: 'Otp Input',
+        }}
+      />
+      <Stack.Screen
         name="modal"
         options={{
           title: 'Theme',
