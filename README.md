@@ -36,21 +36,36 @@ pnpm add rn-spacedev-uikit
 
 ### Peer Dependencies
 
-This library requires the following peer dependencies:
+This library requires the following peer dependencies to be installed in your project:
 
 ```json
 {
-  "@react-navigation/elements": "^2.3.8",
-  "lucide-react-native": "^0.503.0",
-  "react": "*",
-  "react-native": "*",
-  "react-native-gesture-handler": "^2.25.0",
-  "react-native-reanimated": "~3.16.1",
-  "react-native-svg": "^15.11.2"
+  "@react-navigation/elements": "^2.3.8", // Required for navigation components
+  "lucide-react-native": "^0.503.0", // Required for icons
+  "react": "*", // Core React dependency
+  "react-native": "*", // Core React Native dependency
+  "react-native-gesture-handler": "^2.25.0", // Required for gesture interactions
+  "react-native-reanimated": "~3.16.1", // Required for animations
+  "react-native-svg": "^15.11.2" // Required for SVG support
 }
 ```
 
-Make sure to install these dependencies in your project.
+#### Installation
+
+You can install all peer dependencies at once using:
+
+```sh
+# Using npm
+npm install @react-navigation/elements@^2.3.8 lucide-react-native@^0.503.0 react-native-gesture-handler@^2.25.0 react-native-reanimated@~3.16.1 react-native-svg@^15.11.2
+
+# Using yarn
+yarn add @react-navigation/elements@^2.3.8 lucide-react-native@^0.503.0 react-native-gesture-handler@^2.25.0 react-native-reanimated@~3.16.1 react-native-svg@^15.11.2
+
+# Using pnpm
+pnpm add @react-navigation/elements@^2.3.8 lucide-react-native@^0.503.0 react-native-gesture-handler@^2.25.0 react-native-reanimated@~3.16.1 react-native-svg@^15.11.2
+```
+
+Note: `react` and `react-native` are typically already installed in your React Native project, so you don't need to install them separately.
 
 ## 🚀 Quick Start
 
