@@ -1,4 +1,10 @@
-import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
+import {
+  forwardRef,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import {
   TextInput,
   StyleSheet,
@@ -14,6 +20,7 @@ import InputContainer from './InputContainer';
 import useTheme from '../hooks/useTheme';
 
 import { convertHexToRgba } from '../utils/uiUtils';
+import Text from './Text';
 
 type Props = TextInputProps & {
   style?: StyleProp<ViewStyle>;
@@ -38,7 +45,7 @@ export const TextArea = forwardRef<InputRef, Props>(
       onBlur,
       onFocus,
       numberOfLines = 4,
-      maxLength,
+      maxLength = 1200,
       onChangeText,
       ...rest
     },
@@ -47,6 +54,8 @@ export const TextArea = forwardRef<InputRef, Props>(
     const [focused, setFocused] = useState(false);
     const { colors, theme } = useTheme();
     const inputRef = useRef<TextInput>(null);
+
+    const value = useMemo(() => rest.value ?? '', [rest.value]);
 
     useImperativeHandle(ref, () => ({
       focus: () => inputRef.current?.focus(),
@@ -101,6 +110,12 @@ export const TextArea = forwardRef<InputRef, Props>(
           onChangeText={handleChangeText}
           multiline
         />
+        <Text
+          variant="caption"
+          style={[styles.caption, { color: colors.foreground }]}
+        >
+          {`${value.length ?? 0} / ${maxLength}`}
+        </Text>
       </InputContainer>
     );
   }
@@ -115,6 +130,10 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 14,
     width: '100%',
+  },
+  caption: {
+    marginBottom: 6,
+    alignSelf: 'flex-end',
   },
 });
 
