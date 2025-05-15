@@ -88,23 +88,22 @@ export const OtpInput = forwardRef<TextInput, TextInputProps>(
         onKeyPress={handleKeyPress}
         keyboardType="number-pad"
         editable={editable}
+        textAlignVertical="center"
+        textAlign="center"
       />
     );
   }
 );
 
-OtpInput.displayName = 'OtpInput';
-
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize: 30,
+    fontSize: 10,
     fontWeight: 'normal',
     borderWidth: 1,
     borderRadius: 8,
     height: 71,
     width: 80,
-    textAlign: 'center',
   },
 });

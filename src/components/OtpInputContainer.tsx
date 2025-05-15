@@ -51,7 +51,7 @@ export const OtpInputContainer = forwardRef<
     },
     _
   ) => {
-    const IS_IOS = Platform.OS === 'ios';
+    const isIOS = Platform.OS === 'ios';
     const pins = Array.from({ length }).map((_, i) => i);
     const inputRefs = useRef<TextInput[]>([]);
     const pinsValues = useRef<string[]>([]);
@@ -128,7 +128,7 @@ export const OtpInputContainer = forwardRef<
         index: number
       ) => {
         event.persist();
-        if (IS_IOS && Number.isInteger(Number(event.nativeEvent.key))) {
+        if (isIOS && Number.isInteger(Number(event.nativeEvent.key))) {
           if (iosOTP.current.index === null) {
             iosOTP.current = { key: event.nativeEvent.key, index };
           } else {
@@ -155,7 +155,7 @@ export const OtpInputContainer = forwardRef<
           }
         }
       },
-      [handleOTP, length, onFillEnded, IS_IOS]
+      [handleOTP, length, onFillEnded, isIOS]
     );
 
     return (
