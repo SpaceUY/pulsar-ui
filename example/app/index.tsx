@@ -86,6 +86,11 @@ const components = [
     route: 'ui-kit/textarea',
     iconName: 'WrapText',
   },
+  {
+    name: 'Otp Input',
+    route: 'ui-kit/otp-input',
+    iconName: 'ScanEye',
+  },
 ];
 
 export default function UIKitScreen() {
