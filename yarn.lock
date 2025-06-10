@@ -2335,40 +2335,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gorhom/bottom-sheet@npm:^5.1.4":
-  version: 5.1.4
-  resolution: "@gorhom/bottom-sheet@npm:5.1.4"
-  dependencies:
-    "@gorhom/portal": 1.0.14
-    invariant: ^2.2.4
-  peerDependencies:
-    "@types/react": "*"
-    "@types/react-native": "*"
-    react: "*"
-    react-native: "*"
-    react-native-gesture-handler: ">=2.16.1"
-    react-native-reanimated: ">=3.16.0"
-  peerDependenciesMeta:
-    "@types/react":
-      optional: true
-    "@types/react-native":
-      optional: true
-  checksum: 661c89e43c84b2b5452fb5b7eb185bdb5368507d541253009fe915356a5d3983a74cca7a6e6ae3580d13b61f86f79a261f120ef93aaf8f5a0ad0243b098099e0
-  languageName: node
-  linkType: hard
-
-"@gorhom/portal@npm:1.0.14":
-  version: 1.0.14
-  resolution: "@gorhom/portal@npm:1.0.14"
-  dependencies:
-    nanoid: ^3.3.1
-  peerDependencies:
-    react: "*"
-    react-native: "*"
-  checksum: 227bb96a2db854ab29bb9da8d4f3823c7f7448358de459709dd1b78522110da564c9a8734c6bc7d7153ed7c99320e0fb5d60b420c2ebb75ecaf2f0d757f410f9
-  languageName: node
-  linkType: hard
-
 "@humanfs/core@npm:^0.19.1":
   version: 0.19.1
   resolution: "@humanfs/core@npm:0.19.1"
@@ -3589,9 +3555,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@shopify/flash-list@npm:^1.8.0":
-  version: 1.8.0
-  resolution: "@shopify/flash-list@npm:1.8.0"
+"@shopify/flash-list@npm:^1.8.2":
+  version: 1.8.2
+  resolution: "@shopify/flash-list@npm:1.8.2"
   dependencies:
     recyclerlistview: 4.2.3
     tslib: 2.8.1
@@ -3599,7 +3565,7 @@ __metadata:
     "@babel/runtime": "*"
     react: "*"
     react-native: "*"
-  checksum: 0da268023823194ad2169cc3383ea296dec682dee49e31ca89542ed82d0b2de93e7e1de17acff3d77a9c05f0b053cb0670626323717f67c46a70d6f6f80a0037
+  checksum: 2d769de4e66022262e1325ad5acec7580a646741f5e113b9e7e079d04c4bec3a7158fbcfd95e542447951f18339a5961f665994f6618f370835a5edafdec4cc3
   languageName: node
   linkType: hard
 
@@ -3644,11 +3610,9 @@ __metadata:
     "@eslint/eslintrc": ^3.3.0
     "@eslint/js": ^9.22.0
     "@evilmartians/lefthook": ^1.5.0
-    "@gorhom/bottom-sheet": ^5.1.4
     "@react-native/eslint-config": ^0.78.0
     "@react-navigation/elements": ^2.3.8
     "@release-it/conventional-changelog": ^9.0.2
-    "@shopify/flash-list": ^1.8.0
     "@types/jest": ^29.5.5
     "@types/react": ^18.2.0
     commitlint: ^19.6.1
@@ -11500,7 +11464,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nanoid@npm:^3.3.1, nanoid@npm:^3.3.11, nanoid@npm:^3.3.7":
+"nanoid@npm:^3.3.11, nanoid@npm:^3.3.7":
   version: 3.3.11
   resolution: "nanoid@npm:3.3.11"
   bin:
@@ -13624,6 +13588,7 @@ __metadata:
     "@expo/vector-icons": ^14.0.2
     "@react-navigation/elements": ^2.4.1
     "@react-navigation/native": ^7.0.14
+    "@shopify/flash-list": ^1.8.2
     "@types/react": ~19.0.10
     expo: latest
     expo-font: ~13.3.1
