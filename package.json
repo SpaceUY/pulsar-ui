@@ -146,7 +146,8 @@
       [
         "module",
         {
-          "esm": true
+          "esm": true,
+          "jsxRuntime": "classic"
         }
       ],
       [
