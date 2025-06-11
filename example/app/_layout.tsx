@@ -2,7 +2,7 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
-import { UIKitProvider } from 'rn-spacedev-uikit';
+import { UIKitProvider } from '@space-uy/rn-spacedev-uikit';
 import {
   SafeAreaProvider,
   useSafeAreaInsets,
@@ -14,7 +14,7 @@ import {
   Sora_700Bold,
   useFonts,
 } from '@expo-google-fonts/sora';
-import { useUIKitTheme } from 'rn-spacedev-uikit';
+import { useUIKitTheme } from '@space-uy/rn-spacedev-uikit';
 import { Platform, useColorScheme } from 'react-native';
 import { Pressable } from 'react-native';
 import { router } from 'expo-router';

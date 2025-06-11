@@ -1,5 +1,5 @@
 {
-  "name": "rn-spacedev-uikit-example",
+  "name": "@space-uy/rn-spacedev-uikit-example",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {

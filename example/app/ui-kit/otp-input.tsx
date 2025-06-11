@@ -6,7 +6,7 @@ import {
   Text,
   useUIKitTheme,
   type OtpInputContainerRef,
-} from 'rn-spacedev-uikit';
+} from '@space-uy/rn-spacedev-uikit';
 
 const validateSequentialPin = (pin: string) => {
   const digits = pin.split('').map(Number);

@@ -1,5 +1,5 @@
 import { View, ScrollView } from 'react-native';
-import { TextArea } from 'rn-spacedev-uikit';
+import { TextArea } from '@space-uy/rn-spacedev-uikit';
 import { useState } from 'react';
 
 export default function InputsScreen() {

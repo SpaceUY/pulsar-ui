@@ -13,7 +13,7 @@ import {
   IconButton,
   Input,
   Text,
-} from 'rn-spacedev-uikit';
+} from '@space-uy/rn-spacedev-uikit';
 import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useTheme from '../../src/hooks/useTheme';

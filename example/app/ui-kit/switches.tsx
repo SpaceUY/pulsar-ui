@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { View } from 'react-native';
-import { Switch, Text } from 'rn-spacedev-uikit';
+import { Switch, Text } from '@space-uy/rn-spacedev-uikit';
 
 export default function SwitchesScreen() {
   const [enabled, setEnabled] = useState(false);

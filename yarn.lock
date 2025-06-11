@@ -13579,9 +13579,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rn-spacedev-uikit-example@workspace:example":
+"@space-uy/rn-spacedev-uikit-example@workspace:example":
   version: 0.0.0-use.local
-  resolution: "rn-spacedev-uikit-example@workspace:example"
+  resolution: "@space-uy/rn-spacedev-uikit-example@workspace:example"
   dependencies:
     "@babel/core": ^7.25.2
     "@expo-google-fonts/sora": ^0.3.0

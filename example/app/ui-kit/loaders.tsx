@@ -1,5 +1,5 @@
 import { View } from 'react-native';
-import { LoadingIndicator } from 'rn-spacedev-uikit';
+import { LoadingIndicator } from '@space-uy/rn-spacedev-uikit';
 
 export default function LoadersScreen() {
   return (

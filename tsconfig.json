@@ -2,13 +2,13 @@
   "compilerOptions": {
     "rootDir": ".",
     "paths": {
-      "rn-spacedev-uikit": ["./src/index"]
+      "@space-uy/rn-spacedev-uikit": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "jsx": "react-jsx",
+    "jsx": "react",
     "lib": ["ESNext"],
     "module": "ESNext",
     "moduleResolution": "bundler",

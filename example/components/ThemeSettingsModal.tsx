@@ -1,7 +1,13 @@
 import { useRef, useEffect } from 'react';
 import { View, Pressable } from 'react-native';
-import { BottomSheet, Switch, Text, Card, Icon } from 'rn-spacedev-uikit';
-import { useUIKitTheme } from 'rn-spacedev-uikit';
+import {
+  BottomSheet,
+  Switch,
+  Text,
+  Card,
+  Icon,
+} from '@space-uy/rn-spacedev-uikit';
+import { useUIKitTheme } from '@space-uy/rn-spacedev-uikit';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type Props = {

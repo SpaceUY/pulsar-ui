@@ -1,5 +1,5 @@
 import { View, StyleSheet } from 'react-native';
-import { Text } from 'rn-spacedev-uikit';
+import { Text } from '@space-uy/rn-spacedev-uikit';
 
 const textVariants = [
   { variant: 'h1', label: 'Heading 1' },

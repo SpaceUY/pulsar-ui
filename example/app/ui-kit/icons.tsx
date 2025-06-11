@@ -6,7 +6,7 @@ import {
   type ViewStyle,
   type StyleProp,
 } from 'react-native';
-import { Icon, Input } from 'rn-spacedev-uikit';
+import { Icon, Input } from '@space-uy/rn-spacedev-uikit';
 import { useMemo, useState } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { FlashList } from '@shopify/flash-list';

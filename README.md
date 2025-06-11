@@ -1,4 +1,4 @@
-# rn-spacedev-uikit
+# @space-uy/rn-spacedev-uikit
 
 <div align="center">
 
@@ -25,13 +25,13 @@ A modern React Native UI kit for SpaceDev applications, providing a collection o
 
 ```sh
 # Using npm
-npm install rn-spacedev-uikit
+npm install @space-uy/rn-spacedev-uikit
 
 # Using yarn
-yarn add rn-spacedev-uikit
+yarn add @space-uy/rn-spacedev-uikit
 
 # Using pnpm
-pnpm add rn-spacedev-uikit
+pnpm add @space-uy/rn-spacedev-uikit
 ```
 
 ### Peer Dependencies
@@ -70,7 +70,7 @@ Note: `react` and `react-native` are typically already installed in your React N
 ## 🚀 Quick Start
 
 ```jsx
-import { Button } from 'rn-spacedev-uikit';
+import { Button } from '@space-uy/rn-spacedev-uikit';
 
 function MyApp() {
   return (
@@ -111,7 +111,7 @@ function MyApp() {
 
 ```sh
 git clone https://github.com/SpaceUY/rn-spacedev-uikit.git
-cd rn-spacedev-uikit
+cd @space-uy/rn-spacedev-uikit
 ```
 
 2. Install dependencies:

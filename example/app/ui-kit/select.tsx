@@ -1,5 +1,5 @@
 import { View, StyleSheet } from 'react-native';
-import { Select, type SelectOption } from 'rn-spacedev-uikit';
+import { Select, type SelectOption } from '@space-uy/rn-spacedev-uikit';
 import { useState } from 'react';
 
 const fruits: SelectOption[] = [

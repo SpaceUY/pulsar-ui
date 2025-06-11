@@ -1,5 +1,5 @@
 import { View } from 'react-native';
-import { Chip } from 'rn-spacedev-uikit';
+import { Chip } from '@space-uy/rn-spacedev-uikit';
 
 export default function ChipsScreen() {
   return (

@@ -1,5 +1,5 @@
 import { View, StyleSheet } from 'react-native';
-import { Card, Input, Button, Text } from 'rn-spacedev-uikit';
+import { Card, Input, Button, Text } from '@space-uy/rn-spacedev-uikit';
 import { useState } from 'react';
 
 export default function CardsScreen() {

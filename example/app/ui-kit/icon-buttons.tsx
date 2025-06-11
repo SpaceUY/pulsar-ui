@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import { View } from 'react-native';
-import { ButtonSize, IconButton, Tabs, type Tab } from 'rn-spacedev-uikit';
+import {
+  ButtonSize,
+  IconButton,
+  Tabs,
+  type Tab,
+} from '@space-uy/rn-spacedev-uikit';
 
 const tabs1: Tab[] = [
   { value: ButtonSize.large, label: 'Large' },

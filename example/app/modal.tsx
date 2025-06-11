@@ -1,5 +1,5 @@
 import { View } from 'react-native';
-import { Button } from 'rn-spacedev-uikit';
+import { Button } from '@space-uy/rn-spacedev-uikit';
 
 export default function ModalScreen() {
   return (

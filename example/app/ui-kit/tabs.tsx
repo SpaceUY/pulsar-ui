@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Tabs, type Tab } from 'rn-spacedev-uikit';
+import { Tabs, type Tab } from '@space-uy/rn-spacedev-uikit';
 
 const tabs: Tab[] = [
   { value: 'one', label: 'Tab one' },
