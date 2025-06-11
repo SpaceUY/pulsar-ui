@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { StyleSheet, Text as RNText, type TextProps } from 'react-native';
 
 import useTheme from '../hooks/useTheme';

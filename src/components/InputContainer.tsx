@@ -1,4 +1,4 @@
-import { type PropsWithChildren, useEffect, useMemo } from 'react';
+import React, { type PropsWithChildren, useEffect, useMemo } from 'react';
 import {
   Pressable,
   StyleSheet,

@@ -2,7 +2,7 @@
   "compilerOptions": {
     "rootDir": ".",
     "paths": {
-      "@space-uy/rn-spacedev-uikit": ["./src/index"]
+      "rn-spacedev-uikit": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

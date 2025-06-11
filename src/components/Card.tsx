@@ -1,4 +1,4 @@
-import { useMemo, type PropsWithChildren } from 'react';
+import React, { useMemo, type PropsWithChildren } from 'react';
 import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native';
 
 import useTheme from '../hooks/useTheme';

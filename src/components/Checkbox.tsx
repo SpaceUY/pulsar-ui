@@ -1,3 +1,4 @@
+import React from 'react';
 import { Check } from 'lucide-react-native';
 import { Pressable, View } from 'react-native';
 import useTheme from '../hooks/useTheme';
