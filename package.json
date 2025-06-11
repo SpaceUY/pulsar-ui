@@ -1,6 +1,6 @@
 {
   "name": "@space-uy/rn-spacedev-uikit",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "react native ui kit for spacedev",
   "source": "./src/index.tsx",
   "main": "./lib/module/index.js",
