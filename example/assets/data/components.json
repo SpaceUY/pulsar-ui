@@ -1,0 +1,97 @@
+[
+  {
+    "name": "Icons",
+    "route": "ui-kit/icons",
+    "iconName": "BadgeCheck"
+  },
+  {
+    "name": "Buttons",
+    "route": "ui-kit/buttons",
+    "iconName": "SquareMousePointer"
+  },
+  {
+    "name": "Tabs",
+    "route": "ui-kit/tabs",
+    "iconName": "AppWindow"
+  },
+  {
+    "name": "Inputs",
+    "route": "ui-kit/inputs",
+    "iconName": "TextCursorInput"
+  },
+  {
+    "name": "Texts",
+    "route": "ui-kit/texts",
+    "iconName": "LetterText"
+  },
+  {
+    "name": "Cards",
+    "route": "ui-kit/cards",
+    "iconName": "SquareEqual"
+  },
+  {
+    "name": "Select",
+    "route": "ui-kit/select",
+    "iconName": "ListCheck"
+  },
+  {
+    "name": "Calendar Picker",
+    "route": "ui-kit/calendar-picker",
+    "iconName": "Calendar"
+  },
+  {
+    "name": "Checkboxes",
+    "route": "ui-kit/checkboxes",
+    "iconName": "SquareCheck"
+  },
+  {
+    "name": "Loaders",
+    "route": "ui-kit/loaders",
+    "iconName": "LoaderCircle"
+  },
+  {
+    "name": "Chips",
+    "route": "ui-kit/chips",
+    "iconName": "Tag"
+  },
+  {
+    "name": "Icon Buttons",
+    "route": "ui-kit/icon-buttons",
+    "iconName": "SquareMousePointer"
+  },
+  {
+    "name": "Switches",
+    "route": "ui-kit/switches",
+    "iconName": "ToggleRight"
+  },
+  {
+    "name": "Textarea",
+    "route": "ui-kit/textarea",
+    "iconName": "WrapText"
+  },
+  {
+    "name": "Otp Input",
+    "route": "ui-kit/otp-input",
+    "iconName": "ScanEye"
+  },
+  {
+    "name": "Accordion",
+    "route": "ui-kit/accordion",
+    "iconName": "ChevronDown"
+  },
+  {
+    "name": "Headers",
+    "route": "ui-kit/headers",
+    "iconName": "RectangleHorizontal"
+  },
+  {
+    "name": "Copy to Clipboard",
+    "route": "ui-kit/copy-to-clipboard",
+    "iconName": "Copy"
+  },
+  {
+    "name": "Dialog",
+    "route": "ui-kit/dialog",
+    "iconName": "MessageSquare"
+  }
+]

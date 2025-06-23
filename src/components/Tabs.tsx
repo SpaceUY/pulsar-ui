@@ -1,7 +1,6 @@
-import React, { useCallback } from 'react';
+import { useState } from 'react';
 import {
   View,
-  // Text,
   Pressable,
   StyleSheet,
   type ViewStyle,
@@ -10,6 +9,12 @@ import {
 import useTheme from '../hooks/useTheme';
 import { convertHexToRgba } from '../utils/uiUtils';
 import Text from './Text';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+  Easing,
+} from 'react-native-reanimated';
 
 export type Tab = { value: string; label: string };
 
@@ -22,38 +27,58 @@ type Props = {
 
 export default function Tabs({ options, selected, onChange, style }: Props) {
   const { theme, colors } = useTheme();
+  const [width, setWidth] = useState<number>(0);
+  const [height, setHeight] = useState<number>(0);
+  const index = useSharedValue<number>(0);
+  const tabWidth = (width - 8) / options.length;
+  const tabHeight = height - 8;
 
-  const getTabStyle = useCallback(
-    (tab: Tab) => {
-      return {
-        backgroundColor:
-          selected.value === tab.value ? colors.background : 'transparent',
-        boxShadow:
-          selected.value === tab.value
-            ? '0px 0px 1px 1px rgba(0, 0, 0, 0.05)'
-            : 'none',
-        borderRadius: theme.roundness >= 2 ? theme.roundness - 2 : 0,
-      };
-    },
-    [selected.value, theme.roundness, colors.background]
-  );
+  const tabAnimStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateX: index.value * tabWidth + 4 }],
+    };
+  }, [tabWidth, index]);
 
   return (
     <View style={[styles.container, style]}>
       <View
+        onLayout={(event) => {
+          const { width: w, height: h } = event.nativeEvent.layout;
+          setWidth(w);
+          setHeight(h);
+        }}
         style={[
           styles.tabsList,
           {
-            backgroundColor: convertHexToRgba(colors.foreground, 0.08),
+            backgroundColor: convertHexToRgba(colors.border, 0.5),
             borderRadius: theme.roundness,
           },
         ]}
       >
-        {options.map((tab) => (
+        <Animated.View
+          style={[
+            styles.tab,
+            {
+              height: tabHeight,
+              width: tabWidth,
+              backgroundColor: colors.background,
+              borderColor: colors.border,
+            },
+            theme.roundness >= 2 && { borderRadius: theme.roundness - 2 },
+            tabAnimStyle,
+          ]}
+        />
+        {options.map((tab, _index) => (
           <Pressable
             key={tab.value}
-            style={[styles.tabTrigger, getTabStyle(tab)]}
-            onPress={() => onChange(tab)}
+            style={styles.tabTrigger}
+            onPress={() => {
+              index.value = withTiming(_index, {
+                duration: 250,
+                easing: Easing.ease,
+              });
+              onChange(tab);
+            }}
           >
             <Text
               variant="h4"
@@ -75,13 +100,10 @@ export default function Tabs({ options, selected, onChange, style }: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-  },
+  container: { width: '100%' },
   tabsList: {
     flexDirection: 'row',
-    padding: 4,
-    marginBottom: 16,
+    alignItems: 'center',
     height: 40,
   },
   tabTrigger: {
@@ -91,4 +113,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: 32,
   },
+  tab: { position: 'absolute', top: 4, borderWidth: 1 },
 });

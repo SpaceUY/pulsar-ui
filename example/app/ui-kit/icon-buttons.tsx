@@ -1,67 +1,171 @@
+import { ScrollView, View, StyleSheet } from 'react-native';
 import { useState } from 'react';
-import { View } from 'react-native';
-import {
-  ButtonSize,
-  IconButton,
-  Tabs,
-  type Tab,
-} from '@space-uy/rn-spacedev-uikit';
+import { Card, IconButton, Text } from '@space-uy/rn-spacedev-uikit';
 
-const tabs1: Tab[] = [
-  { value: ButtonSize.large, label: 'Large' },
-  { value: ButtonSize.medium, label: 'Medium' },
-  { value: ButtonSize.small, label: 'Small' },
-];
+export default function IconButtonsExample() {
+  const [loadingStates, setLoadingStates] = useState<Record<string, boolean>>(
+    {}
+  );
 
-const tabs2: Tab[] = [
-  { value: 'active', label: 'Active' },
-  { value: 'disabled', label: 'Disabled' },
-];
+  const handlePress = (buttonId: string, action: string) => {
+    setLoadingStates((prev) => ({ ...prev, [buttonId]: true }));
+    console.log(action);
 
-export default function IconButtonsScreen() {
-  const [selectedTab1, setSelectedTab1] = useState<Tab>(tabs1[0]!);
-  const [selectedTab2, setSelectedTab2] = useState<Tab>(tabs2[0]!);
-  const [loading, setLoading] = useState(false);
-
-  const handlePress = () => {
-    setLoading(true);
     setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+      setLoadingStates((prev) => ({ ...prev, [buttonId]: false }));
+    }, 2000); // Loading for 2 seconds
   };
 
-  const buttonConfigs = [
-    { variant: 'flat', iconName: 'Heart' },
-    { variant: 'outline', iconName: 'House' },
-    { variant: 'transparent', iconName: 'Save' },
-    { variant: 'destructive', iconName: 'Trash' },
-  ] as const;
-
   return (
-    <View style={{ flex: 1, padding: 16, gap: 16 }}>
-      <Tabs
-        options={tabs1}
-        selected={selectedTab1}
-        onChange={setSelectedTab1}
-      />
-      <Tabs
-        options={tabs2}
-        selected={selectedTab2}
-        onChange={setSelectedTab2}
-      />
-      <View style={{ flex: 1, gap: 16 }}>
-        {buttonConfigs.map(({ variant, iconName }) => (
-          <IconButton
-            key={variant}
-            iconName={iconName}
-            variant={variant}
-            size={selectedTab1.value as ButtonSize}
-            onPress={handlePress}
-            loading={loading}
-            disabled={selectedTab2.value === 'disabled'}
-          />
-        ))}
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      <View style={styles.section}>
+        <Text variant="h2" style={styles.sectionTitle}>
+          Icon Buttons
+        </Text>
+        <Text variant="pm" style={styles.sectionDescription}>
+          Icon buttons for quick actions and navigation
+        </Text>
       </View>
-    </View>
+
+      <Card variant="tinted" style={styles.exampleContainer}>
+        <Text variant="h4" style={styles.exampleTitle}>
+          Icon Button Sizes
+        </Text>
+        <View style={styles.buttonRow}>
+          <IconButton
+            iconName="Heart"
+            size="small"
+            loading={loadingStates['heart-small']}
+            onPress={() => handlePress('heart-small', 'Small heart pressed')}
+          />
+          <IconButton
+            iconName="Heart"
+            size="medium"
+            loading={loadingStates['heart-medium']}
+            onPress={() => handlePress('heart-medium', 'Medium heart pressed')}
+          />
+          <IconButton
+            iconName="Heart"
+            size="large"
+            loading={loadingStates['heart-large']}
+            onPress={() => handlePress('heart-large', 'Large heart pressed')}
+          />
+        </View>
+      </Card>
+
+      <Card variant="tinted" style={styles.exampleContainer}>
+        <Text variant="h4" style={styles.exampleTitle}>
+          Icon Button Variants
+        </Text>
+        <View style={styles.buttonRow}>
+          <IconButton
+            iconName="Settings"
+            variant="flat"
+            loading={loadingStates['settings-flat']}
+            onPress={() =>
+              handlePress('settings-flat', 'Flat settings pressed')
+            }
+          />
+          <IconButton
+            iconName="Settings"
+            variant="outline"
+            loading={loadingStates['settings-outline']}
+            onPress={() =>
+              handlePress('settings-outline', 'Outline settings pressed')
+            }
+          />
+          <IconButton
+            iconName="Settings"
+            variant="transparent"
+            loading={loadingStates['settings-transparent']}
+            onPress={() =>
+              handlePress(
+                'settings-transparent',
+                'Transparent settings pressed'
+              )
+            }
+          />
+        </View>
+      </Card>
+
+      <Card variant="tinted" style={styles.exampleContainer}>
+        <Text variant="h4" style={styles.exampleTitle}>
+          Icon Button States
+        </Text>
+        <View style={styles.buttonRow}>
+          <IconButton
+            iconName="Star"
+            loading={loadingStates['star-active']}
+            onPress={() => handlePress('star-active', 'Active star pressed')}
+          />
+          <IconButton
+            iconName="Star"
+            disabled
+            onPress={() => console.log('Should not execute')}
+          />
+        </View>
+      </Card>
+
+      <Card variant="tinted" style={styles.exampleContainer}>
+        <Text variant="h4" style={styles.exampleTitle}>
+          Common Icons
+        </Text>
+        <View style={styles.iconGrid}>
+          <IconButton
+            iconName="House"
+            loading={loadingStates.house}
+            onPress={() => handlePress('house', 'Home pressed')}
+          />
+          <IconButton
+            iconName="Search"
+            loading={loadingStates.search}
+            onPress={() => handlePress('search', 'Search pressed')}
+          />
+          <IconButton
+            iconName="Bell"
+            loading={loadingStates.bell}
+            onPress={() => handlePress('bell', 'Notifications pressed')}
+          />
+          <IconButton
+            iconName="User"
+            loading={loadingStates.user}
+            onPress={() => handlePress('user', 'Profile pressed')}
+          />
+          <IconButton
+            iconName="Plus"
+            loading={loadingStates.plus}
+            onPress={() => handlePress('plus', 'Add pressed')}
+          />
+          <IconButton
+            iconName="Menu"
+            loading={loadingStates.menu}
+            onPress={() => handlePress('menu', 'Menu pressed')}
+          />
+        </View>
+      </Card>
+
+      <View style={styles.spacer} />
+    </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1 },
+  section: { padding: 20, paddingBottom: 16 },
+  sectionTitle: { marginBottom: 8 },
+  sectionDescription: { opacity: 0.7 },
+  exampleContainer: { marginHorizontal: 16, marginBottom: 24 },
+  exampleTitle: { marginBottom: 12 },
+  buttonRow: {
+    flexDirection: 'row',
+    gap: 16,
+    alignItems: 'center',
+  },
+  iconGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 16,
+    alignItems: 'center',
+  },
+  spacer: { height: 40 },
+});

@@ -1,26 +1,55 @@
-import React, { useMemo, type PropsWithChildren } from 'react';
+import { useMemo, type PropsWithChildren } from 'react';
 import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native';
 
 import useTheme from '../hooks/useTheme';
+import { convertHexToRgba } from '../utils/uiUtils';
 
 export default function Card({
   children,
   style,
-}: PropsWithChildren<{ style?: StyleProp<ViewStyle> }>) {
+  variant = 'default',
+}: PropsWithChildren<{
+  style?: StyleProp<ViewStyle>;
+  variant?: 'default' | 'alternative' | 'tinted';
+}>) {
   const { theme, colors } = useTheme();
 
   const themeStyle = useMemo(() => {
     return {
-      backgroundColor: colors.background,
+      backgroundColor:
+        variant === 'default'
+          ? colors.background
+          : convertHexToRgba(colors.border, 0.5),
       borderRadius: theme.roundness,
-      borderColor: colors.border,
-      boxShadow: '0px 0px 1px 1px rgba(0, 0, 0, 0.05)',
+      borderColor: variant === 'default' ? colors.border : 'transparent',
+      boxShadow:
+        variant === 'default' ? '0px 0px 1px 1px rgba(0, 0, 0, 0.05)' : 'none',
     };
-  }, [colors, theme]);
+  }, [colors, theme, variant]);
 
-  return <View style={[styles.card, themeStyle, style]}>{children}</View>;
+  return (
+    <View
+      style={[
+        styles.card,
+        themeStyle,
+        variant === 'default' && styles.withBorder,
+        style,
+      ]}
+    >
+      {variant === 'tinted' && (
+        <View
+          style={[
+            StyleSheet.absoluteFill,
+            { backgroundColor: convertHexToRgba(colors.primary, 0.1) },
+          ]}
+        />
+      )}
+      {children}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-  card: { padding: 16, borderWidth: 1 },
+  card: { padding: 16, overflow: 'hidden' },
+  withBorder: { borderWidth: 1 },
 });

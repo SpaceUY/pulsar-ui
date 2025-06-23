@@ -1,4 +1,3 @@
-import React from 'react';
 import { StyleSheet, type ViewStyle, type StyleProp } from 'react-native';
 
 import ButtonContainer, {

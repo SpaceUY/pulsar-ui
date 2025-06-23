@@ -2735,6 +2735,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@legendapp/list@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@legendapp/list@npm:1.1.0"
+  dependencies:
+    use-sync-external-store: ^1.5.0
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 22e47c1d84e8a4c41e0ca20fe6e70db9b39d6f3b02995e63db6723f650f31c2c186fd829a71180e6dbcaad2388af1062a00f3038aaf196e5998d5b9dd4101555
+  languageName: node
+  linkType: hard
+
 "@nicolo-ribaudo/eslint-scope-5-internals@npm:5.1.1-v1":
   version: 5.1.1-v1
   resolution: "@nicolo-ribaudo/eslint-scope-5-internals@npm:5.1.1-v1"
@@ -3474,6 +3486,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-navigation/elements@npm:^2.4.6":
+  version: 2.4.6
+  resolution: "@react-navigation/elements@npm:2.4.6"
+  dependencies:
+    color: ^4.2.3
+    use-latest-callback: ^0.2.4
+    use-sync-external-store: ^1.5.0
+  peerDependencies:
+    "@react-native-masked-view/masked-view": ">= 0.2.0"
+    "@react-navigation/native": ^7.1.13
+    react: ">= 18.2.0"
+    react-native: "*"
+    react-native-safe-area-context: ">= 4.0.0"
+  peerDependenciesMeta:
+    "@react-native-masked-view/masked-view":
+      optional: true
+  checksum: 156f347fe125a4f4389dbd6236430b16314b593b94ac91f8503883ad3c7056a5c18c1797c0420b22d10ad99d8156a9b72b109e39ac20a4508b9bdb4e823482c2
+  languageName: node
+  linkType: hard
+
 "@react-navigation/native-stack@npm:^7.3.10":
   version: 7.3.12
   resolution: "@react-navigation/native-stack@npm:7.3.12"
@@ -3487,6 +3519,22 @@ __metadata:
     react-native-safe-area-context: ">= 4.0.0"
     react-native-screens: ">= 4.0.0"
   checksum: 367e52770c954378e8b5972ad771cfabd1ea41d0c20f843f981f070fac8923092a52a3de1becd1ccc036ca376dd894a7b1f8c29a1c81f518a84c158ebfe87f92
+  languageName: node
+  linkType: hard
+
+"@react-navigation/native-stack@npm:^7.3.18":
+  version: 7.3.18
+  resolution: "@react-navigation/native-stack@npm:7.3.18"
+  dependencies:
+    "@react-navigation/elements": ^2.4.6
+    warn-once: ^0.1.1
+  peerDependencies:
+    "@react-navigation/native": ^7.1.13
+    react: ">= 18.2.0"
+    react-native: "*"
+    react-native-safe-area-context: ">= 4.0.0"
+    react-native-screens: ">= 4.0.0"
+  checksum: b6a74a7217c6380cbb624e784f0953f3e73a886eac38bec889c44aadfd0f79cfabb21f6968d508a85b1b749ca559823c22813dcd64c08b611cd3d000fc2fc82a
   languageName: node
   linkType: hard
 
@@ -3601,43 +3649,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@space-uy/rn-spacedev-uikit-example@workspace:example":
-  version: 0.0.0-use.local
-  resolution: "@space-uy/rn-spacedev-uikit-example@workspace:example"
-  dependencies:
-    "@babel/core": ^7.25.2
-    "@expo-google-fonts/sora": ^0.3.0
-    "@expo/vector-icons": ^14.0.2
-    "@react-navigation/elements": ^2.4.1
-    "@react-navigation/native": ^7.0.14
-    "@shopify/flash-list": ^1.8.2
-    "@types/react": ~19.0.10
-    expo: latest
-    expo-font: ~13.3.1
-    expo-linking: ~7.1.4
-    expo-router: ~5.0.5
-    expo-splash-screen: ~0.30.8
-    expo-status-bar: ~2.2.3
-    expo-system-ui: ~5.0.7
-    expo-web-browser: ~14.1.6
-    jest: ^29.2.1
-    jest-expo: ~53.0.4
-    lucide-react-native: ^0.503.0
-    react: 19.0.0
-    react-dom: 19.0.0
-    react-native: 0.79.2
-    react-native-builder-bob: ^0.40.6
-    react-native-gesture-handler: ~2.24.0
-    react-native-reanimated: ~3.17.4
-    react-native-safe-area-context: 5.4.0
-    react-native-screens: ~4.10.0
-    react-native-svg: ^15.11.2
-    react-native-web: ^0.20.0
-    typescript: ~5.8.3
-    zustand: ^5.0.4
-  languageName: unknown
-  linkType: soft
-
 "@space-uy/rn-spacedev-uikit@workspace:.":
   version: 0.0.0-use.local
   resolution: "@space-uy/rn-spacedev-uikit@workspace:."
@@ -3653,22 +3664,27 @@ __metadata:
     "@types/jest": ^29.5.5
     "@types/react": ^18.2.0
     commitlint: ^19.6.1
+    date-fns: ^4.1.0
     del-cli: ^5.1.0
     eslint: ^9.22.0
     eslint-config-prettier: ^10.1.1
     eslint-plugin-prettier: ^5.2.3
+    expo-linear-gradient: ^14.1.5
     jest: ^29.7.0
     lucide-react-native: ^0.503.0
     prettier: ^3.0.3
     react: 18.3.1
     react-native: 0.76.9
     react-native-builder-bob: ^0.40.6
+    react-native-calendars: ^1.1312.1
     react-native-gesture-handler: ^2.25.0
+    react-native-linear-gradient: ^2.8.3
     react-native-reanimated: ~3.16.1
     react-native-safe-area-context: ^5.4.0
     react-native-svg: ^15.11.2
     release-it: ^17.10.0
     typescript: ^5.2.2
+    zustand: ^5.0.4
   peerDependencies:
     "@react-navigation/elements": ^2.3.8
     lucide-react-native: ^0.503.0
@@ -3677,6 +3693,7 @@ __metadata:
     react-native-gesture-handler: ^2.25.0
     react-native-reanimated: ~3.16.1
     react-native-svg: ^15.11.2
+    zustand: ^5.0.0
   languageName: unknown
   linkType: soft
 
@@ -6005,6 +6022,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"date-fns@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "date-fns@npm:4.1.0"
+  checksum: fb681b242cccabed45494468f64282a7d375ea970e0adbcc5dcc92dcb7aba49b2081c2c9739d41bf71ce89ed68dd73bebfe06ca35129490704775d091895710b
+  languageName: node
+  linkType: hard
+
 "debug@npm:2.6.9, debug@npm:^2.2.0, debug@npm:^2.6.9":
   version: 2.6.9
   resolution: "debug@npm:2.6.9"
@@ -7180,6 +7204,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-linear-gradient@npm:^14.1.5":
+  version: 14.1.5
+  resolution: "expo-linear-gradient@npm:14.1.5"
+  peerDependencies:
+    expo: "*"
+    react: "*"
+    react-native: "*"
+  checksum: 7550e1ff999fbe3da4a4b189a430fbadaeeffa98a2bfe5b4642a27dfdec73e7920e5a60e7db0c3bcc8345604841b4ea251cd5aa30c32d166d6ac2d86e00ecb58
+  languageName: node
+  linkType: hard
+
 "expo-linking@npm:~7.1.4":
   version: 7.1.4
   resolution: "expo-linking@npm:7.1.4"
@@ -8207,7 +8242,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hoist-non-react-statics@npm:^3.3.0":
+"hoist-non-react-statics@npm:^3.3.0, hoist-non-react-statics@npm:^3.3.1":
   version: 3.3.2
   resolution: "hoist-non-react-statics@npm:3.3.2"
   dependencies:
@@ -10295,7 +10330,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:4.17.21, lodash@npm:^4.17.19, lodash@npm:^4.17.21":
+"lodash@npm:4.17.21, lodash@npm:^4.17.15, lodash@npm:^4.17.19, lodash@npm:^4.17.21":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: eb835a2e51d381e561e508ce932ea50a8e5a68f4ebdd771ea240d3048244a8d13658acbd502cd4829768c56f2e16bdd4340b9ea141297d472517b83868e677f7
@@ -10474,7 +10509,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"memoize-one@npm:^5.0.0":
+"memoize-one@npm:^5.0.0, memoize-one@npm:^5.2.1":
   version: 5.2.1
   resolution: "memoize-one@npm:5.2.1"
   checksum: a3cba7b824ebcf24cdfcd234aa7f86f3ad6394b8d9be4c96ff756dafb8b51c7f71320785fbc2304f1af48a0467cbbd2a409efc9333025700ed523f254cb52e3d
@@ -11457,6 +11492,13 @@ __metadata:
   bin:
     mkdirp: dist/cjs/src/bin.js
   checksum: 972deb188e8fb55547f1e58d66bd6b4a3623bf0c7137802582602d73e6480c1c2268dcbafbfb1be466e00cc7e56ac514d7fd9334b7cf33e3e2ab547c16f83a8d
+  languageName: node
+  linkType: hard
+
+"moment@npm:^2.29.4":
+  version: 2.30.1
+  resolution: "moment@npm:2.30.1"
+  checksum: 859236bab1e88c3e5802afcf797fc801acdbd0ee509d34ea3df6eea21eb6bcc2abd4ae4e4e64aa7c986aa6cba563c6e62806218e6412a765010712e5fa121ba6
   languageName: node
   linkType: hard
 
@@ -12543,7 +12585,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:15.8.1, prop-types@npm:^15.8.1":
+"prop-types@npm:15.8.1, prop-types@npm:^15.5.10, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -12805,6 +12847,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-calendars@npm:^1.1312.1":
+  version: 1.1312.1
+  resolution: "react-native-calendars@npm:1.1312.1"
+  dependencies:
+    hoist-non-react-statics: ^3.3.1
+    lodash: ^4.17.15
+    memoize-one: ^5.2.1
+    moment: ^2.29.4
+    prop-types: ^15.5.10
+    react-native-safe-area-context: 4.5.0
+    react-native-swipe-gestures: ^1.0.5
+    recyclerlistview: ^4.0.0
+    xdate: ^0.8.0
+  dependenciesMeta:
+    moment:
+      optional: true
+  checksum: fd9c1bcbffa5c497e0a6f0b1324a8c29545f2d5aff2cf663934b83090a52fc10d258e06b05aa99bb4086ad26af45b440b499ee0d04e1869f033dea9898e676e5
+  languageName: node
+  linkType: hard
+
 "react-native-edge-to-edge@npm:1.6.0":
   version: 1.6.0
   resolution: "react-native-edge-to-edge@npm:1.6.0"
@@ -12850,6 +12912,16 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 4cdf2b2fb5b131f2015c26d2cb7688b4a0c5f3c8474b1bf0ddfa9eabb0263df440c87262ae8f812a6ecab0d5310df0373bddad4b51f53dabb2ffee01e9ef0f44
+  languageName: node
+  linkType: hard
+
+"react-native-linear-gradient@npm:^2.8.3":
+  version: 2.8.3
+  resolution: "react-native-linear-gradient@npm:2.8.3"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: f980d324e551bbc475c6406bdc5250a08242020cbe653412fa169bbdf51e28a502e225de105b4d696d6a1a1b733d44782469020f4936d8b3ce0e2c78e51cf58f
   languageName: node
   linkType: hard
 
@@ -12900,6 +12972,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-safe-area-context@npm:4.5.0":
+  version: 4.5.0
+  resolution: "react-native-safe-area-context@npm:4.5.0"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 958df1d20492aa89c23d746f88409a3a3bd1b0d397c80310a4b0bbec9888cbbeb7579c9c92dad46841e2e6536491806206228ba009b7c8af970670aef8273a30
+  languageName: node
+  linkType: hard
+
 "react-native-safe-area-context@npm:5.4.0, react-native-safe-area-context@npm:^5.4.0":
   version: 5.4.0
   resolution: "react-native-safe-area-context@npm:5.4.0"
@@ -12934,6 +13016,13 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 7bc2d9a5b7ceb66905e358d995bf102d63ce017db40b024d31a6ada03c21733fd3620f9ad867d631b878e2380033ea8777e75c4f654bc5b420ea902695ed9ba8
+  languageName: node
+  linkType: hard
+
+"react-native-swipe-gestures@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "react-native-swipe-gestures@npm:1.0.5"
+  checksum: d637bc40baa50fa0ce3b6cf2b494efeceaea03cc3875cb7cf7d76922914a21d5e6b098d4a084fb291ce61bfbb0a241c03cff24b15bebf0cfae1c146f4ad10d92
   languageName: node
   linkType: hard
 
@@ -13213,7 +13302,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"recyclerlistview@npm:4.2.3":
+"recyclerlistview@npm:4.2.3, recyclerlistview@npm:^4.0.0":
   version: 4.2.3
   resolution: "recyclerlistview@npm:4.2.3"
   dependencies:
@@ -13615,6 +13704,45 @@ __metadata:
   checksum: 3ea587b981a19016297edb96d1ffe48af7e6af69660e3b371dbfc73722a73a0b0e9be5c88089fbeeb866c389c1098e07f64929c7414290504b855f54f901ab10
   languageName: node
   linkType: hard
+
+"rn-spacedev-uikit-example@workspace:example":
+  version: 0.0.0-use.local
+  resolution: "rn-spacedev-uikit-example@workspace:example"
+  dependencies:
+    "@babel/core": ^7.25.2
+    "@expo-google-fonts/sora": ^0.3.0
+    "@expo/vector-icons": ^14.0.2
+    "@legendapp/list": ^1.1.0
+    "@react-navigation/elements": ^2.4.1
+    "@react-navigation/native": ^7.0.14
+    "@react-navigation/native-stack": ^7.3.18
+    "@shopify/flash-list": ^1.8.2
+    "@types/react": ~19.0.10
+    expo: latest
+    expo-font: ~13.3.1
+    expo-linking: ~7.1.4
+    expo-router: ~5.0.5
+    expo-splash-screen: ~0.30.8
+    expo-status-bar: ~2.2.3
+    expo-system-ui: ~5.0.7
+    expo-web-browser: ~14.1.6
+    jest: ^29.2.1
+    jest-expo: ~53.0.4
+    lucide-react-native: ^0.503.0
+    react: 19.0.0
+    react-dom: 19.0.0
+    react-native: 0.79.2
+    react-native-builder-bob: ^0.40.6
+    react-native-gesture-handler: ~2.24.0
+    react-native-reanimated: ~3.17.4
+    react-native-safe-area-context: 5.4.0
+    react-native-screens: ~4.10.0
+    react-native-svg: ^15.11.2
+    react-native-web: ^0.20.0
+    typescript: ~5.8.3
+    zustand: ^5.0.4
+  languageName: unknown
+  linkType: soft
 
 "run-applescript@npm:^7.0.0":
   version: 7.0.0
@@ -15231,6 +15359,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"use-latest-callback@npm:^0.2.4":
+  version: 0.2.4
+  resolution: "use-latest-callback@npm:0.2.4"
+  peerDependencies:
+    react: ">=16.8"
+  checksum: 60c3a6b1b6567e1794f9e48cd86b8cde8a149485cc2fed60570f69ec3b157f6812e0ff0a877f0b971592fb9254b1363cc21c120fd1fc993b1dad1406c69211df
+  languageName: node
+  linkType: hard
+
 "use-sync-external-store@npm:^1.2.2, use-sync-external-store@npm:^1.5.0":
   version: 1.5.0
   resolution: "use-sync-external-store@npm:1.5.0"
@@ -15675,6 +15812,13 @@ __metadata:
     simple-plist: ^1.1.0
     uuid: ^7.0.3
   checksum: 908ff85851f81aec6e36ca24427db092e1cc068f052716e14de5e762196858039efabbe053a1abe8920184622501049e74a93618e8692b982f7604a9847db108
+  languageName: node
+  linkType: hard
+
+"xdate@npm:^0.8.0":
+  version: 0.8.3
+  resolution: "xdate@npm:0.8.3"
+  checksum: 5fa07921dca6e75ad6ce2945477ed68974ac840d5b446015165aef6afdb000116e07964a4a47ab6ad36f8c398adbcb1e2ba43202e87b6190587672016c214ab7
   languageName: node
   linkType: hard
 

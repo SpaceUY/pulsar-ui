@@ -1,21 +1,59 @@
-import { View } from 'react-native';
-import { LoadingIndicator } from '@space-uy/rn-spacedev-uikit';
+import { ScrollView, View, StyleSheet } from 'react-native';
+import { Card, LoadingIndicator, Text } from '@space-uy/rn-spacedev-uikit';
 
-export default function LoadersScreen() {
+export default function LoadersExample() {
   return (
-    <View style={{ flex: 1, padding: 16, gap: 24 }}>
-      <View style={{ alignItems: 'center' }}>
-        <LoadingIndicator size={16} />
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      <View style={styles.section}>
+        <Text variant="h2" style={styles.sectionTitle}>
+          Loaders
+        </Text>
+        <Text variant="pm" style={styles.sectionDescription}>
+          Loading indicators to show loading states
+        </Text>
       </View>
-      <View style={{ alignItems: 'center' }}>
-        <LoadingIndicator />
-      </View>
-      <View style={{ alignItems: 'center' }}>
-        <LoadingIndicator size={32} />
-      </View>
-      <View style={{ alignItems: 'center' }}>
-        <LoadingIndicator style={{ opacity: 0.3 }} />
-      </View>
-    </View>
+
+      <Card variant="tinted" style={styles.exampleContainer}>
+        <Text variant="h4" style={styles.exampleTitle}>
+          Loading Sizes
+        </Text>
+        <View style={styles.loaderRow}>
+          <LoadingIndicator size={16} />
+          <LoadingIndicator size={24} />
+          <LoadingIndicator size={32} />
+          <LoadingIndicator size={48} />
+        </View>
+      </Card>
+
+      <Card variant="tinted" style={styles.exampleContainer}>
+        <Text variant="h4" style={styles.exampleTitle}>
+          Loading Colors
+        </Text>
+        <View style={styles.loaderRow}>
+          <LoadingIndicator size={32} />
+          <LoadingIndicator size={32} color="#ff6b6b" />
+          <LoadingIndicator size={32} color="#4ecdc4" />
+          <LoadingIndicator size={32} color="#45b7d1" />
+        </View>
+      </Card>
+
+      <View style={styles.spacer} />
+    </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1 },
+  section: { padding: 20, paddingBottom: 16 },
+  sectionTitle: { marginBottom: 8 },
+  sectionDescription: { opacity: 0.7 },
+  exampleContainer: { marginHorizontal: 16, marginBottom: 24 },
+  exampleTitle: { marginBottom: 12 },
+  loaderRow: {
+    flexDirection: 'row',
+    gap: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  spacer: { height: 40 },
+});

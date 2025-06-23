@@ -1,30 +1,18 @@
-import React, {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from 'react';
+import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 import {
   TextInput,
   StyleSheet,
   type StyleProp,
   type ViewStyle,
-  Pressable,
   type TextInputProps,
   type TextInputFocusEventData,
   type NativeSyntheticEvent,
   Platform,
 } from 'react-native';
-import Animated, {
-  interpolate,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
 
 import InputContainer from './InputContainer';
-import Icon, { type IconName } from './Icon';
+import IconButton from './IconButton';
+import { type IconName } from './Icon';
 
 import useTheme from '../hooks/useTheme';
 
@@ -65,7 +53,6 @@ export const Input = forwardRef<InputRef, Props>(
     const [showPassword, setShowPassword] = useState(false);
     const { colors, theme } = useTheme();
     const inputRef = useRef<TextInput>(null);
-    const isFocused = useSharedValue(value ? 0 : 1);
 
     useImperativeHandle(ref, () => ({
       focus: () => inputRef.current?.focus(),
@@ -82,16 +69,17 @@ export const Input = forwardRef<InputRef, Props>(
       onBlur?.(e);
     };
 
-    const iconAnimStyle = useAnimatedStyle(() => {
-      return {
-        opacity: interpolate(isFocused.value, [0, 1], [1, 0]),
-        width: interpolate(isFocused.value, [0, 1], [26, 0]),
-      };
-    });
-
-    useEffect(() => {
-      isFocused.value = withTiming(focused ? 1 : 0, { duration: 300 });
-    }, [focused, isFocused]);
+    const renderRightButton = (name: IconName, onPress: () => void) => (
+      <IconButton
+        style={styles.button}
+        iconName={name}
+        size="small"
+        variant="transparent"
+        onPress={onPress}
+        disabled={!editable}
+        hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+      />
+    );
 
     return (
       <InputContainer
@@ -103,18 +91,8 @@ export const Input = forwardRef<InputRef, Props>(
         contentContainerStyle={styles.container}
         focused={focused}
         disabled={!editable}
+        iconName={iconName}
       >
-        {iconName && (
-          // TODO: Maybe we should move this to the InputContainer
-          <Animated.View style={iconAnimStyle}>
-            <Icon
-              style={styles.icon}
-              name={iconName}
-              size={18}
-              color={convertHexToRgba(colors.foreground, 0.5)}
-            />
-          </Animated.View>
-        )}
         <TextInput
           {...rest}
           value={value}
@@ -122,7 +100,12 @@ export const Input = forwardRef<InputRef, Props>(
           ref={inputRef}
           style={[
             styles.input,
-            { fontFamily: theme.fonts.regular, color: colors.foreground },
+            {
+              fontFamily: theme.fonts.regular,
+              color: colors.foreground,
+              // @ts-ignore
+              caretColor: colors.primary, // This to make the cursor color match the primary color on web
+            },
             Platform.OS === 'web' && styles.webInput,
           ]}
           onFocus={handleFocus}
@@ -130,44 +113,21 @@ export const Input = forwardRef<InputRef, Props>(
           placeholderTextColor={convertHexToRgba(colors.foreground, 0.5)}
           editable={editable}
           secureTextEntry={variant === 'password' && !showPassword}
+          cursorColor={colors.primary}
+          selectionColor={convertHexToRgba(
+            colors.primary,
+            Platform.OS === 'android' ? 0.15 : 1
+          )}
+          selectionHandleColor={colors.primary}
         />
-        {clearable && value && variant !== 'password' && (
-          <Pressable
-            style={{
-              backgroundColor: colors.border,
-              height: 16,
-              width: 16,
-              borderRadius: 16,
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginStart: 8,
-            }}
-            onPress={() => onChangeText?.('')}
-            disabled={!editable}
-            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-          >
-            <Icon
-              style={{ opacity: 0.8 }}
-              name="X"
-              size={10}
-              color={colors.foreground}
-            />
-          </Pressable>
-        )}
-        {variant === 'password' && (
-          <Pressable
-            style={styles.button}
-            onPress={() => setShowPassword(!showPassword)}
-            disabled={!editable}
-            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-          >
-            <Icon
-              name={showPassword ? 'EyeClosed' : 'Eye'}
-              size={18}
-              color={colors.foreground}
-            />
-          </Pressable>
-        )}
+        {clearable &&
+          value &&
+          variant !== 'password' &&
+          renderRightButton('CircleX', () => onChangeText?.(''))}
+        {variant === 'password' &&
+          renderRightButton(showPassword ? 'EyeClosed' : 'Eye', () =>
+            setShowPassword(!showPassword)
+          )}
       </InputContainer>
     );
   }
@@ -176,7 +136,7 @@ export const Input = forwardRef<InputRef, Props>(
 const styles = StyleSheet.create({
   container: { flexDirection: 'row', alignItems: 'center' },
   input: { flex: 1, fontSize: 14 },
-  button: { marginStart: 8 },
+  button: { marginStart: 8, opacity: 0.8 },
   icon: { marginEnd: 8 },
   webInput: { outlineWidth: 0 } as ViewStyle, // To remove native focus outline on web
 });

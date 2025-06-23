@@ -64,36 +64,16 @@ const ThemeSettingsModal = ({ visible, onClose }: Props) => {
   const handleDarkModeToggle = () => {
     const newDarkMode = !isDarkMode;
     setColorScheme(newDarkMode ? 'dark' : 'light');
-
-    // Get the current primary color
-    const currentPrimaryColor = getCurrentPrimaryColor();
-
-    // Only update primary color if it's black in light mode or white in dark mode
-    const shouldUpdatePrimaryColor =
-      (isDarkMode && currentPrimaryColor === '#FFFFFF') || // If in dark mode and white is selected
-      (!isDarkMode && currentPrimaryColor === '#000000'); // If in light mode and black is selected
-
-    if (shouldUpdatePrimaryColor) {
-      const newTheme = {
-        ...theme,
-        colors: {
-          ...theme.colors,
-          light: {
-            ...theme.colors.light,
-            primary: newDarkMode ? '#09090B' : '#FFFFFF',
-          },
-          dark: {
-            ...theme.colors.dark,
-            primary: newDarkMode ? '#FFFFFF' : '#09090B',
-          },
-        },
-      };
-      setUIKitTheme({ ...newTheme, insets });
-    }
   };
 
+  // Get the current primary color for the active color scheme
   const getCurrentPrimaryColor = () => {
-    return isDarkMode ? theme.colors.dark.primary : theme.colors.light.primary;
+    return colors.primary; // Use colors.primary which is already the right color for current scheme
+  };
+
+  // Get the default color for the current scheme
+  const getDefaultColorForScheme = () => {
+    return isDarkMode ? '#FAFAFA' : '#09090B';
   };
 
   return (
@@ -149,7 +129,7 @@ const ThemeSettingsModal = ({ visible, onClose }: Props) => {
           <Text variant="h3">Main Color</Text>
           <View style={{ flexDirection: 'row', gap: 8, marginTop: 8 }}>
             {[
-              isDarkMode ? '#FFFFFF' : '#000000',
+              getDefaultColorForScheme(), // Use the default color for current scheme
               '#3B82F6', // Softer blue
               '#8B5CF6', // Softer purple
               '#10B981', // Pleasant green
@@ -175,7 +155,11 @@ const ThemeSettingsModal = ({ visible, onClose }: Props) => {
                     <Icon
                       name="Check"
                       size={20}
-                      color={color === '#FFFFFF' ? '#000000' : '#FFFFFF'}
+                      color={
+                        color === '#FAFAFA' || color === '#FFFFFF'
+                          ? '#000000'
+                          : '#FFFFFF'
+                      }
                     />
                   )}
                 </Pressable>

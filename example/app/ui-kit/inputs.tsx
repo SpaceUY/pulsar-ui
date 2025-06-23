@@ -1,88 +1,98 @@
-import { View, ScrollView } from 'react-native';
-import { Input } from '@space-uy/rn-spacedev-uikit';
 import { useState } from 'react';
+import { ScrollView, View, StyleSheet } from 'react-native';
+import { Card, Input, Text } from '@space-uy/rn-spacedev-uikit';
 
-export default function InputsScreen() {
-  const [value, setValue] = useState('');
-  const [value2, setValue2] = useState('');
+export default function InputsExample() {
+  const [value1, setValue1] = useState('');
+  const [value2, setValue2] = useState('Sample text');
   const [value3, setValue3] = useState('');
-  const [value4, setValue4] = useState('');
-  const [value5, setValue5] = useState('');
-  const [password, setPassword] = useState('');
 
   return (
-    <ScrollView style={{ flex: 1 }}>
-      <View style={{ padding: 16, gap: 16 }}>
-        {/* Basic Input */}
-        <Input
-          value={value}
-          onChangeText={setValue}
-          placeholder="Basic input"
-        />
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      <View style={styles.section}>
+        <Text variant="h2" style={styles.sectionTitle}>
+          Inputs
+        </Text>
+        <Text variant="pm" style={styles.sectionDescription}>
+          Text input fields with different states and configurations
+        </Text>
+      </View>
 
-        {/* Input with Label */}
+      <Card style={styles.exampleContainer}>
+        <Text variant="h4" style={styles.exampleTitle}>
+          Basic Input
+        </Text>
+        <Input
+          value={value1}
+          onChangeText={setValue1}
+          placeholder="Basic text"
+        />
+      </Card>
+
+      <Card style={styles.exampleContainer}>
+        <Text variant="h4" style={styles.exampleTitle}>
+          Input with Icon
+        </Text>
         <Input
           value={value2}
           onChangeText={setValue2}
-          placeholder="Input with label"
-          label="Username"
+          iconName="User"
+          placeholder="With icon"
         />
+      </Card>
 
-        {/* Input with Hint */}
+      <Card style={styles.exampleContainer}>
+        <Text variant="h4" style={styles.exampleTitle}>
+          Input with Label
+        </Text>
         <Input
           value={value3}
           onChangeText={setValue3}
-          placeholder="Input with hint"
-          hint="This is a helpful hint"
+          label="Full Name"
+          placeholder="Enter your full name"
         />
+      </Card>
 
-        {/* Input with Error */}
+      <Card style={styles.exampleContainer}>
+        <Text variant="h4" style={styles.exampleTitle}>
+          Input with Error
+        </Text>
         <Input
-          value={value4}
-          onChangeText={setValue4}
-          placeholder="Input with error"
-          hint="This is an error message"
-          error
-        />
-
-        {/* Disabled Input */}
-        <Input
-          value={value5}
-          onChangeText={setValue5}
-          placeholder="Disabled input"
-          label="Disabled input"
-          editable={false}
-        />
-
-        {/* Input with Label and Hint */}
-        <Input
-          value={value}
-          onChangeText={setValue}
-          placeholder="Input with label and hint"
+          value=""
           label="Email"
-          hint="Enter your email address"
-        />
-
-        {/* Input with Label and Error */}
-        <Input
-          value={value}
-          onChangeText={setValue}
-          placeholder="Input with label and error"
-          label="Password"
-          hint="Password must be at least 8 characters"
+          placeholder="Enter your email"
           error
+          hint="This field is required"
         />
+      </Card>
 
-        {/* Password Input */}
-        <Input
-          value={password}
-          onChangeText={setPassword}
-          placeholder="Enter your password"
-          label="Password"
-          variant="password"
-          hint="Must be at least 8 characters"
-        />
-      </View>
+      <Card style={styles.exampleContainer}>
+        <Text variant="h4" style={styles.exampleTitle}>
+          Input States
+        </Text>
+        <View style={styles.inputContainer}>
+          <Input placeholder="Normal" />
+          <Input placeholder="Disabled" editable={false} />
+          <Input
+            placeholder="Read Only"
+            readOnly
+            value="This text cannot be edited"
+          />
+        </View>
+      </Card>
+
+      <View style={styles.spacer} />
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1 },
+  section: { padding: 20, paddingBottom: 16 },
+  sectionTitle: { marginBottom: 8 },
+  sectionDescription: { opacity: 0.7 },
+  exampleContainer: { marginHorizontal: 16, marginBottom: 24 },
+  exampleTitle: { marginBottom: 12 },
+  inputContainer: { gap: 16 },
+  spacer: { height: 40 },
+});

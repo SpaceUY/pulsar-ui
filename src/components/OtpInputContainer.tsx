@@ -1,4 +1,4 @@
-import React, { forwardRef, useCallback, useRef, useState } from 'react';
+import { forwardRef, useCallback, useRef, useState } from 'react';
 import { Platform, StyleSheet } from 'react-native';
 import {
   View,
@@ -52,7 +52,7 @@ export const OtpInputContainer = forwardRef<
     _
   ) => {
     const isIOS = Platform.OS === 'ios';
-    const pins = Array.from({ length }).map((_, i) => i);
+    const pins = Array.from({ length }).map((__, i) => i);
     const inputRefs = useRef<TextInput[]>([]);
     const pinsValues = useRef<string[]>([]);
     const iosOTP = useRef<{

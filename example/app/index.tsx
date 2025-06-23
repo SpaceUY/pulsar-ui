@@ -2,13 +2,13 @@ import {
   FlatList,
   Keyboard,
   Pressable,
+  StyleSheet,
   TouchableWithoutFeedback,
   useWindowDimensions,
   View,
 } from 'react-native';
 import {
   Card,
-  convertHexToRgba,
   Icon,
   IconButton,
   Input,
@@ -19,79 +19,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useTheme from '../../src/hooks/useTheme';
 import { useEffect, useState } from 'react';
 import ThemeSettingsModal from '../components/ThemeSettingsModal';
+import componentsData from '../assets/data/components.json';
 
-const components = [
-  {
-    name: 'Icons',
-    route: 'ui-kit/icons',
-    iconName: 'BadgeCheck',
-  },
-  {
-    name: 'Buttons',
-    route: 'ui-kit/buttons',
-    iconName: 'SquareMousePointer',
-  },
-  {
-    name: 'Tabs',
-    route: 'ui-kit/tabs',
-    iconName: 'AppWindow',
-  },
-  {
-    name: 'Inputs',
-    route: 'ui-kit/inputs',
-    iconName: 'TextCursorInput',
-  },
-  {
-    name: 'Texts',
-    route: 'ui-kit/texts',
-    iconName: 'LetterText',
-  },
-  {
-    name: 'Cards',
-    route: 'ui-kit/cards',
-    iconName: 'SquareEqual',
-  },
-  {
-    name: 'Select',
-    route: 'ui-kit/select',
-    iconName: 'ListCheck',
-  },
-  {
-    name: 'Checkboxes',
-    route: 'ui-kit/checkboxes',
-    iconName: 'SquareCheck',
-  },
-  {
-    name: 'Loaders',
-    route: 'ui-kit/loaders',
-    iconName: 'LoaderCircle',
-  },
-  {
-    name: 'Chips',
-    route: 'ui-kit/chips',
-    iconName: 'Tag',
-  },
-  {
-    name: 'Icon Buttons',
-    route: 'ui-kit/icon-buttons',
-    iconName: 'SquareMousePointer',
-  },
-  {
-    name: 'Switches',
-    route: 'ui-kit/switches',
-    iconName: 'ToggleRight',
-  },
-  {
-    name: 'Textarea',
-    route: 'ui-kit/textarea',
-    iconName: 'WrapText',
-  },
-  {
-    name: 'Otp Input',
-    route: 'ui-kit/otp-input',
-    iconName: 'ScanEye',
-  },
-];
+const components = componentsData;
 
 export default function UIKitScreen() {
   const [search, setSearch] = useState('');
@@ -99,7 +29,7 @@ export default function UIKitScreen() {
   const [isThemeModalVisible, setIsThemeModalVisible] = useState(false);
   const { top, bottom } = useSafeAreaInsets();
   const { width } = useWindowDimensions();
-  const { colors, theme } = useTheme();
+  const { colors } = useTheme();
 
   const cardSize = (width - 48) / 2;
 
@@ -111,20 +41,28 @@ export default function UIKitScreen() {
     );
   }, [search]);
 
+  const handleDismissKeyboard = () => {
+    Keyboard.dismiss();
+  };
+
+  const handleCardPress = (route: string) => {
+    router.push(route);
+    setTimeout(() => {
+      Keyboard.dismiss();
+    }, 0);
+  };
+
+  const handleThemePress = () => {
+    Keyboard.dismiss();
+    setIsThemeModalVisible(true);
+  };
+
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={{ flex: 1, paddingTop: top + 16 }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginHorizontal: 16,
-            marginBottom: 16,
-            gap: 16,
-          }}
-        >
+    <View style={[styles.root, { paddingTop: top + 16 }]}>
+      <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
+        <View style={styles.header}>
           <Input
-            style={{ flex: 1 }}
+            style={styles.searchInput}
             iconName="Search"
             placeholder="Search"
             value={search}
@@ -132,85 +70,85 @@ export default function UIKitScreen() {
             clearable
           />
           <IconButton
-            style={{}}
             iconName="Palette"
             variant="outline"
             size="large"
-            onPress={() => setIsThemeModalVisible(true)}
+            onPress={handleThemePress}
           />
         </View>
-
-        <FlatList
-          data={filteredComponents}
-          numColumns={2}
-          contentContainerStyle={{
-            gap: 16,
-            paddingHorizontal: 8,
-            paddingBottom: bottom + 16,
-          }}
-          renderItem={({ item }) => (
-            <Pressable
-              style={{ marginHorizontal: 8 }}
-              onPress={() => router.push(item.route)}
-            >
-              <Card
-                style={{
-                  width: cardSize,
-                  height: cardSize,
-                }}
-              >
-                <View
-                  style={{
-                    flex: 3,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    backgroundColor: convertHexToRgba(colors.primary, 0.1),
-                    borderRadius: theme.roundness,
-                    overflow: 'hidden',
-                  }}
-                >
-                  {/* <View
-                    style={[
-                      StyleSheet.absoluteFill,
-                      {
-                        backgroundColor: convertHexToRgba(colors.primary, 0.1),
-                      },
-                    ]}
-                  /> */}
-                  <Icon
-                    name={item.iconName as any}
-                    size={40}
-                    color={colors.primary}
-                  />
-                </View>
-                <View
-                  style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    paddingTop: 16,
-                  }}
-                >
-                  <Text style={{ flex: 1 }} variant="h3" numberOfLines={1}>
-                    {item.name}
-                  </Text>
-                  <Icon
-                    style={{ marginLeft: 8 }}
-                    name="ChevronRight"
-                    size={24}
-                    color={colors.foreground}
-                  />
-                </View>
+      </TouchableWithoutFeedback>
+      <FlatList
+        data={filteredComponents}
+        numColumns={2}
+        keyboardShouldPersistTaps="handled"
+        removeClippedSubviews={true}
+        maxToRenderPerBatch={10}
+        windowSize={10}
+        contentContainerStyle={[
+          styles.contentListContainer,
+          { paddingBottom: bottom + 16 },
+        ]}
+        renderItem={({ item }) => (
+          <Pressable
+            style={styles.button}
+            onPress={() => handleCardPress(item.route)}
+          >
+            <Card style={{ width: cardSize, height: cardSize }}>
+              <Card variant="tinted" style={styles.iconContainer}>
+                <Icon
+                  name={item.iconName as any}
+                  size={40}
+                  color={colors.primary}
+                />
               </Card>
-            </Pressable>
-          )}
-        />
+              <View style={styles.contentContainer}>
+                <Text style={styles.label} variant="h4" numberOfLines={1}>
+                  {item.name}
+                </Text>
+                <Icon
+                  style={styles.chevron}
+                  name="ChevronRight"
+                  size={16}
+                  color={colors.foreground}
+                />
+              </View>
+            </Card>
+          </Pressable>
+        )}
+      />
 
-        <ThemeSettingsModal
-          visible={isThemeModalVisible}
-          onClose={() => setIsThemeModalVisible(false)}
-        />
-      </View>
-    </TouchableWithoutFeedback>
+      <ThemeSettingsModal
+        visible={isThemeModalVisible}
+        onClose={() => setIsThemeModalVisible(false)}
+      />
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  root: { flex: 1 },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: 16,
+    marginBottom: 16,
+    gap: 16,
+    paddingVertical: 8,
+  },
+  searchInput: { flex: 1 },
+  contentListContainer: { gap: 16, paddingHorizontal: 8 },
+  button: { marginHorizontal: 8 },
+  iconContainer: {
+    flex: 3,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  contentContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingTop: 16,
+  },
+  label: { flex: 1 },
+  chevron: { marginLeft: 8 },
+});

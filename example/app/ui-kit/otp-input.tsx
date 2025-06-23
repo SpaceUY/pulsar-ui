@@ -1,160 +1,51 @@
-import { useEffect, useRef, useState } from 'react';
-import { View, ScrollView, StyleSheet } from 'react-native';
+import { useRef } from 'react';
+import { ScrollView, View, StyleSheet } from 'react-native';
 import {
-  Icon,
+  Card,
   OtpInputContainer,
   Text,
-  useUIKitTheme,
   type OtpInputContainerRef,
 } from '@space-uy/rn-spacedev-uikit';
 
-const validateSequentialPin = (pin: string) => {
-  const digits = pin.split('').map(Number);
-  const isAscending = digits.every(
-    (digit, i) => i === 0 || digit === digits[i - 1]! + 1
-  );
-  const isDescending = digits.every(
-    (digit, i) => i === 0 || digit === digits[i - 1]! - 1
-  );
-
-  return isAscending || isDescending;
-};
-
-const validateSameDigits = (pin: string) => {
-  return /^(\d)\1{3}$/.test(pin);
-};
-
-const validateMinMaxChar = (pin: string) => {
-  return /^\d{4}$/.test(pin);
-};
-
-export default function OtpInputScreen() {
+export default function OtpInputExample() {
   const otpInputRef = useRef<OtpInputContainerRef>(null);
-  const otpInputRef2 = useRef<OtpInputContainerRef>(null);
-  const otpInputRef3 = useRef<OtpInputContainerRef>(null);
-  const otpInputRef4 = useRef<OtpInputContainerRef>(null);
-  const { colors } = useUIKitTheme();
-
-  const [value, setValue] = useState('');
-  const [minMaxChar, setMinMaxChar] = useState(false);
-  const [sequential, setSequential] = useState(false);
-  const [sameDigits, setSameDigits] = useState(false);
-
-  useEffect(() => {
-    setMinMaxChar(validateMinMaxChar(value));
-    setSequential(validateSequentialPin(value));
-    setSameDigits(!validateSameDigits(value) && value.length === 4);
-  }, [value]);
 
   return (
-    <ScrollView style={styles.scrollContainer}>
-      <View style={styles.container}>
-        {/* Basic Input */}
-        <Text variant="h1">Basic Input</Text>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      <View style={styles.section}>
+        <Text variant="h2" style={styles.sectionTitle}>
+          OTP Input
+        </Text>
+        <Text variant="pm" style={styles.sectionDescription}>
+          One-time password input fields for verification codes
+        </Text>
+      </View>
+
+      <Card variant="tinted" style={styles.exampleContainer}>
+        <Text variant="h4" style={styles.exampleTitle}>
+          Basic OTP Input
+        </Text>
+        <Text variant="pm" style={styles.description}>
+          Enter the 4-digit code
+        </Text>
         <OtpInputContainer
           ref={otpInputRef}
           length={4}
           inputStyle={styles.otpInput}
         />
-
-        <Text variant="h1">Disabled Input</Text>
-        <OtpInputContainer
-          ref={otpInputRef2}
-          length={4}
-          inputStyle={styles.otpInput}
-          editable={false}
-        />
-
-        <Text variant="h1">Longer Input</Text>
-        <OtpInputContainer
-          ref={otpInputRef3}
-          length={6}
-          inputStyle={styles.otpInput}
-        />
-
-        <Text variant="h1">With Validations</Text>
-        <OtpInputContainer
-          ref={otpInputRef4}
-          length={4}
-          inputStyle={styles.otpInput}
-          onFillEnded={setValue}
-        />
-        <View style={{ gap: 8 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 4,
-                width: '50%',
-              }}
-            >
-              <Icon
-                size={12}
-                name={minMaxChar ? 'BadgeCheck' : 'BadgeX'}
-                color={minMaxChar ? 'green' : colors.border}
-              />
-              <Text
-                variant="ps"
-                style={{ color: minMaxChar ? 'green' : colors.border }}
-              >
-                4 dígitos
-              </Text>
-            </View>
-          </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <View
-              style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}
-            >
-              <Icon
-                size={12}
-                name={!sequential ? 'BadgeCheck' : 'BadgeX'}
-                color={!sequential ? 'green' : colors.border}
-              />
-              <Text
-                variant="ps"
-                style={{ color: !sequential ? 'green' : colors.border }}
-              >
-                No debe ser secuencial
-              </Text>
-            </View>
-          </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 4,
-                width: '50%',
-              }}
-            >
-              <Icon
-                size={12}
-                name={sameDigits ? 'BadgeCheck' : 'BadgeX'}
-                color={sameDigits ? 'green' : colors.border}
-              />
-              <Text
-                variant="ps"
-                style={{ color: sameDigits ? 'green' : colors.border }}
-              >
-                No debe tener dígitos iguales
-              </Text>
-            </View>
-          </View>
-        </View>
-      </View>
+      </Card>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  scrollContainer: {
-    flex: 1,
-  },
-  container: {
-    padding: 16,
-    gap: 16,
-  },
+  container: { flex: 1 },
+  section: { padding: 20, paddingBottom: 16 },
+  sectionTitle: { marginBottom: 8 },
+  sectionDescription: { opacity: 0.7 },
+  exampleContainer: { marginHorizontal: 16, marginBottom: 24 },
+  exampleTitle: { marginBottom: 12 },
+  description: { marginBottom: 16, opacity: 0.8 },
   otpInput: {
     borderRadius: 12,
     borderWidth: 1,

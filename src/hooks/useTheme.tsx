@@ -1,11 +1,23 @@
-import { useContext } from 'react';
+import { useMemo } from 'react';
+import themeStore from '../store/themeStore';
 
-import ThemeContext from '../contexts/ThemeContext';
+const useUIKitTheme = () => {
+  const theme = themeStore((state) => state.theme);
+  const setTheme = themeStore((state) => state.setTheme);
+  const colorScheme = themeStore((state) => state.colorScheme);
+  const setColorScheme = themeStore((state) => state.setColorScheme);
+  const colors = themeStore((state) => state.colors);
 
-const useTheme = () => {
-  const { theme, setTheme, colorScheme, setColorScheme, colors } =
-    useContext(ThemeContext);
-  return { theme, setTheme, colorScheme, setColorScheme, colors };
+  return useMemo(
+    () => ({
+      theme,
+      setTheme,
+      colorScheme,
+      setColorScheme,
+      colors,
+    }),
+    [theme, setTheme, colorScheme, setColorScheme, colors]
+  );
 };
 
-export default useTheme;
+export default useUIKitTheme;

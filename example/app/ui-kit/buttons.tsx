@@ -1,78 +1,137 @@
 import { useState } from 'react';
-import { View } from 'react-native';
-import {
-  Button,
-  ButtonSize,
-  Tabs,
-  type Tab,
-} from '@space-uy/rn-spacedev-uikit';
+import { ScrollView, View, StyleSheet } from 'react-native';
+import { Button, Card, Text } from '@space-uy/rn-spacedev-uikit';
 
-const tabs1: Tab[] = [
-  { value: ButtonSize.large, label: 'Large' },
-  { value: ButtonSize.medium, label: 'Medium' },
-  { value: ButtonSize.small, label: 'Small' },
-];
-
-const tabs2: Tab[] = [
-  { value: 'active', label: 'Active' },
-  { value: 'disabled', label: 'Disabled' },
-];
-
-const buttonConfigs = [
-  { variant: 'flat', text: 'Flat Button' },
-  { variant: 'outline', text: 'Outline Button' },
-  { variant: 'transparent', text: 'Transparent Button' },
-  { variant: 'destructive', text: 'Destructive Button' },
-] as const;
-
-export default function ButtonsScreen() {
-  const [selectedTab1, setSelectedTab1] = useState<Tab>(tabs1[0]!);
-  const [selectedTab2, setSelectedTab2] = useState<Tab>(tabs2[0]!);
+export default function ButtonsExample() {
   const [loadingStates, setLoadingStates] = useState<Record<string, boolean>>(
     {}
   );
 
-  const handlePress = (variant: string) => {
-    setLoadingStates((prev) => ({ ...prev, [variant]: true }));
+  const handlePress = (buttonId: string) => {
+    setLoadingStates((prev) => ({ ...prev, [buttonId]: true }));
+
     setTimeout(() => {
-      setLoadingStates((prev) => ({ ...prev, [variant]: false }));
-    }, 2000);
+      setLoadingStates((prev) => ({ ...prev, [buttonId]: false }));
+    }, 2000); // Loading for 2 seconds
   };
 
   return (
-    <View style={{ flex: 1, padding: 16 }}>
-      <Tabs
-        options={tabs1}
-        selected={selectedTab1}
-        onChange={setSelectedTab1}
-      />
-      <Tabs
-        options={tabs2}
-        selected={selectedTab2}
-        onChange={setSelectedTab2}
-      />
-      {buttonConfigs.map(({ variant, text }) => (
-        <Button
-          key={variant}
-          text={text}
-          variant={variant}
-          size={selectedTab1.value as ButtonSize}
-          onPress={() => handlePress(variant)}
-          loading={loadingStates[variant]}
-          style={{ marginBottom: 16, alignSelf: 'flex-start' }}
-          disabled={selectedTab2.value === 'disabled'}
-        />
-      ))}
-      <Button
-        text="Save Changes"
-        iconName="Save"
-        variant="flat"
-        size={selectedTab1.value as ButtonSize}
-        onPress={() => handlePress('save')}
-        loading={loadingStates['save']}
-        style={{ marginBottom: 16, alignSelf: 'flex-start' }}
-        disabled={selectedTab2.value === 'disabled'}
-      />
-    </View>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      <View style={styles.section}>
+        <Text variant="h2" style={styles.sectionTitle}>
+          Buttons
+        </Text>
+        <Text variant="pm" style={styles.sectionDescription}>
+          Interactive buttons with multiple variants and states
+        </Text>
+      </View>
+
+      <Card style={styles.exampleContainer}>
+        <Text variant="h4" style={styles.exampleTitle}>
+          Button Configuration
+        </Text>
+        <View style={styles.buttonContainer}>
+          <Button
+            text="Small"
+            size="small"
+            loading={loadingStates.small}
+            onPress={() => handlePress('small')}
+          />
+          <Button
+            text="Medium"
+            size="medium"
+            loading={loadingStates.medium}
+            onPress={() => handlePress('medium')}
+          />
+          <Button
+            text="Large"
+            size="large"
+            loading={loadingStates.large}
+            onPress={() => handlePress('large')}
+          />
+        </View>
+      </Card>
+
+      <Card style={styles.exampleContainer}>
+        <Text variant="h4" style={styles.exampleTitle}>
+          Button Variants
+        </Text>
+        <View style={styles.buttonContainer}>
+          <Button
+            text="Flat"
+            variant="flat"
+            loading={loadingStates.flat}
+            onPress={() => handlePress('flat')}
+          />
+          <Button
+            text="Outline"
+            variant="outline"
+            loading={loadingStates.outline}
+            onPress={() => handlePress('outline')}
+          />
+          <Button
+            text="Transparent"
+            variant="transparent"
+            loading={loadingStates.transparent}
+            onPress={() => handlePress('transparent')}
+          />
+          <Button
+            text="Destructive"
+            variant="destructive"
+            loading={loadingStates.destructive}
+            onPress={() => handlePress('destructive')}
+          />
+        </View>
+      </Card>
+
+      <Card style={styles.exampleContainer}>
+        <Text variant="h4" style={styles.exampleTitle}>
+          Button with Icon
+        </Text>
+        <View style={styles.buttonContainer}>
+          <Button
+            text="Download"
+            iconName="Download"
+            loading={loadingStates.download}
+            onPress={() => handlePress('download')}
+          />
+          <Button
+            text="Share"
+            iconName="Share"
+            variant="outline"
+            loading={loadingStates.share}
+            onPress={() => handlePress('share')}
+          />
+        </View>
+      </Card>
+
+      <Card style={styles.exampleContainer}>
+        <Text variant="h4" style={styles.exampleTitle}>
+          Button States
+        </Text>
+        <View style={styles.buttonContainer}>
+          <Button
+            text="Normal"
+            loading={loadingStates.normal}
+            onPress={() => handlePress('normal')}
+          />
+          <Button text="Disabled" disabled />
+          <Button text="Loading" loading />
+        </View>
+      </Card>
+
+      <View style={styles.spacer} />
+    </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1 },
+  section: { padding: 20, paddingBottom: 16 },
+  sectionTitle: { marginBottom: 8 },
+  sectionDescription: { opacity: 0.7 },
+  exampleContainer: { marginHorizontal: 16, marginBottom: 24 },
+  exampleTitle: { marginBottom: 12 },
+  buttonContainer: { gap: 12 },
+  spacer: { height: 40 },
+});

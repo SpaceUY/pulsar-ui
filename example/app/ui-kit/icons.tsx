@@ -1,118 +1,149 @@
-import { icons } from 'lucide-react-native';
+import { useMemo, useState, useCallback } from 'react';
 import {
   View,
   StyleSheet,
   Dimensions,
   type ViewStyle,
   type StyleProp,
+  FlatList,
+  Pressable,
 } from 'react-native';
-import { Icon, Input } from '@space-uy/rn-spacedev-uikit';
-import { useMemo, useState } from 'react';
+import { icons } from 'lucide-react-native';
+import { Icon, Input, Header } from '@space-uy/rn-spacedev-uikit';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { FlashList } from '@shopify/flash-list';
+import { router } from 'expo-router';
+
+import useTheme from '../../../src/hooks/useTheme';
 
 const ICON_SIZE = 24;
 const SPACING = 16;
-const screenWidth = Dimensions.get('window').width;
-const iconsPerRow = Math.floor(
-  (screenWidth - SPACING * 2) / (ICON_SIZE + SPACING)
+const SCREEN_WIDTH = Dimensions.get('window').width;
+const ICONS_PER_ROW = Math.floor(
+  (SCREEN_WIDTH - SPACING * 2) / (ICON_SIZE + SPACING)
 );
-const ITEM_HEIGHT = (screenWidth - SPACING * 2) / iconsPerRow;
+const ITEM_HEIGHT = (SCREEN_WIDTH - SPACING * 2) / ICONS_PER_ROW;
+
+// Pre-calculate icon names to avoid doing it on every render
+const ALL_ICON_NAMES = Object.keys(icons);
 
 const IconRow = ({
   rowIcons,
   style,
+  onIconPress,
 }: {
   rowIcons: string[];
   style?: StyleProp<ViewStyle>;
-}) => (
-  <View style={[styles.row, style]}>
-    {rowIcons.map((name) => (
-      <View key={name} style={styles.iconContainer}>
-        <Icon name={name as any} size={ICON_SIZE} />
-      </View>
-    ))}
-  </View>
-);
+  onIconPress: (iconName: string) => void;
+}) => {
+  const { colors } = useTheme();
+
+  return (
+    <View style={[styles.row, style]}>
+      {rowIcons.map((name) => (
+        <Pressable
+          key={name}
+          style={[
+            styles.iconContainer,
+            { backgroundColor: colors.altBackground },
+          ]}
+          onPress={() => onIconPress(name)}
+        >
+          <Icon name={name as any} size={ICON_SIZE} />
+        </Pressable>
+      ))}
+    </View>
+  );
+};
 
 export default function IconsScreen() {
   const insets = useSafeAreaInsets();
   const [searchQuery, setSearchQuery] = useState('');
 
   const iconRows = useMemo(() => {
-    const iconNames = Object.keys(icons).filter((name) =>
-      name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    let iconNames = ALL_ICON_NAMES;
+
+    // Filter only if there's a search query
+    if (searchQuery.trim()) {
+      iconNames = ALL_ICON_NAMES.filter((name) =>
+        name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
     const rows = [];
-    for (let i = 0; i < iconNames.length; i += iconsPerRow) {
-      rows.push(iconNames.slice(i, i + iconsPerRow));
+    for (let i = 0; i < iconNames.length; i += ICONS_PER_ROW) {
+      rows.push(iconNames.slice(i, i + ICONS_PER_ROW));
     }
     return rows;
   }, [searchQuery]);
 
+  const handleIconPress = useCallback((iconName: string) => {
+    router.push(`/ui-kit/icon-detail?iconName=${iconName}`);
+  }, []);
+
+  const renderItem = useCallback(
+    ({ item, index }: { item: string[]; index: number }) => (
+      <IconRow
+        {...(index === iconRows.length - 1 && {
+          style: { marginBottom: insets.bottom + 24 },
+        })}
+        rowIcons={item}
+        onIconPress={handleIconPress}
+      />
+    ),
+    [iconRows.length, insets.bottom, handleIconPress]
+  );
+
+  const keyExtractor = useCallback(
+    (_: string[], index: number) => `row-${index}`,
+    []
+  );
+
   return (
-    <>
-      <Input
-        style={styles.searchInput}
-        placeholder="Search icons..."
-        value={searchQuery}
-        onChangeText={setSearchQuery}
-        iconName="Search"
-        clearable
-      />
-      <FlashList<string[]>
+    <View style={styles.root}>
+      <Header
+        title="Icons"
+        leftButton={{ iconName: 'ChevronLeft', onPress: () => router.back() }}
+      >
+        <Input
+          placeholder="Search icons..."
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          iconName="Search"
+          clearable
+        />
+      </Header>
+      <FlatList
         data={iconRows}
-        renderItem={({ item, index }) => (
-          <IconRow
-            rowIcons={item}
-            style={
-              index === iconRows.length - 1
-                ? { marginBottom: insets.bottom + 24 }
-                : undefined
-            }
-          />
-        )}
-        estimatedItemSize={ITEM_HEIGHT}
-        overrideItemLayout={(layout) => {
-          layout.size = ITEM_HEIGHT;
-        }}
-        keyExtractor={(_, index) => `row-${index}`}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
         contentContainerStyle={styles.container}
-        maintainVisibleContentPosition={{
-          minIndexForVisible: 0,
-          autoscrollToTopThreshold: 10,
-        }}
+        removeClippedSubviews={true}
+        maxToRenderPerBatch={5}
+        windowSize={3}
+        initialNumToRender={8}
+        updateCellsBatchingPeriod={100}
+        getItemLayout={(_, index) => ({
+          length: ITEM_HEIGHT,
+          offset: ITEM_HEIGHT * index,
+          index,
+        })}
+        progressViewOffset={100}
       />
-    </>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    margin: SPACING,
-    paddingHorizontal: SPACING,
-    paddingVertical: SPACING / 2,
-    backgroundColor: 'transparent',
-  },
-  searchIcon: {
-    marginEnd: SPACING / 2,
-  },
-  searchInput: {
-    margin: SPACING,
-  },
-  container: {
-    paddingHorizontal: SPACING,
-    rowGap: SPACING / 2,
-  },
+  root: { flex: 1 },
+  container: { paddingHorizontal: SPACING, paddingTop: SPACING / 2 },
   row: {
     flexDirection: 'row',
-    marginBottom: SPACING / 2,
+    marginBottom: SPACING,
+    height: ITEM_HEIGHT,
   },
   iconContainer: {
-    width: (screenWidth - SPACING * 2) / iconsPerRow,
-    height: (screenWidth - SPACING * 2) / iconsPerRow,
+    width: (SCREEN_WIDTH - SPACING * 2) / ICONS_PER_ROW,
+    height: ITEM_HEIGHT,
     justifyContent: 'center',
     alignItems: 'center',
   },
