@@ -74,41 +74,6 @@ import { CopyToClipboard } from '@space-uy/rn-spacedev-uikit';
 
 ## Advanced examples
 
-### API key display
-
-```tsx
-const apiKey = 'sk_test_4eC39HqLyjWDarjtT1zdp7dc';
-
-<Card>
-  <Text variant="h4">API Key</Text>
-  <Text variant="ps" style={{ opacity: 0.7, marginTop: 4 }}>
-    Use this key to authenticate your requests
-  </Text>
-
-  <CopyToClipboard text={apiKey} onCopy={() => console.log('API key copied')}>
-    <View
-      style={{
-        backgroundColor: colors.altBackground,
-        padding: 12,
-        borderRadius: 8,
-        marginTop: 12,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      }}
-    >
-      <Text variant="pm" style={{ fontFamily: 'monospace', flex: 1 }}>
-        {apiKey}
-      </Text>
-    </View>
-  </CopyToClipboard>
-
-  <Text variant="caption" style={{ marginTop: 8, opacity: 0.6 }}>
-    Keep your API key secure and don't share it publicly
-  </Text>
-</Card>;
-```
-
 ### Contact information
 
 ```tsx
