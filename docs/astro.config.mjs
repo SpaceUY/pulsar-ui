@@ -4,14 +4,16 @@ import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://spaceuy.github.io',
+  base: '/rn-spacedev-uikit',
   integrations: [
     starlight({
-      title: 'My Docs',
+      title: 'SpaceDev UI Kit',
       social: [
         {
           icon: 'github',
           label: 'GitHub',
-          href: 'https://github.com/withastro/starlight',
+          href: 'https://github.com/SpaceUY/rn-spacedev-uikit',
         },
       ],
       sidebar: [
@@ -58,6 +60,13 @@ export default defineConfig({
             { label: 'Tabs', slug: 'components/tabs' },
             { label: 'Text', slug: 'components/text' },
             { label: 'TextArea', slug: 'components/textarea' },
+          ],
+        },
+        {
+          label: 'Utils',
+          items: [
+            { label: 'UI Utils', slug: 'utils/ui-utils' },
+            { label: 'String Utils', slug: 'utils/string-utils' },
           ],
         },
       ],
