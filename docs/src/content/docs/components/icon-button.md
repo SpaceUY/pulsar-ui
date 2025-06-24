@@ -1,0 +1,379 @@
+---
+title: Icon Button
+description: Interactive button component that displays only an icon with multiple variants, sizes, and states.
+---
+
+The `IconButton` component provides an interactive button that displays only an icon. It supports multiple visual variants, configurable sizes, loading states, and follows the same design patterns as the Button component.
+
+## Import
+
+```typescript
+import { IconButton } from '@space-uy/rn-spacedev-uikit';
+```
+
+## Basic usage
+
+```tsx
+<IconButton iconName="Heart" onPress={() => console.log('Pressed!')} />
+```
+
+## Properties
+
+| Property   | Type                                                    | Required | Default value | Description                                     |
+| ---------- | ------------------------------------------------------- | -------- | ------------- | ----------------------------------------------- |
+| `iconName` | `IconName`                                              | ✅       | -             | Lucide React Native icon name to display        |
+| `onPress`  | `() => void`                                            | ❌       | -             | Function executed when the button is pressed    |
+| `variant`  | `'flat' \| 'outline' \| 'transparent' \| 'destructive'` | ❌       | `'flat'`      | Visual variant of the button                    |
+| `size`     | `'small' \| 'medium' \| 'large'`                        | ❌       | `'medium'`    | Size of the button                              |
+| `loading`  | `boolean`                                               | ❌       | `false`       | Shows loading indicator and disables the button |
+| `disabled` | `boolean`                                               | ❌       | `false`       | Disables the button and reduces its opacity     |
+| `style`    | `StyleProp<ViewStyle>`                                  | ❌       | -             | Custom styles for the button container          |
+| `...rest`  | `PressableProps`                                        | ❌       | -             | Additional Pressable component props            |
+
+## Variants
+
+### Flat (Default)
+
+Solid button with primary background color.
+
+```tsx
+<IconButton iconName="Heart" variant="flat" />
+```
+
+### Outline
+
+Button with border and transparent background.
+
+```tsx
+<IconButton iconName="Share" variant="outline" />
+```
+
+### Transparent
+
+Completely transparent button, ideal for toolbars and secondary actions.
+
+```tsx
+<IconButton iconName="Settings" variant="transparent" />
+```
+
+### Destructive
+
+Button for destructive actions with warning color.
+
+```tsx
+<IconButton iconName="Trash" variant="destructive" />
+```
+
+## Sizes
+
+### Small
+
+Compact button (32px) for dense layouts.
+
+```tsx
+<IconButton iconName="Edit" size="small" />
+```
+
+### Medium (Default)
+
+Standard size (40px) for most use cases.
+
+```tsx
+<IconButton iconName="Save" size="medium" />
+```
+
+### Large
+
+Large button (48px) for primary actions.
+
+```tsx
+<IconButton iconName="Plus" size="large" />
+```
+
+## States
+
+### Loading
+
+Shows loading indicator and disables interactions.
+
+```tsx
+<IconButton iconName="Download" loading={true} />
+```
+
+### Disabled
+
+Disables the button and reduces its opacity.
+
+```tsx
+<IconButton iconName="Delete" disabled={true} />
+```
+
+## Basic examples
+
+### Toolbar buttons
+
+```tsx
+<View style={{ flexDirection: 'row', gap: 8 }}>
+  <IconButton iconName="Bold" variant="transparent" size="small" />
+  <IconButton iconName="Italic" variant="transparent" size="small" />
+  <IconButton iconName="Underline" variant="transparent" size="small" />
+  <IconButton iconName="Link" variant="transparent" size="small" />
+</View>
+```
+
+### Navigation actions
+
+```tsx
+<View
+  style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 16 }}
+>
+  <IconButton
+    iconName="ArrowLeft"
+    variant="transparent"
+    onPress={() => navigation.goBack()}
+  />
+  <IconButton iconName="Share" variant="outline" onPress={handleShare} />
+</View>
+```
+
+### Action buttons
+
+```tsx
+<View style={{ flexDirection: 'row', gap: 12 }}>
+  <IconButton iconName="Heart" variant="outline" onPress={handleLike} />
+  <IconButton
+    iconName="MessageCircle"
+    variant="outline"
+    onPress={handleComment}
+  />
+  <IconButton iconName="Share" variant="outline" onPress={handleShare} />
+  <IconButton
+    iconName="Bookmark"
+    variant="transparent"
+    onPress={handleBookmark}
+  />
+</View>
+```
+
+## Advanced examples
+
+### Floating action button
+
+```tsx
+<IconButton
+  iconName="Plus"
+  variant="flat"
+  size="large"
+  style={{
+    position: 'absolute',
+    bottom: 24,
+    right: 24,
+    borderRadius: 28,
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+  }}
+  onPress={handleAddNew}
+/>
+```
+
+### Dynamic icon button
+
+```tsx
+const [isFavorite, setIsFavorite] = useState(false);
+
+<IconButton
+  iconName={isFavorite ? 'Heart' : 'HeartOff'}
+  variant={isFavorite ? 'flat' : 'outline'}
+  onPress={() => setIsFavorite(!isFavorite)}
+  style={{
+    backgroundColor: isFavorite ? colors.destructive : undefined,
+  }}
+/>;
+```
+
+### Loading state button
+
+```tsx
+const [isProcessing, setIsProcessing] = useState(false);
+
+const handleProcess = async () => {
+  setIsProcessing(true);
+  try {
+    await processData();
+  } finally {
+    setIsProcessing(false);
+  }
+};
+
+<IconButton
+  iconName="Download"
+  loading={isProcessing}
+  onPress={handleProcess}
+  disabled={isProcessing}
+/>;
+```
+
+### Button group
+
+```tsx
+const [selectedAction, setSelectedAction] = useState<string | null>(null);
+
+const actions = [
+  { id: 'edit', icon: 'Edit', label: 'Edit' },
+  { id: 'copy', icon: 'Copy', label: 'Copy' },
+  { id: 'share', icon: 'Share', label: 'Share' },
+  { id: 'delete', icon: 'Trash', label: 'Delete' },
+];
+
+<View
+  style={{
+    flexDirection: 'row',
+    gap: 4,
+    padding: 4,
+    backgroundColor: colors.altBackground,
+    borderRadius: theme.roundness,
+  }}
+>
+  {actions.map((action) => (
+    <IconButton
+      key={action.id}
+      iconName={action.icon as IconName}
+      variant={selectedAction === action.id ? 'flat' : 'transparent'}
+      size="small"
+      onPress={() => setSelectedAction(action.id)}
+    />
+  ))}
+</View>;
+```
+
+### Custom styled icon button
+
+```tsx
+<IconButton
+  iconName="Star"
+  variant="transparent"
+  style={{
+    backgroundColor: colors.primary + '20',
+    borderWidth: 2,
+    borderColor: colors.primary,
+    borderStyle: 'dashed',
+  }}
+  onPress={handleFavorite}
+/>
+```
+
+### Media player controls
+
+```tsx
+const [isPlaying, setIsPlaying] = useState(false);
+
+<View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
+  <IconButton
+    iconName="SkipBack"
+    variant="transparent"
+    onPress={handlePrevious}
+  />
+  <IconButton
+    iconName={isPlaying ? 'Pause' : 'Play'}
+    variant="flat"
+    size="large"
+    onPress={() => setIsPlaying(!isPlaying)}
+  />
+  <IconButton
+    iconName="SkipForward"
+    variant="transparent"
+    onPress={handleNext}
+  />
+</View>;
+```
+
+### Header actions
+
+```tsx
+<View style={{ flexDirection: 'row', gap: 8 }}>
+  <IconButton
+    iconName="Search"
+    variant="transparent"
+    onPress={() => setShowSearch(true)}
+  />
+  <IconButton
+    iconName="Filter"
+    variant="transparent"
+    onPress={() => setShowFilters(true)}
+  />
+  <IconButton
+    iconName="MoreVertical"
+    variant="transparent"
+    onPress={() => setShowMenu(true)}
+  />
+</View>
+```
+
+### Social interaction buttons
+
+```tsx
+const [interactions, setInteractions] = useState({
+  liked: false,
+  bookmarked: false,
+  shared: false,
+});
+
+<View style={{ flexDirection: 'row', gap: 12, justifyContent: 'space-around' }}>
+  <IconButton
+    iconName={interactions.liked ? 'Heart' : 'HeartOff'}
+    variant="transparent"
+    onPress={() => setInteractions((prev) => ({ ...prev, liked: !prev.liked }))}
+    style={{
+      tintColor: interactions.liked ? colors.destructive : colors.foreground,
+    }}
+  />
+  <IconButton
+    iconName="MessageCircle"
+    variant="transparent"
+    onPress={handleComment}
+  />
+  <IconButton
+    iconName={interactions.shared ? 'Share' : 'ShareOff'}
+    variant="transparent"
+    onPress={() =>
+      setInteractions((prev) => ({ ...prev, shared: !prev.shared }))
+    }
+  />
+  <IconButton
+    iconName={interactions.bookmarked ? 'Bookmark' : 'BookmarkOff'}
+    variant="transparent"
+    onPress={() =>
+      setInteractions((prev) => ({ ...prev, bookmarked: !prev.bookmarked }))
+    }
+  />
+</View>;
+```
+
+## Implementation notes
+
+- Built on top of the ButtonContainer component for consistent behavior
+- Icon size automatically adjusts based on button size with appropriate padding
+- Loading state replaces the icon with a LoadingIndicator component
+- The button is perfectly square with equal width and height
+- Proper hit slop is applied for better touch accessibility
+- All animations and interactions follow the same patterns as regular buttons
+
+## Icon sizing
+
+The icon size is automatically calculated based on button size:
+
+- **Small button (32px)**: Icon size 16px with 4px padding
+- **Medium button (40px)**: Icon size 24px with 8px padding
+- **Large button (48px)**: Icon size 32px with 8px padding
+
+## Accessibility
+
+- The icon button is fully keyboard accessible
+- Screen readers properly announce the button's purpose based on the icon
+- Loading and disabled states prevent inappropriate interactions
+- Touch targets meet minimum size requirements for accessibility
+- Colors respect contrast ratios defined in the theme
+- Proper focus management and navigation support

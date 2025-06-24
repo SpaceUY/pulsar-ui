@@ -1,0 +1,312 @@
+---
+title: Header
+description: Navigation header component with customizable title, left and right action buttons.
+---
+
+The `Header` component provides a navigation header with support for left and right action buttons, customizable title, and automatic safe area handling.
+
+## Import
+
+```typescript
+import { Header } from '@space-uy/rn-spacedev-uikit';
+```
+
+## Basic usage
+
+```tsx
+<Header title="My App" />
+```
+
+## Properties
+
+| Property      | Type                   | Required | Default value | Description                                     |
+| ------------- | ---------------------- | -------- | ------------- | ----------------------------------------------- |
+| `title`       | `string`               | ✅       | -             | The title text to display in the header         |
+| `leftButton`  | `HeaderButtonProps`    | ❌       | -             | Configuration for the left button               |
+| `rightButton` | `HeaderButtonProps`    | ❌       | -             | Configuration for the right button              |
+| `style`       | `StyleProp<ViewStyle>` | ❌       | -             | Custom styles for the header container          |
+| `useInsets`   | `boolean`              | ❌       | `true`        | Whether to use safe area insets for top padding |
+| `children`    | `React.ReactNode`      | ❌       | -             | Additional content below the header             |
+
+## HeaderButtonProps
+
+Configuration object for header buttons:
+
+| Property   | Type         | Required | Default value | Description                            |
+| ---------- | ------------ | -------- | ------------- | -------------------------------------- |
+| `iconName` | `IconName`   | ✅       | -             | Lucide React Native icon name          |
+| `onPress`  | `() => void` | ❌       | -             | Function called when button is pressed |
+| `disabled` | `boolean`    | ❌       | `false`       | Whether the button is disabled         |
+
+## Basic examples
+
+### Simple header
+
+```tsx
+<Header title="Home" />
+```
+
+### Header with back button
+
+```tsx
+<Header
+  title="Profile"
+  leftButton={{
+    iconName: 'ArrowLeft',
+    onPress: () => navigation.goBack(),
+  }}
+/>
+```
+
+### Header with action button
+
+```tsx
+<Header
+  title="Settings"
+  rightButton={{
+    iconName: 'Save',
+    onPress: handleSave,
+    disabled: !hasChanges,
+  }}
+/>
+```
+
+## Advanced examples
+
+### Full navigation header
+
+```tsx
+<Header
+  title="Edit Profile"
+  leftButton={{
+    iconName: 'ArrowLeft',
+    onPress: () => navigation.goBack(),
+  }}
+  rightButton={{
+    iconName: 'Check',
+    onPress: handleSave,
+    disabled: isLoading,
+  }}
+/>
+```
+
+### Header with menu
+
+```tsx
+<Header
+  title="Dashboard"
+  leftButton={{
+    iconName: 'Menu',
+    onPress: () => navigation.openDrawer(),
+  }}
+  rightButton={{
+    iconName: 'Bell',
+    onPress: () => navigation.navigate('Notifications'),
+  }}
+/>
+```
+
+### Header with additional content
+
+```tsx
+<Header
+  title="Messages"
+  rightButton={{
+    iconName: 'Plus',
+    onPress: () => setShowCompose(true),
+  }}
+>
+  <View style={{ paddingHorizontal: 16, paddingTop: 12 }}>
+    <Tabs
+      options={[
+        { value: 'all', label: 'All' },
+        { value: 'unread', label: 'Unread' },
+        { value: 'archived', label: 'Archived' },
+      ]}
+      selected={selectedTab}
+      onChange={setSelectedTab}
+    />
+  </View>
+</Header>
+```
+
+### Header with search
+
+```tsx
+const [showSearch, setShowSearch] = useState(false);
+const [searchQuery, setSearchQuery] = useState('');
+
+<Header
+  title={showSearch ? 'Search' : 'Contacts'}
+  leftButton={
+    showSearch
+      ? {
+          iconName: 'ArrowLeft',
+          onPress: () => {
+            setShowSearch(false);
+            setSearchQuery('');
+          },
+        }
+      : undefined
+  }
+  rightButton={
+    !showSearch
+      ? {
+          iconName: 'Search',
+          onPress: () => setShowSearch(true),
+        }
+      : undefined
+  }
+>
+  {showSearch && (
+    <View style={{ paddingHorizontal: 16, paddingTop: 12 }}>
+      <Input
+        placeholder="Search contacts..."
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+        iconName="Search"
+        clearable
+      />
+    </View>
+  )}
+</Header>;
+```
+
+### Custom styled header
+
+```tsx
+<Header
+  title="Custom Header"
+  style={{
+    backgroundColor: colors.primary,
+    borderBottomWidth: 0,
+  }}
+  leftButton={{
+    iconName: 'ArrowLeft',
+    onPress: () => navigation.goBack(),
+  }}
+/>
+```
+
+### Modal header
+
+```tsx
+<Header
+  title="Add Item"
+  useInsets={false}
+  leftButton={{
+    iconName: 'X',
+    onPress: () => setModalVisible(false),
+  }}
+  rightButton={{
+    iconName: 'Check',
+    onPress: handleSubmit,
+    disabled: !isFormValid,
+  }}
+/>
+```
+
+### Header with status
+
+```tsx
+<Header
+  title="Sync Status"
+  rightButton={{
+    iconName: isOnline ? 'Wifi' : 'WifiOff',
+    onPress: () => showNetworkStatus(),
+    disabled: false,
+  }}
+>
+  {!isOnline && (
+    <View
+      style={{
+        backgroundColor: colors.destructive,
+        paddingVertical: 8,
+        alignItems: 'center',
+      }}
+    >
+      <Text variant="ps" style={{ color: colors.background }}>
+        No internet connection
+      </Text>
+    </View>
+  )}
+</Header>
+```
+
+### Tab bar header
+
+```tsx
+<Header
+  title="Explore"
+  rightButton={{
+    iconName: 'Filter',
+    onPress: () => setShowFilters(true),
+  }}
+>
+  <View style={{ paddingTop: 16 }}>
+    <Tabs
+      options={categories}
+      selected={selectedCategory}
+      onChange={setSelectedCategory}
+    />
+  </View>
+</Header>
+```
+
+## Implementation notes
+
+- The header automatically applies safe area insets for proper spacing on devices with notches
+- Button icons use IconButton component with medium size and transparent variant
+- Title text automatically truncates with ellipsis when too long
+- The header height is fixed at 52px plus safe area insets
+- Border bottom is automatically applied for visual separation
+- Children content adds bottom padding when present
+- All interactions follow theme styling conventions
+
+## Layout structure
+
+The header follows a three-column layout:
+
+- **Left slot**: 40px width for left button
+- **Center slot**: Flexible width for title (with margins)
+- **Right slot**: 40px width for right button
+
+## Styling
+
+### Theme integration
+
+The Header automatically applies theme styling:
+
+- **Background**: Uses theme background color
+- **Border**: Uses theme border color for bottom border
+- **Text**: Uses h3 typography variant for title
+- **Buttons**: Use transparent variant with theme colors
+
+### Custom styling
+
+```tsx
+<Header
+  title="Custom Styled"
+  style={{
+    backgroundColor: colors.primary,
+    borderBottomColor: colors.primary,
+    borderBottomWidth: 2,
+  }}
+/>
+```
+
+## Safe area handling
+
+The component automatically handles safe area insets:
+
+- **Top padding**: Automatically added based on device safe area
+- **Disable insets**: Use `useInsets={false}` for modals or custom layouts
+- **Manual handling**: When disabled, you manage spacing manually
+
+## Accessibility
+
+- The header maintains proper heading hierarchy for screen readers
+- All buttons are fully keyboard accessible
+- Title text is properly announced as a heading
+- Disabled buttons are correctly communicated to assistive technologies
+- Touch targets meet minimum size requirements for accessibility

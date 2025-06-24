@@ -1,0 +1,213 @@
+---
+title: Card
+description: Versatile container component for grouping and organizing related content with different visual variants.
+---
+
+The `Card` component is a flexible container that provides a clean, organized way to display related content. It offers multiple variants with different visual styles and supports nested content structure.
+
+## Import
+
+```typescript
+import { Card } from '@space-uy/rn-spacedev-uikit';
+```
+
+## Basic usage
+
+```tsx
+<Card>
+  <Text>This is content inside a card</Text>
+</Card>
+```
+
+## Properties
+
+| Property   | Type                                     | Required | Default value | Description                            |
+| ---------- | ---------------------------------------- | -------- | ------------- | -------------------------------------- |
+| `children` | `React.ReactNode`                        | ✅       | -             | The content to display inside the card |
+| `variant`  | `'default' \| 'alternative' \| 'tinted'` | ❌       | `'default'`   | Visual variant of the card             |
+| `style`    | `StyleProp<ViewStyle>`                   | ❌       | -             | Custom styles for the card container   |
+
+## Variants
+
+### Default
+
+Standard card with background color, border, and subtle shadow.
+
+```tsx
+<Card variant="default">
+  <Text>Default card with border and shadow</Text>
+</Card>
+```
+
+### Alternative
+
+Card with semi-transparent border color background and no border or shadow.
+
+```tsx
+<Card variant="alternative">
+  <Text>Alternative card with different background</Text>
+</Card>
+```
+
+### Tinted
+
+Card with a subtle primary color tint overlay for enhanced visual distinction.
+
+```tsx
+<Card variant="tinted">
+  <Text>Tinted card with primary color overlay</Text>
+</Card>
+```
+
+## Basic examples
+
+### Simple content card
+
+```tsx
+<Card>
+  <Text variant="h4">Card Title</Text>
+  <Text variant="pm">This is a simple card containing some text content.</Text>
+</Card>
+```
+
+### Card with form elements
+
+```tsx
+<Card>
+  <Text variant="h4">Login Form</Text>
+  <Input
+    label="Email"
+    placeholder="Enter your email"
+    value={email}
+    onChangeText={setEmail}
+  />
+  <Input
+    label="Password"
+    variant="password"
+    placeholder="Enter your password"
+    value={password}
+    onChangeText={setPassword}
+  />
+  <Button text="Login" onPress={handleLogin} />
+</Card>
+```
+
+## Advanced examples
+
+### Nested cards
+
+Cards can be nested to create complex layouts and visual hierarchies.
+
+```tsx
+<Card variant="tinted">
+  <Text variant="h4">Main Container</Text>
+  <Text variant="pm">This card contains other cards inside it.</Text>
+
+  <View style={{ gap: 12, marginTop: 16 }}>
+    <Card variant="default">
+      <Text variant="pm">Nested card 1</Text>
+    </Card>
+    <Card variant="default">
+      <Text variant="pm">Nested card 2</Text>
+    </Card>
+  </View>
+</Card>
+```
+
+### Information display card
+
+```tsx
+<Card>
+  <Text variant="h5">Did you know?</Text>
+  <Text variant="pm" style={{ marginVertical: 12 }}>
+    Cards are perfect for organizing related content and creating clear visual
+    boundaries in your interface.
+  </Text>
+  <Button
+    text="Learn More"
+    variant="outline"
+    onPress={() => navigation.navigate('Learn')}
+  />
+</Card>
+```
+
+### Custom styled card
+
+```tsx
+<Card
+  variant="tinted"
+  style={{
+    margin: 16,
+    elevation: 4, // Android shadow
+    shadowColor: '#000', // iOS shadow
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+  }}
+>
+  <Text variant="h4">Custom Styled Card</Text>
+  <Text variant="pm">
+    This card has custom shadow and margin styling applied.
+  </Text>
+</Card>
+```
+
+### Card grid layout
+
+```tsx
+<View style={{ flexDirection: 'row', gap: 12 }}>
+  <Card style={{ flex: 1 }}>
+    <Text variant="h6">Card 1</Text>
+    <Text variant="ps">Short content</Text>
+  </Card>
+  <Card style={{ flex: 1 }}>
+    <Text variant="h6">Card 2</Text>
+    <Text variant="ps">More content</Text>
+  </Card>
+</View>
+```
+
+## Implementation notes
+
+- The card automatically applies theme-based styling including border radius and colors
+- The `default` variant includes a subtle box shadow for depth (web only)
+- The `tinted` variant adds a 10% opacity overlay of the primary color
+- The `alternative` variant uses a semi-transparent border color as background
+- All variants respect the theme's roundness setting
+- Content overflow is hidden to maintain clean borders
+- Default padding of 16px is applied to all cards
+
+## Styling
+
+### Theme integration
+
+The Card component automatically inherits styling from your theme:
+
+- **Background**: Uses theme background colors
+- **Border**: Uses theme border colors and roundness
+- **Shadow**: Applies subtle shadows on supported platforms
+- **Tint**: Uses primary theme color for tinted variant
+
+### Custom styling
+
+You can override default styles using the `style` prop:
+
+```tsx
+<Card
+  style={{
+    backgroundColor: 'custom-color',
+    borderRadius: 8,
+    padding: 24,
+    margin: 16,
+  }}
+>
+  <Text>Custom styled card</Text>
+</Card>
+```
+
+## Accessibility
+
+- Cards maintain proper contrast ratios defined in the theme
+- Content inside cards remains fully accessible to screen readers
+- Cards provide visual boundaries that help organize content hierarchically
+- All interactive elements within cards maintain their accessibility properties

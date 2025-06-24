@@ -1,0 +1,180 @@
+---
+title: Accordion
+description: Collapsible content sections to organize information efficiently with smooth animations.
+---
+
+The `Accordion` component provides collapsible content sections that help organize information efficiently. It supports single or multiple expanded items, smooth animations, and customizable styling.
+
+## Import
+
+```typescript
+import { Accordion, AccordionItem } from '@space-uy/rn-spacedev-uikit';
+```
+
+## Basic usage
+
+```tsx
+<Accordion>
+  <AccordionItem title="Section 1" value="section-1">
+    <Text>Content for section 1</Text>
+  </AccordionItem>
+  <AccordionItem title="Section 2" value="section-2">
+    <Text>Content for section 2</Text>
+  </AccordionItem>
+</Accordion>
+```
+
+## Accordion Properties
+
+| Property        | Type                                  | Required | Default value | Description                                      |
+| --------------- | ------------------------------------- | -------- | ------------- | ------------------------------------------------ |
+| `type`          | `'single' \| 'multiple'`              | ❌       | `'single'`    | Controls how many items can be expanded          |
+| `collapsible`   | `boolean`                             | ❌       | `false`       | Allows collapsing the active item in single mode |
+| `defaultValue`  | `string \| string[]`                  | ❌       | -             | Default expanded item(s)                         |
+| `value`         | `string \| string[]`                  | ❌       | -             | Controlled expanded item(s)                      |
+| `onValueChange` | `(value: string \| string[]) => void` | ❌       | -             | Callback when expanded items change              |
+| `children`      | `React.ReactNode`                     | ✅       | -             | AccordionItem components                         |
+| `style`         | `StyleProp<ViewStyle>`                | ❌       | -             | Custom styles for the accordion container        |
+
+## AccordionItem Properties
+
+| Property     | Type                   | Required | Default value  | Description                                        |
+| ------------ | ---------------------- | -------- | -------------- | -------------------------------------------------- |
+| `title`      | `string`               | ✅       | -              | The title text displayed in the header             |
+| `children`   | `React.ReactNode`      | ✅       | -              | The content to show when expanded                  |
+| `value`      | `string`               | ❌       | auto-generated | Unique identifier for the item                     |
+| `isExpanded` | `boolean`              | ❌       | `false`        | Controls expansion state (controlled by Accordion) |
+| `onToggle`   | `() => void`           | ❌       | -              | Toggle callback (controlled by Accordion)          |
+| `style`      | `StyleProp<ViewStyle>` | ❌       | -              | Custom styles for the item container               |
+
+## Types
+
+### Single Mode (Default)
+
+Only one item can be expanded at a time.
+
+```tsx
+<Accordion type="single">
+  <AccordionItem title="What is React Native?" value="react-native">
+    <Text>React Native is a framework for building mobile applications...</Text>
+  </AccordionItem>
+  <AccordionItem title="How does it work?" value="how-it-works">
+    <Text>React Native combines the best parts of native development...</Text>
+  </AccordionItem>
+</Accordion>
+```
+
+### Multiple Mode
+
+Multiple items can be expanded simultaneously.
+
+```tsx
+<Accordion type="multiple">
+  <AccordionItem title="Question 1" value="q1">
+    <Text>Answer to question 1</Text>
+  </AccordionItem>
+  <AccordionItem title="Question 2" value="q2">
+    <Text>Answer to question 2</Text>
+  </AccordionItem>
+</Accordion>
+```
+
+### Collapsible Mode
+
+Allows collapsing the active item in single mode.
+
+```tsx
+<Accordion type="single" collapsible={true}>
+  <AccordionItem title="Collapsible Item" value="item-1">
+    <Text>This item can be collapsed even when it's the only one expanded</Text>
+  </AccordionItem>
+</Accordion>
+```
+
+## Advanced examples
+
+### Controlled Accordion
+
+```tsx
+import { useState } from 'react';
+import { Accordion, AccordionItem } from '@space-uy/rn-spacedev-uikit';
+
+function ControlledAccordion() {
+  const [expandedItems, setExpandedItems] = useState<string[]>(['faq-1']);
+
+  return (
+    <Accordion
+      type="multiple"
+      value={expandedItems}
+      onValueChange={setExpandedItems}
+    >
+      <AccordionItem title="FAQ 1" value="faq-1">
+        <Text>Answer to FAQ 1</Text>
+      </AccordionItem>
+      <AccordionItem title="FAQ 2" value="faq-2">
+        <Text>Answer to FAQ 2</Text>
+      </AccordionItem>
+    </Accordion>
+  );
+}
+```
+
+### FAQ Section
+
+```tsx
+<Accordion type="multiple">
+  <AccordionItem title="How do I get started?" value="get-started">
+    <Text>
+      You can get started by installing the React Native CLI or using Expo CLI.
+      Both provide excellent development experiences.
+    </Text>
+  </AccordionItem>
+
+  <AccordionItem title="Is it free to use?" value="free">
+    <Text>Yes, React Native is completely free and open source.</Text>
+  </AccordionItem>
+
+  <AccordionItem title="Can I use native code?" value="native-code">
+    <Text>
+      Absolutely! React Native allows you to write native modules when you need
+      platform-specific functionality.
+    </Text>
+  </AccordionItem>
+</Accordion>
+```
+
+### With Default Expanded Items
+
+```tsx
+<Accordion type="single" defaultValue="important">
+  <AccordionItem title="Important Information" value="important">
+    <Text>This section is expanded by default</Text>
+  </AccordionItem>
+  <AccordionItem title="Additional Details" value="details">
+    <Text>This section starts collapsed</Text>
+  </AccordionItem>
+</Accordion>
+```
+
+## Implementation notes
+
+- Smooth animations are provided using React Native Reanimated
+- The chevron icon rotates 180 degrees when expanding/collapsing
+- Content height is automatically calculated for smooth animations
+- On web platforms, hover effects are supported
+- Each AccordionItem automatically gets a unique value if not provided
+- The component respects the theme colors and roundness settings
+
+## Accessibility
+
+- Accordion items are fully keyboard accessible
+- Proper focus management between items
+- Screen readers can navigate and understand the accordion structure
+- Colors respect contrast ratios defined in the theme
+
+## Animation Details
+
+- **Expand/Collapse**: 250ms duration with smooth height transitions
+- **Chevron Rotation**: 200ms duration with 180-degree rotation
+- **Content Opacity**: 200ms fade-in/out effect
+- **Hover Effects**: 200ms background color transitions (web only)

@@ -1,0 +1,98 @@
+---
+title: Installation
+description: Learn how to install and set up the SpaceDev UI Kit in your React Native project.
+---
+
+Install the UI Kit package using your preferred package manager:
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+<Tabs>
+<TabItem label="npm">
+
+```bash
+npm install @space-uy/rn-spacedev-uikit
+```
+
+</TabItem>
+<TabItem label="yarn">
+
+```bash
+yarn add @space-uy/rn-spacedev-uikit
+```
+
+</TabItem>
+</Tabs>
+
+## Peer Dependencies
+
+The SpaceDev UI Kit requires several peer dependencies to work properly. Install them using your package manager:
+
+<Tabs>
+<TabItem label="npm">
+
+```bash
+npm install react-native-svg react-native-gesture-handler react-native-reanimated lucide-react-native zustand @react-navigation/elements
+```
+
+</TabItem>
+<TabItem label="yarn">
+
+```bash
+yarn add react-native-svg react-native-gesture-handler react-native-reanimated lucide-react-native zustand @react-navigation/elements
+```
+
+</TabItem>
+</Tabs>
+
+## Basic Usage
+
+Once installed, you can start using the UI Kit components in your React Native application:
+
+```tsx
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Button, Text, Card } from '@space-uy/rn-spacedev-uikit';
+
+export default function App() {
+  const handlePress = () => {
+    console.log('Button pressed!');
+  };
+
+  return (
+    <View style={styles.container}>
+      <Card style={styles.card}>
+        <Text variant="h2" style={styles.title}>
+          Welcome to SpaceDev UI Kit
+        </Text>
+        <Text variant="pm" style={styles.description}>
+          This is a basic example of how to use our components.
+        </Text>
+        <Button
+          text="Get Started"
+          onPress={handlePress}
+          iconName="ArrowRight"
+        />
+      </Card>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    justifyContent: 'center',
+  },
+  card: {
+    padding: 20,
+  },
+  title: {
+    marginBottom: 12,
+  },
+  description: {
+    marginBottom: 20,
+    opacity: 0.7,
+  },
+});
+```

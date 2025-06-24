@@ -1,0 +1,504 @@
+---
+title: Tabs
+description: Interactive tab navigation component with smooth animations for switching between different views or sections.
+---
+
+The `Tabs` component provides an interactive tab navigation system with smooth animations. It features a sliding indicator and supports multiple tab options for organizing content into different sections.
+
+## Import
+
+```typescript
+import { Tabs, type Tab } from '@space-uy/rn-spacedev-uikit';
+```
+
+## Basic usage
+
+```tsx
+const [selectedTab, setSelectedTab] = useState<Tab>({
+  value: 'tab1',
+  label: 'Tab 1',
+});
+
+<Tabs
+  options={[
+    { value: 'tab1', label: 'Tab 1' },
+    { value: 'tab2', label: 'Tab 2' },
+    { value: 'tab3', label: 'Tab 3' },
+  ]}
+  selected={selectedTab}
+  onChange={setSelectedTab}
+/>;
+```
+
+## Properties
+
+| Property   | Type                   | Required | Default value | Description                          |
+| ---------- | ---------------------- | -------- | ------------- | ------------------------------------ |
+| `options`  | `Tab[]`                | ✅       | -             | Array of tab options to display      |
+| `selected` | `Tab`                  | ✅       | -             | Currently selected tab               |
+| `onChange` | `(tab: Tab) => void`   | ✅       | -             | Callback when tab selection changes  |
+| `style`    | `StyleProp<ViewStyle>` | ❌       | -             | Custom styles for the tabs container |
+
+## Tab Type
+
+The `Tab` object has the following structure:
+
+| Property | Type     | Required | Description                   |
+| -------- | -------- | -------- | ----------------------------- |
+| `value`  | `string` | ✅       | Unique identifier for the tab |
+| `label`  | `string` | ✅       | Display text for the tab      |
+
+## Basic examples
+
+### Simple tabs
+
+```tsx
+const [activeTab, setActiveTab] = useState<Tab>({
+  value: 'home',
+  label: 'Home',
+});
+
+const tabs = [
+  { value: 'home', label: 'Home' },
+  { value: 'profile', label: 'Profile' },
+  { value: 'settings', label: 'Settings' },
+];
+
+<Tabs options={tabs} selected={activeTab} onChange={setActiveTab} />;
+```
+
+### Content switching
+
+```tsx
+const [currentTab, setCurrentTab] = useState<Tab>({
+  value: 'overview',
+  label: 'Overview',
+});
+
+const tabs = [
+  { value: 'overview', label: 'Overview' },
+  { value: 'details', label: 'Details' },
+  { value: 'reviews', label: 'Reviews' },
+];
+
+const renderContent = () => {
+  switch (currentTab.value) {
+    case 'overview':
+      return <Text variant="pm">Overview content goes here...</Text>;
+    case 'details':
+      return <Text variant="pm">Detailed information...</Text>;
+    case 'reviews':
+      return <Text variant="pm">User reviews and ratings...</Text>;
+    default:
+      return null;
+  }
+};
+
+<View>
+  <Tabs options={tabs} selected={currentTab} onChange={setCurrentTab} />
+  <View style={{ padding: 16 }}>{renderContent()}</View>
+</View>;
+```
+
+## Advanced examples
+
+### Dashboard tabs
+
+```tsx
+const [dashboardTab, setDashboardTab] = useState<Tab>({
+  value: 'analytics',
+  label: 'Analytics',
+});
+
+const dashboardTabs = [
+  { value: 'analytics', label: 'Analytics' },
+  { value: 'users', label: 'Users' },
+  { value: 'revenue', label: 'Revenue' },
+  { value: 'reports', label: 'Reports' },
+];
+
+<Card>
+  <View style={{ marginBottom: 16 }}>
+    <Text variant="h3">Dashboard</Text>
+    <Text variant="ps" style={{ opacity: 0.7, marginTop: 4 }}>
+      Monitor your app's performance
+    </Text>
+  </View>
+
+  <Tabs
+    options={dashboardTabs}
+    selected={dashboardTab}
+    onChange={setDashboardTab}
+  />
+
+  <View style={{ marginTop: 16 }}>
+    {dashboardTab.value === 'analytics' && (
+      <View>
+        <Text variant="h4">Analytics Overview</Text>
+        <Text variant="pm" style={{ marginTop: 8 }}>
+          Your app has been viewed 1,234 times this month.
+        </Text>
+      </View>
+    )}
+    {dashboardTab.value === 'users' && (
+      <View>
+        <Text variant="h4">User Management</Text>
+        <Text variant="pm" style={{ marginTop: 8 }}>
+          Total active users: 456
+        </Text>
+      </View>
+    )}
+    {dashboardTab.value === 'revenue' && (
+      <View>
+        <Text variant="h4">Revenue Tracking</Text>
+        <Text variant="pm" style={{ marginTop: 8 }}>
+          Monthly revenue: $12,345
+        </Text>
+      </View>
+    )}
+    {dashboardTab.value === 'reports' && (
+      <View>
+        <Text variant="h4">Generated Reports</Text>
+        <Text variant="pm" style={{ marginTop: 8 }}>
+          Download your latest reports here.
+        </Text>
+      </View>
+    )}
+  </View>
+</Card>;
+```
+
+### Settings categories
+
+```tsx
+const [settingsCategory, setSettingsCategory] = useState<Tab>({
+  value: 'account',
+  label: 'Account',
+});
+
+const settingsTabs = [
+  { value: 'account', label: 'Account' },
+  { value: 'privacy', label: 'Privacy' },
+  { value: 'notifications', label: 'Notifications' },
+  { value: 'advanced', label: 'Advanced' },
+];
+
+<View>
+  <Header title="Settings" />
+
+  <View style={{ padding: 16 }}>
+    <Tabs
+      options={settingsTabs}
+      selected={settingsCategory}
+      onChange={setSettingsCategory}
+    />
+
+    <View style={{ marginTop: 20 }}>
+      {settingsCategory.value === 'account' && (
+        <View style={{ gap: 16 }}>
+          <Input label="Display Name" value="John Doe" />
+          <Input label="Email" value="john@example.com" />
+          <Button text="Update Profile" />
+        </View>
+      )}
+
+      {settingsCategory.value === 'privacy' && (
+        <View style={{ gap: 16 }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <Text variant="pm">Public Profile</Text>
+            <Switch value={false} onValueChange={() => {}} />
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <Text variant="pm">Show Online Status</Text>
+            <Switch value={true} onValueChange={() => {}} />
+          </View>
+        </View>
+      )}
+
+      {settingsCategory.value === 'notifications' && (
+        <View style={{ gap: 16 }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <Text variant="pm">Push Notifications</Text>
+            <Switch value={true} onValueChange={() => {}} />
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <Text variant="pm">Email Notifications</Text>
+            <Switch value={false} onValueChange={() => {}} />
+          </View>
+        </View>
+      )}
+    </View>
+  </View>
+</View>;
+```
+
+### Product catalog
+
+```tsx
+const [catalogTab, setCatalogTab] = useState<Tab>({
+  value: 'all',
+  label: 'All',
+});
+
+const catalogTabs = [
+  { value: 'all', label: 'All' },
+  { value: 'featured', label: 'Featured' },
+  { value: 'new', label: 'New' },
+  { value: 'sale', label: 'On Sale' },
+];
+
+const products = {
+  all: ['Product 1', 'Product 2', 'Product 3', 'Product 4'],
+  featured: ['Product 1', 'Product 3'],
+  new: ['Product 4'],
+  sale: ['Product 2'],
+};
+
+<View>
+  <Header title="Catalog" />
+
+  <View style={{ padding: 16 }}>
+    <Tabs
+      options={catalogTabs}
+      selected={catalogTab}
+      onChange={setCatalogTab}
+    />
+
+    <View style={{ marginTop: 16, gap: 8 }}>
+      {products[catalogTab.value as keyof typeof products].map(
+        (product, index) => (
+          <Card key={index}>
+            <Text variant="pm">{product}</Text>
+          </Card>
+        )
+      )}
+    </View>
+  </View>
+</View>;
+```
+
+### Message categories
+
+```tsx
+const [messageTab, setMessageTab] = useState<Tab>({
+  value: 'inbox',
+  label: 'Inbox',
+});
+
+const messageTabs = [
+  { value: 'inbox', label: 'Inbox' },
+  { value: 'sent', label: 'Sent' },
+  { value: 'drafts', label: 'Drafts' },
+  { value: 'trash', label: 'Trash' },
+];
+
+const messageCount = {
+  inbox: 12,
+  sent: 0,
+  drafts: 3,
+  trash: 5,
+};
+
+const TabWithBadge = ({
+  tab,
+  isSelected,
+  count,
+}: {
+  tab: Tab;
+  isSelected: boolean;
+  count: number;
+}) => (
+  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+    <Text
+      variant="h4"
+      style={{
+        color: isSelected ? colors.foreground : colors.foreground + '60',
+      }}
+    >
+      {tab.label}
+    </Text>
+    {count > 0 && (
+      <View
+        style={{
+          backgroundColor: colors.primary,
+          borderRadius: 10,
+          minWidth: 20,
+          height: 20,
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingHorizontal: 6,
+        }}
+      >
+        <Text variant="caption" style={{ color: colors.background }}>
+          {count > 99 ? '99+' : count}
+        </Text>
+      </View>
+    )}
+  </View>
+);
+
+<View>
+  <Header title="Messages" />
+
+  <View style={{ padding: 16 }}>
+    <Tabs
+      options={messageTabs}
+      selected={messageTab}
+      onChange={setMessageTab}
+    />
+
+    <View style={{ marginTop: 16 }}>
+      <Text variant="pm">
+        {messageTab.label}:{' '}
+        {messageCount[messageTab.value as keyof typeof messageCount]} messages
+      </Text>
+    </View>
+  </View>
+</View>;
+```
+
+### Custom styled tabs
+
+```tsx
+<Tabs
+  options={[
+    { value: 'design', label: 'Design' },
+    { value: 'development', label: 'Development' },
+    { value: 'marketing', label: 'Marketing' },
+  ]}
+  selected={selectedTab}
+  onChange={setSelectedTab}
+  style={{
+    backgroundColor: colors.primary + '10',
+    borderRadius: 12,
+    padding: 4,
+  }}
+/>
+```
+
+### Tab navigation with icons
+
+```tsx
+// Note: This would require extending the Tab type to include icons
+const enhancedTabs = [
+  { value: 'home', label: 'Home', icon: 'Home' },
+  { value: 'search', label: 'Search', icon: 'Search' },
+  { value: 'profile', label: 'Profile', icon: 'User' },
+];
+
+// Custom tab renderer with icons
+<View
+  style={{
+    flexDirection: 'row',
+    backgroundColor: colors.altBackground,
+    borderRadius: 8,
+  }}
+>
+  {enhancedTabs.map((tab) => (
+    <Pressable
+      key={tab.value}
+      style={{
+        flex: 1,
+        alignItems: 'center',
+        padding: 12,
+        backgroundColor:
+          selectedTab.value === tab.value ? colors.background : 'transparent',
+        borderRadius: 6,
+        margin: 2,
+      }}
+      onPress={() => setSelectedTab(tab)}
+    >
+      <Icon
+        name={tab.icon as IconName}
+        size={20}
+        color={
+          selectedTab.value === tab.value ? colors.primary : colors.foreground
+        }
+      />
+      <Text
+        variant="ps"
+        style={{
+          marginTop: 4,
+          color:
+            selectedTab.value === tab.value
+              ? colors.primary
+              : colors.foreground,
+        }}
+      >
+        {tab.label}
+      </Text>
+    </Pressable>
+  ))}
+</View>;
+```
+
+## Implementation notes
+
+- The tabs component uses a semi-transparent background with theme border color
+- The active tab indicator is a sliding background that animates smoothly between positions
+- Animation duration is 250ms with smooth easing for the sliding indicator
+- Tab text automatically truncates with `numberOfLines={1}` to maintain layout
+- The component respects theme roundness settings for consistent appearance
+- Each tab has equal width distribution across the available space
+- The selected tab uses full foreground color while inactive tabs use 60% opacity
+
+## Animation details
+
+- **Sliding indicator**: 250ms duration with smooth easing
+- **Width calculation**: Automatically distributes tab width based on container size
+- **Position interpolation**: Smooth translation based on selected tab index
+- **Border radius**: Dynamic border radius that matches theme roundness minus 2px
+
+## Styling
+
+### Theme integration
+
+The Tabs component automatically applies theme styling:
+
+- **Background**: Semi-transparent border color (50% opacity)
+- **Active tab**: Theme background color with border
+- **Text color**: Theme foreground color with opacity variations
+- **Border radius**: Uses theme roundness setting
+
+### Layout
+
+- **Height**: Fixed at 40px for consistent appearance
+- **Padding**: 4px container padding with individual tab padding
+- **Tab height**: 32px internal height for touch targets
+- **Distribution**: Equal width tabs using flexbox
+
+## Accessibility
+
+- Tabs are fully keyboard accessible with proper focus management
+- Screen readers properly announce tab selection and content changes
+- Each tab maintains proper touch targets for mobile accessibility
+- Color contrast meets accessibility guidelines when using theme colors
+- Tab navigation follows expected interaction patterns
+
+```
+</rewritten_file>
+```

@@ -1,0 +1,234 @@
+---
+title: Button Container
+description: Base container component for building custom button variants with animations and theming support.
+---
+
+The `ButtonContainer` component serves as the foundation for building button components. It provides consistent styling, animations, and theme integration for all button variants in the design system.
+
+## Import
+
+```typescript
+import {
+  ButtonContainer,
+  type ButtonColors,
+} from '@space-uy/rn-spacedev-uikit';
+```
+
+## Basic usage
+
+This component is typically used internally by other button components, but can be used directly for custom button implementations.
+
+```tsx
+<ButtonContainer
+  variant="flat"
+  size="large"
+  renderContent={(colors) => (
+    <Text style={{ color: colors.textColor }}>Custom Button</Text>
+  )}
+  onPress={() => console.log('Pressed!')}
+/>
+```
+
+## Properties
+
+| Property                | Type                                                    | Required | Default value | Description                                   |
+| ----------------------- | ------------------------------------------------------- | -------- | ------------- | --------------------------------------------- |
+| `variant`               | `'flat' \| 'outline' \| 'transparent' \| 'destructive'` | ❌       | `'flat'`      | Visual variant of the button                  |
+| `size`                  | `'small' \| 'medium' \| 'large'`                        | ❌       | `'large'`     | Size of the button                            |
+| `loading`               | `boolean`                                               | ❌       | `false`       | Shows loading state and disables interactions |
+| `renderContent`         | `(colors: ButtonColors) => React.ReactNode`             | ✅       | -             | Function that renders the button content      |
+| `contentContainerStyle` | `StyleProp<AnimatedStyle<StyleProp<ViewStyle>>>`        | ❌       | -             | Custom styles for the content container       |
+| `disabled`              | `boolean`                                               | ❌       | `false`       | Disables the button and reduces its opacity   |
+| `...rest`               | `PressableProps`                                        | ❌       | -             | Additional Pressable component props          |
+
+## ButtonColors Type
+
+The `renderContent` function receives a `ButtonColors` object with the following properties:
+
+| Property                 | Type     | Description                                |
+| ------------------------ | -------- | ------------------------------------------ |
+| `backgroundColor`        | `string` | Background color for the current variant   |
+| `borderColor`            | `string` | Border color (only for outline variant)    |
+| `textColor`              | `string` | Text/content color for the current variant |
+| `pressedBackgroundColor` | `string` | Background color when button is pressed    |
+
+## Variants
+
+### Flat (Default)
+
+Solid button with primary background color.
+
+```tsx
+<ButtonContainer
+  variant="flat"
+  renderContent={(colors) => (
+    <Text style={{ color: colors.textColor }}>Flat Button</Text>
+  )}
+/>
+```
+
+### Outline
+
+Button with border and transparent background.
+
+```tsx
+<ButtonContainer
+  variant="outline"
+  renderContent={(colors) => (
+    <Text style={{ color: colors.textColor }}>Outline Button</Text>
+  )}
+/>
+```
+
+### Transparent
+
+Completely transparent button for secondary actions.
+
+```tsx
+<ButtonContainer
+  variant="transparent"
+  renderContent={(colors) => (
+    <Text style={{ color: colors.textColor }}>Transparent Button</Text>
+  )}
+/>
+```
+
+### Destructive
+
+Button for destructive actions with warning color.
+
+```tsx
+<ButtonContainer
+  variant="destructive"
+  renderContent={(colors) => (
+    <Text style={{ color: colors.textColor }}>Delete</Text>
+  )}
+/>
+```
+
+## Sizes
+
+The component supports three sizes that affect the button height:
+
+- **Small**: 32px height
+- **Medium**: 40px height
+- **Large**: 48px height (default)
+
+## Basic examples
+
+### Custom icon button
+
+```tsx
+<ButtonContainer
+  variant="outline"
+  size="medium"
+  renderContent={(colors) => (
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+      <Icon name="Star" size={16} color={colors.textColor} />
+      <Text style={{ color: colors.textColor }}>Favorite</Text>
+    </View>
+  )}
+  onPress={handleFavorite}
+/>
+```
+
+### Loading state button
+
+```tsx
+<ButtonContainer
+  variant="flat"
+  loading={isLoading}
+  renderContent={(colors) =>
+    isLoading ? (
+      <LoadingIndicator size={16} color={colors.textColor} />
+    ) : (
+      <Text style={{ color: colors.textColor }}>Submit</Text>
+    )
+  }
+  onPress={handleSubmit}
+/>
+```
+
+## Advanced examples
+
+### Multi-state button
+
+```tsx
+const [buttonState, setButtonState] = useState<'idle' | 'loading' | 'success'>(
+  'idle'
+);
+
+<ButtonContainer
+  variant={buttonState === 'success' ? 'outline' : 'flat'}
+  loading={buttonState === 'loading'}
+  renderContent={(colors) => {
+    switch (buttonState) {
+      case 'loading':
+        return <LoadingIndicator size={16} color={colors.textColor} />;
+      case 'success':
+        return (
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+            <Icon name="Check" size={16} color={colors.textColor} />
+            <Text style={{ color: colors.textColor }}>Success!</Text>
+          </View>
+        );
+      default:
+        return <Text style={{ color: colors.textColor }}>Upload File</Text>;
+    }
+  }}
+  onPress={handleUpload}
+/>;
+```
+
+### Custom styled button
+
+```tsx
+<ButtonContainer
+  variant="transparent"
+  contentContainerStyle={{
+    borderWidth: 2,
+    borderColor: colors.primary,
+    borderStyle: 'dashed',
+  }}
+  renderContent={(colors) => (
+    <Text style={{ color: colors.primary, fontWeight: 'bold' }}>
+      Custom Style
+    </Text>
+  )}
+/>
+```
+
+## Implementation notes
+
+- The component automatically applies theme-based styling including border radius
+- Smooth animations are provided using React Native Reanimated
+- Press animations work on both mobile and web platforms
+- Hover effects are supported on web platforms
+- The component handles disabled and loading states consistently
+- Border width is automatically applied for outline variant
+- All animations have 300ms duration for consistent timing
+
+## Animation details
+
+- **Press animation**: 300ms duration with smooth color transitions
+- **Loading state**: Smooth transition to disabled state when loading
+- **Hover effects**: 300ms background color transitions (web only)
+- **Disabled state**: 300ms opacity transition to 30% when disabled
+
+## Styling
+
+### Theme integration
+
+The ButtonContainer automatically inherits styling from your theme:
+
+- **Colors**: Uses theme primary, destructive, and foreground colors
+- **Border radius**: Uses theme roundness setting
+- **Heights**: Uses standardized button height measurements
+- **Animations**: Consistent timing and easing across all interactions
+
+## Accessibility
+
+- The container is fully keyboard accessible
+- Disabled and loading states prevent inappropriate interactions
+- All animations respect user's motion preferences
+- Colors maintain proper contrast ratios defined in the theme

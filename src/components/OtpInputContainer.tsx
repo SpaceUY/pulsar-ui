@@ -59,7 +59,7 @@ export const OtpInputContainer = forwardRef<
       key: string;
       index: number | null;
     }>({ key: '', index: null });
-    const timeoutRefs = useRef<NodeJS.Timeout[]>([]);
+    const timeoutRefs = useRef<ReturnType<typeof setTimeout>[]>([]);
 
     const [maskedPins, setMaskedPins] = useState<boolean[]>(
       new Array(length).fill(false)

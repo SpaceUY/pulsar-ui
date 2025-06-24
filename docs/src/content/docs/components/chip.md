@@ -1,0 +1,230 @@
+---
+title: Chip
+description: Compact interactive element for displaying tags, filters, or categorical information with press handling.
+---
+
+The `Chip` component provides a compact, interactive element commonly used for tags, filters, or displaying categorical information. It supports different sizes and can be pressed for interactions.
+
+## Import
+
+```typescript
+import { Chip } from '@space-uy/rn-spacedev-uikit';
+```
+
+## Basic usage
+
+```tsx
+<Chip text="React Native" />
+```
+
+## Properties
+
+| Property   | Type                  | Required | Default value | Description                          |
+| ---------- | --------------------- | -------- | ------------- | ------------------------------------ |
+| `text`     | `string`              | ✅       | -             | Text content displayed in the chip   |
+| `size`     | `'normal' \| 'small'` | ❌       | `'normal'`    | Size variant of the chip             |
+| `disabled` | `boolean`             | ❌       | `false`       | Whether the chip is disabled         |
+| `onPress`  | `() => void`          | ❌       | -             | Function called when chip is pressed |
+| `...rest`  | `PressableProps`      | ❌       | -             | Additional Pressable component props |
+
+## Sizes
+
+### Normal (Default)
+
+Standard chip size for most use cases.
+
+```tsx
+<Chip text="Normal Chip" size="normal" />
+```
+
+### Small
+
+Compact chip for dense layouts or secondary information.
+
+```tsx
+<Chip text="Small Chip" size="small" />
+```
+
+## Basic examples
+
+### Simple tags
+
+```tsx
+<View style={{ flexDirection: 'row', gap: 8 }}>
+  <Chip text="React" />
+  <Chip text="TypeScript" />
+  <Chip text="Mobile" />
+</View>
+```
+
+### Interactive chips
+
+```tsx
+<Chip text="Settings" onPress={() => navigation.navigate('Settings')} />
+```
+
+### Disabled chip
+
+```tsx
+<Chip text="Unavailable" disabled={true} />
+```
+
+## Advanced examples
+
+### Filter chips
+
+```tsx
+const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+
+const toggleFilter = (filter: string) => {
+  setSelectedFilters((prev) =>
+    prev.includes(filter) ? prev.filter((f) => f !== filter) : [...prev, filter]
+  );
+};
+
+const filters = ['Popular', 'Recent', 'Trending', 'Featured'];
+
+return (
+  <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+    {filters.map((filter) => (
+      <Chip
+        key={filter}
+        text={filter}
+        onPress={() => toggleFilter(filter)}
+        style={{
+          backgroundColor: selectedFilters.includes(filter)
+            ? colors.primary
+            : undefined,
+        }}
+      />
+    ))}
+  </View>
+);
+```
+
+### Category chips with different sizes
+
+```tsx
+<View style={{ gap: 12 }}>
+  <Text variant="h5">Main Categories</Text>
+  <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+    <Chip text="Technology" size="normal" />
+    <Chip text="Design" size="normal" />
+    <Chip text="Business" size="normal" />
+  </View>
+
+  <Text variant="h5">Tags</Text>
+  <View style={{ flexDirection: 'row', gap: 6, flexWrap: 'wrap' }}>
+    <Chip text="React Native" size="small" />
+    <Chip text="UI/UX" size="small" />
+    <Chip text="Mobile" size="small" />
+    <Chip text="Development" size="small" />
+  </View>
+</View>
+```
+
+### Chip list with actions
+
+```tsx
+const [skills, setSkills] = useState([
+  'React Native',
+  'TypeScript',
+  'Node.js',
+  'GraphQL',
+]);
+
+const removeSkill = (skillToRemove: string) => {
+  setSkills((prev) => prev.filter((skill) => skill !== skillToRemove));
+};
+
+return (
+  <View>
+    <Text variant="h5">My Skills</Text>
+    <View
+      style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap', marginTop: 8 }}
+    >
+      {skills.map((skill) => (
+        <Chip
+          key={skill}
+          text={skill}
+          onPress={() => removeSkill(skill)}
+          size="small"
+        />
+      ))}
+    </View>
+  </View>
+);
+```
+
+### Status chips
+
+```tsx
+const getStatusChip = (status: 'active' | 'pending' | 'inactive') => {
+  const statusConfig = {
+    active: { text: 'Active', color: 'green' },
+    pending: { text: 'Pending', color: 'orange' },
+    inactive: { text: 'Inactive', color: 'gray' },
+  };
+
+  const config = statusConfig[status];
+
+  return (
+    <Chip
+      text={config.text}
+      size="small"
+      style={{
+        backgroundColor: `${config.color}20`,
+      }}
+    />
+  );
+};
+
+// Usage
+<View style={{ gap: 8 }}>
+  {getStatusChip('active')}
+  {getStatusChip('pending')}
+  {getStatusChip('inactive')}
+</View>;
+```
+
+## Implementation notes
+
+- Text automatically truncates with `numberOfLines={1}` to maintain chip shape
+- Background color uses semi-transparent foreground color for consistent theming
+- Height is fixed based on size variant (32px normal, 24px small)
+- Horizontal padding of 12px provides comfortable touch targets
+- Disabled state reduces opacity to 30% for clear visual feedback
+- Component extends Pressable for full press interaction support
+
+## Styling
+
+### Theme integration
+
+The Chip component automatically inherits styling from your theme:
+
+- **Background**: Semi-transparent foreground color (8% opacity)
+- **Text color**: Theme foreground color
+- **Border radius**: Uses theme roundness setting
+- **Typography**: Matches theme font family
+
+### Custom styling
+
+You can override default styles using standard Pressable props:
+
+```tsx
+<Chip
+  text="Custom Chip"
+  style={{
+    backgroundColor: colors.primary + '20',
+    borderWidth: 1,
+    borderColor: colors.primary,
+  }}
+/>
+```
+
+## Accessibility
+
+- Chips are fully keyboard accessible when pressable
+- Screen readers properly announce chip content
+- Disabled state prevents interaction appropriately
+- Press targets meet minimum size requirements for touch accessibility

@@ -1,0 +1,179 @@
+---
+title: Button
+description: Interactive button component with multiple variants, sizes, and states.
+---
+
+The `Button` component is an interactive button that provides multiple visual variants, configurable sizes, and states like loading and disabled. It supports icons and smooth animations.
+
+## Import
+
+```typescript
+import { Button } from '@space-uy/rn-spacedev-uikit';
+```
+
+## Basic usage
+
+```tsx
+<Button text="Press me" onPress={() => console.log('Button pressed!')} />
+```
+
+## Properties
+
+| Property   | Type                                                    | Required | Default value | Description                                     |
+| ---------- | ------------------------------------------------------- | -------- | ------------- | ----------------------------------------------- |
+| `text`     | `string`                                                | ✅       | -             | The text to display on the button               |
+| `onPress`  | `() => void`                                            | ❌       | -             | Function executed when the button is pressed    |
+| `variant`  | `'flat' \| 'outline' \| 'transparent' \| 'destructive'` | ❌       | `'flat'`      | Visual variant of the button                    |
+| `size`     | `'small' \| 'medium' \| 'large'`                        | ❌       | `'large'`     | Size of the button                              |
+| `loading`  | `boolean`                                               | ❌       | `false`       | Shows loading indicator and disables the button |
+| `disabled` | `boolean`                                               | ❌       | `false`       | Disables the button and reduces its opacity     |
+| `iconName` | `IconName`                                              | ❌       | -             | Lucide React Native icon name                   |
+| `style`    | `StyleProp<ViewStyle>`                                  | ❌       | -             | Custom styles for the button container          |
+
+## Variants
+
+### Flat (Default)
+
+Solid button with primary background color.
+
+```tsx
+<Button text="Flat Button" variant="flat" />
+```
+
+### Outline
+
+Button with border and transparent background.
+
+```tsx
+<Button text="Outline Button" variant="outline" />
+```
+
+### Transparent
+
+Completely transparent button, ideal for secondary actions.
+
+```tsx
+<Button text="Transparent Button" variant="transparent" />
+```
+
+### Destructive
+
+Button for destructive actions with warning color.
+
+```tsx
+<Button text="Delete" variant="destructive" />
+```
+
+## Sizes
+
+### Small
+
+Compact button for tight spaces.
+
+```tsx
+<Button text="Small" size="small" />
+```
+
+### Medium
+
+Medium size, balanced between space and visibility.
+
+```tsx
+<Button text="Medium" size="medium" />
+```
+
+### Large (Default)
+
+Large button for primary actions.
+
+```tsx
+<Button text="Large" size="large" />
+```
+
+## States
+
+### Loading
+
+Shows loading indicator and disables interactions.
+
+```tsx
+<Button text="Loading" loading={true} />
+```
+
+### Disabled
+
+Disables the button and reduces its opacity.
+
+```tsx
+<Button text="Disabled" disabled={true} />
+```
+
+## Buttons with icons
+
+You can add icons from the Lucide React Native library:
+
+```tsx
+<Button
+  text="Download"
+  iconName="Download"
+  onPress={() => startDownload()}
+/>
+
+<Button
+  text="Share"
+  iconName="Share"
+  variant="outline"
+  onPress={() => shareContent()}
+/>
+```
+
+## Advanced examples
+
+### Button with dynamic loading state
+
+```tsx
+import { useState } from 'react';
+import { Button } from '@space-uy/rn-spacedev-uikit';
+
+function MyComponent() {
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    try {
+      await submitForm();
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return <Button text="Submit" loading={loading} onPress={handleSubmit} />;
+}
+```
+
+### Combining multiple properties
+
+```tsx
+<Button
+  text="Save Changes"
+  variant="flat"
+  size="medium"
+  iconName="Save"
+  style={{ marginTop: 20 }}
+  onPress={handleSave}
+/>
+```
+
+## Implementation notes
+
+- The button includes smooth animations for hover and pressed states
+- On web platforms, pressed animations are handled with hover
+- Button text automatically uses typographic variants based on size
+- Icons always appear to the left of the text
+- During loading state, the icon is replaced by a loading indicator
+
+## Accessibility
+
+- The button is fully keyboard accessible
+- Disabled and loading states prevent inappropriate interactions
+- Colors respect contrast ratios defined in the theme

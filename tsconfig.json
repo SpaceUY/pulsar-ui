@@ -11,7 +11,7 @@
     "jsx": "react-jsx",
     "lib": ["esnext", "dom"],
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
@@ -25,5 +25,11 @@
     "strict": true,
     "target": "esnext",
     "verbatimModuleSyntax": true
-  }
+  },
+  "exclude": [
+    "docs/**/*",
+    "example/node_modules/**/*",
+    "node_modules/**/*",
+    "lib/**/*"
+  ]
 }

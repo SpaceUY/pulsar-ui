@@ -1,0 +1,533 @@
+---
+title: Select
+description: Dropdown selection component with searchable options, customizable styling, and bottom sheet interface.
+---
+
+The `Select` component provides a dropdown selection interface using a bottom sheet. It features searchable options, smooth animations, and supports both single selection and large option lists with optimized scrolling.
+
+## Import
+
+```typescript
+import { Select, type SelectOption } from '@space-uy/rn-spacedev-uikit';
+```
+
+## Basic usage
+
+```tsx
+const [selectedOption, setSelectedOption] = useState<
+  SelectOption | undefined
+>();
+
+const options = [
+  { value: 'option1', label: 'Option 1' },
+  { value: 'option2', label: 'Option 2' },
+  { value: 'option3', label: 'Option 3' },
+];
+
+<Select
+  options={options}
+  value={selectedOption}
+  onChange={setSelectedOption}
+  placeholder="Select an option"
+/>;
+```
+
+## Properties
+
+| Property      | Type                             | Required | Default value | Description                                 |
+| ------------- | -------------------------------- | -------- | ------------- | ------------------------------------------- |
+| `options`     | `SelectOption[]`                 | ✅       | -             | Array of selectable options                 |
+| `value`       | `SelectOption`                   | ❌       | -             | Currently selected option                   |
+| `onChange`    | `(option: SelectOption) => void` | ✅       | -             | Callback when selection changes             |
+| `placeholder` | `string`                         | ❌       | `'Select'`    | Placeholder text when no option is selected |
+| `title`       | `string`                         | ❌       | -             | Title displayed in the bottom sheet         |
+| `label`       | `string`                         | ❌       | -             | Label text displayed above the select       |
+| `disabled`    | `boolean`                        | ❌       | `false`       | Whether the select is disabled              |
+| `error`       | `boolean`                        | ❌       | `false`       | Whether the select is in error state        |
+| `hint`        | `string`                         | ❌       | -             | Hint text displayed below the select        |
+| `style`       | `StyleProp<ViewStyle>`           | ❌       | -             | Custom styles for the select container      |
+
+## SelectOption Type
+
+The `SelectOption` object has the following structure:
+
+| Property | Type     | Required | Description                      |
+| -------- | -------- | -------- | -------------------------------- |
+| `value`  | `string` | ✅       | Unique identifier for the option |
+| `label`  | `string` | ✅       | Display text for the option      |
+
+## Basic examples
+
+### Simple select
+
+```tsx
+const [country, setCountry] = useState<SelectOption | undefined>();
+
+const countries = [
+  { value: 'us', label: 'United States' },
+  { value: 'ca', label: 'Canada' },
+  { value: 'uk', label: 'United Kingdom' },
+  { value: 'au', label: 'Australia' },
+];
+
+<Select
+  label="Country"
+  options={countries}
+  value={country}
+  onChange={setCountry}
+  placeholder="Select a country"
+/>;
+```
+
+### Select with title
+
+```tsx
+const [priority, setPriority] = useState<SelectOption | undefined>();
+
+const priorities = [
+  { value: 'low', label: 'Low Priority' },
+  { value: 'medium', label: 'Medium Priority' },
+  { value: 'high', label: 'High Priority' },
+  { value: 'urgent', label: 'Urgent' },
+];
+
+<Select
+  label="Priority Level"
+  title="Choose Priority"
+  options={priorities}
+  value={priority}
+  onChange={setPriority}
+  placeholder="Select priority level"
+/>;
+```
+
+### Error state select
+
+```tsx
+const [category, setCategory] = useState<SelectOption | undefined>();
+const [hasError, setHasError] = useState(false);
+
+const categories = [
+  { value: 'tech', label: 'Technology' },
+  { value: 'design', label: 'Design' },
+  { value: 'marketing', label: 'Marketing' },
+];
+
+<Select
+  label="Category"
+  options={categories}
+  value={category}
+  onChange={(option) => {
+    setCategory(option);
+    setHasError(false);
+  }}
+  error={hasError}
+  hint={
+    hasError ? 'Please select a category' : 'Choose the most relevant category'
+  }
+  placeholder="Select category"
+/>;
+```
+
+## Advanced examples
+
+### User profile form
+
+```tsx
+const [profile, setProfile] = useState({
+  title: undefined as SelectOption | undefined,
+  country: undefined as SelectOption | undefined,
+  industry: undefined as SelectOption | undefined,
+  experience: undefined as SelectOption | undefined,
+});
+
+const titles = [
+  { value: 'mr', label: 'Mr.' },
+  { value: 'mrs', label: 'Mrs.' },
+  { value: 'ms', label: 'Ms.' },
+  { value: 'dr', label: 'Dr.' },
+  { value: 'prof', label: 'Prof.' },
+];
+
+const countries = [
+  { value: 'us', label: 'United States' },
+  { value: 'ca', label: 'Canada' },
+  { value: 'uk', label: 'United Kingdom' },
+  { value: 'de', label: 'Germany' },
+  { value: 'fr', label: 'France' },
+  { value: 'jp', label: 'Japan' },
+  { value: 'au', label: 'Australia' },
+];
+
+const industries = [
+  { value: 'tech', label: 'Technology' },
+  { value: 'healthcare', label: 'Healthcare' },
+  { value: 'finance', label: 'Finance' },
+  { value: 'education', label: 'Education' },
+  { value: 'retail', label: 'Retail' },
+  { value: 'manufacturing', label: 'Manufacturing' },
+];
+
+const experienceLevels = [
+  { value: 'entry', label: 'Entry Level (0-2 years)' },
+  { value: 'mid', label: 'Mid Level (3-5 years)' },
+  { value: 'senior', label: 'Senior Level (6-10 years)' },
+  { value: 'lead', label: 'Lead Level (10+ years)' },
+];
+
+<Card>
+  <Text variant="h3">Professional Profile</Text>
+
+  <View style={{ gap: 16, marginTop: 16 }}>
+    <View style={{ flexDirection: 'row', gap: 12 }}>
+      <View style={{ flex: 1 }}>
+        <Select
+          label="Title"
+          options={titles}
+          value={profile.title}
+          onChange={(title) => setProfile((prev) => ({ ...prev, title }))}
+          placeholder="Select title"
+        />
+      </View>
+      <View style={{ flex: 2 }}>
+        <Input label="Full Name" placeholder="Enter your full name" />
+      </View>
+    </View>
+
+    <Select
+      label="Country"
+      title="Select Your Country"
+      options={countries}
+      value={profile.country}
+      onChange={(country) => setProfile((prev) => ({ ...prev, country }))}
+      placeholder="Choose your country"
+    />
+
+    <Select
+      label="Industry"
+      title="Select Industry"
+      options={industries}
+      value={profile.industry}
+      onChange={(industry) => setProfile((prev) => ({ ...prev, industry }))}
+      placeholder="Choose your industry"
+    />
+
+    <Select
+      label="Experience Level"
+      title="Experience Level"
+      options={experienceLevels}
+      value={profile.experience}
+      onChange={(experience) => setProfile((prev) => ({ ...prev, experience }))}
+      placeholder="Select experience level"
+    />
+  </View>
+</Card>;
+```
+
+### Settings with large option list
+
+```tsx
+const [settings, setSettings] = useState({
+  language: undefined as SelectOption | undefined,
+  timezone: undefined as SelectOption | undefined,
+  theme: undefined as SelectOption | undefined,
+});
+
+// Large list of languages
+const languages = [
+  { value: 'en', label: 'English' },
+  { value: 'es', label: 'Español' },
+  { value: 'fr', label: 'Français' },
+  { value: 'de', label: 'Deutsch' },
+  { value: 'it', label: 'Italiano' },
+  { value: 'pt', label: 'Português' },
+  { value: 'ru', label: 'Русский' },
+  { value: 'ja', label: '日本語' },
+  { value: 'ko', label: '한국어' },
+  { value: 'zh', label: '中文' },
+  // ... many more options
+];
+
+// Timezone options
+const timezones = [
+  { value: 'america/new_york', label: 'Eastern Time (ET)' },
+  { value: 'america/chicago', label: 'Central Time (CT)' },
+  { value: 'america/denver', label: 'Mountain Time (MT)' },
+  { value: 'america/los_angeles', label: 'Pacific Time (PT)' },
+  { value: 'europe/london', label: 'Greenwich Mean Time (GMT)' },
+  { value: 'europe/paris', label: 'Central European Time (CET)' },
+  { value: 'asia/tokyo', label: 'Japan Standard Time (JST)' },
+  { value: 'australia/sydney', label: 'Australian Eastern Time (AET)' },
+];
+
+const themes = [
+  { value: 'light', label: 'Light Theme' },
+  { value: 'dark', label: 'Dark Theme' },
+  { value: 'auto', label: 'Auto (System)' },
+];
+
+<Card>
+  <Text variant="h3">App Preferences</Text>
+
+  <View style={{ gap: 16, marginTop: 16 }}>
+    <Select
+      label="Language"
+      title="Choose Language"
+      options={languages}
+      value={settings.language}
+      onChange={(language) => setSettings((prev) => ({ ...prev, language }))}
+      placeholder="Select language"
+      hint="Choose your preferred language"
+    />
+
+    <Select
+      label="Timezone"
+      title="Select Timezone"
+      options={timezones}
+      value={settings.timezone}
+      onChange={(timezone) => setSettings((prev) => ({ ...prev, timezone }))}
+      placeholder="Select timezone"
+      hint="This affects how dates and times are displayed"
+    />
+
+    <Select
+      label="Theme"
+      options={themes}
+      value={settings.theme}
+      onChange={(theme) => setSettings((prev) => ({ ...prev, theme }))}
+      placeholder="Select theme"
+    />
+  </View>
+</Card>;
+```
+
+### Filter form
+
+```tsx
+const [filters, setFilters] = useState({
+  category: undefined as SelectOption | undefined,
+  priceRange: undefined as SelectOption | undefined,
+  rating: undefined as SelectOption | undefined,
+  sortBy: undefined as SelectOption | undefined,
+});
+
+const categories = [
+  { value: 'electronics', label: 'Electronics' },
+  { value: 'clothing', label: 'Clothing' },
+  { value: 'books', label: 'Books' },
+  { value: 'home', label: 'Home & Garden' },
+  { value: 'sports', label: 'Sports' },
+];
+
+const priceRanges = [
+  { value: '0-25', label: '$0 - $25' },
+  { value: '25-50', label: '$25 - $50' },
+  { value: '50-100', label: '$50 - $100' },
+  { value: '100-200', label: '$100 - $200' },
+  { value: '200+', label: '$200+' },
+];
+
+const ratings = [
+  { value: '4+', label: '4 Stars & Up' },
+  { value: '3+', label: '3 Stars & Up' },
+  { value: '2+', label: '2 Stars & Up' },
+  { value: '1+', label: '1 Star & Up' },
+];
+
+const sortOptions = [
+  { value: 'relevance', label: 'Relevance' },
+  { value: 'price-low', label: 'Price: Low to High' },
+  { value: 'price-high', label: 'Price: High to Low' },
+  { value: 'rating', label: 'Customer Rating' },
+  { value: 'newest', label: 'Newest First' },
+];
+
+const clearAllFilters = () => {
+  setFilters({
+    category: undefined,
+    priceRange: undefined,
+    rating: undefined,
+    sortBy: undefined,
+  });
+};
+
+<Card>
+  <View
+    style={{
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    }}
+  >
+    <Text variant="h3">Filter Products</Text>
+    <Button
+      text="Clear All"
+      variant="outline"
+      size="small"
+      onPress={clearAllFilters}
+    />
+  </View>
+
+  <View style={{ gap: 16, marginTop: 16 }}>
+    <Select
+      label="Category"
+      options={categories}
+      value={filters.category}
+      onChange={(category) => setFilters((prev) => ({ ...prev, category }))}
+      placeholder="All categories"
+    />
+
+    <Select
+      label="Price Range"
+      options={priceRanges}
+      value={filters.priceRange}
+      onChange={(priceRange) => setFilters((prev) => ({ ...prev, priceRange }))}
+      placeholder="Any price"
+    />
+
+    <Select
+      label="Customer Rating"
+      options={ratings}
+      value={filters.rating}
+      onChange={(rating) => setFilters((prev) => ({ ...prev, rating }))}
+      placeholder="Any rating"
+    />
+
+    <Select
+      label="Sort By"
+      options={sortOptions}
+      value={filters.sortBy}
+      onChange={(sortBy) => setFilters((prev) => ({ ...prev, sortBy }))}
+      placeholder="Relevance"
+    />
+  </View>
+
+  <Button
+    text="Apply Filters"
+    style={{ marginTop: 20 }}
+    onPress={() => console.log('Filters applied:', filters)}
+  />
+</Card>;
+```
+
+### Dynamic options
+
+```tsx
+const [selectedCountry, setSelectedCountry] = useState<
+  SelectOption | undefined
+>();
+const [selectedCity, setSelectedCity] = useState<SelectOption | undefined>();
+
+const countries = [
+  { value: 'us', label: 'United States' },
+  { value: 'ca', label: 'Canada' },
+  { value: 'uk', label: 'United Kingdom' },
+];
+
+const citiesByCountry: Record<string, SelectOption[]> = {
+  us: [
+    { value: 'ny', label: 'New York' },
+    { value: 'la', label: 'Los Angeles' },
+    { value: 'chicago', label: 'Chicago' },
+    { value: 'houston', label: 'Houston' },
+  ],
+  ca: [
+    { value: 'toronto', label: 'Toronto' },
+    { value: 'vancouver', label: 'Vancouver' },
+    { value: 'montreal', label: 'Montreal' },
+    { value: 'calgary', label: 'Calgary' },
+  ],
+  uk: [
+    { value: 'london', label: 'London' },
+    { value: 'manchester', label: 'Manchester' },
+    { value: 'birmingham', label: 'Birmingham' },
+    { value: 'liverpool', label: 'Liverpool' },
+  ],
+};
+
+const cities = selectedCountry
+  ? citiesByCountry[selectedCountry.value] || []
+  : [];
+
+useEffect(() => {
+  // Reset city when country changes
+  if (selectedCountry) {
+    setSelectedCity(undefined);
+  }
+}, [selectedCountry]);
+
+<Card>
+  <Text variant="h3">Location Selection</Text>
+
+  <View style={{ gap: 16, marginTop: 16 }}>
+    <Select
+      label="Country"
+      options={countries}
+      value={selectedCountry}
+      onChange={setSelectedCountry}
+      placeholder="Select country"
+    />
+
+    <Select
+      label="City"
+      options={cities}
+      value={selectedCity}
+      onChange={setSelectedCity}
+      placeholder={selectedCountry ? 'Select city' : 'Select country first'}
+      disabled={!selectedCountry}
+      hint={!selectedCountry ? 'Please select a country first' : ''}
+    />
+  </View>
+</Card>;
+```
+
+### Disabled select
+
+```tsx
+<Select
+  label="Premium Feature"
+  options={[
+    { value: 'feature1', label: 'Advanced Analytics' },
+    { value: 'feature2', label: 'Custom Reports' },
+    { value: 'feature3', label: 'Priority Support' },
+  ]}
+  value={undefined}
+  onChange={() => {}}
+  placeholder="Upgrade to access"
+  disabled={true}
+  hint="This feature requires a premium subscription"
+/>
+```
+
+## Implementation notes
+
+- Uses BottomSheet component for the options display on mobile devices
+- Smooth chevron rotation animation when opening/closing the select
+- Options are displayed in a scrollable FlatList for performance with large lists
+- Selected option is highlighted with a check icon and different background
+- The select automatically closes when an option is selected
+- Full screen mode is used when there are more than 20 options for better UX
+- InputContainer provides consistent styling with other form inputs
+
+## Animation details
+
+- **Chevron rotation**: 200ms animation with 180-degree rotation when opening
+- **Bottom sheet**: Smooth slide-up animation from the bottom
+- **Option selection**: Instant feedback with check icon and background change
+- **Close animation**: Smooth slide-down when backdrop is pressed or option selected
+
+## Accessibility
+
+- The select is fully keyboard accessible
+- Screen readers properly announce the current selection and available options
+- Bottom sheet traps focus correctly for keyboard navigation
+- Disabled state prevents interaction and is communicated to assistive technologies
+- Option selection is properly announced to screen readers
+- Color contrast meets accessibility guidelines for all states
+
+## Performance
+
+- Large option lists are rendered using FlatList for optimal performance
+- Only visible options are rendered, with efficient scrolling for hundreds of items
+- Smooth animations without impacting performance
+- Efficient re-rendering when options or selection changes

@@ -1,0 +1,481 @@
+---
+title: Text
+description: Typography component with predefined variants for consistent text styling throughout the application.
+---
+
+The `Text` component provides consistent typography with predefined variants for headings, paragraphs, and captions. It automatically applies theme colors and fonts for a cohesive design system.
+
+## Import
+
+```typescript
+import { Text } from '@space-uy/rn-spacedev-uikit';
+```
+
+## Basic usage
+
+```tsx
+<Text variant="pm">This is medium paragraph text</Text>
+```
+
+## Properties
+
+| Property   | Type                                                                        | Required | Default value | Description                        |
+| ---------- | --------------------------------------------------------------------------- | -------- | ------------- | ---------------------------------- |
+| `variant`  | `'h1' \| 'h2' \| 'h3' \| 'h4' \| 'h5' \| 'pl' \| 'pm' \| 'ps' \| 'caption'` | ✅       | -             | Typography variant to apply        |
+| `children` | `React.ReactNode`                                                           | ✅       | -             | Text content to display            |
+| `style`    | `TextStyle`                                                                 | ❌       | -             | Custom styles to override defaults |
+| `...rest`  | `TextProps`                                                                 | ❌       | -             | Additional React Native Text props |
+
+## Typography variants
+
+### Headings
+
+#### H1 - Main Title
+
+- **Size**: 24px
+- **Weight**: Bold
+- **Use case**: Page titles, main headings
+
+```tsx
+<Text variant="h1">Main Title</Text>
+```
+
+#### H2 - Section Title
+
+- **Size**: 18px
+- **Weight**: Medium
+- **Use case**: Section headings, card titles
+
+```tsx
+<Text variant="h2">Section Title</Text>
+```
+
+#### H3 - Subsection Title
+
+- **Size**: 16px
+- **Weight**: Medium
+- **Use case**: Subsection headings, modal titles
+
+```tsx
+<Text variant="h3">Subsection Title</Text>
+```
+
+#### H4 - Small Heading
+
+- **Size**: 14px
+- **Weight**: Medium
+- **Use case**: Small headings, labels
+
+```tsx
+<Text variant="h4">Small Heading</Text>
+```
+
+#### H5 - Micro Heading
+
+- **Size**: 12px
+- **Weight**: Medium
+- **Use case**: Micro headings, form labels
+
+```tsx
+<Text variant="h5">Micro Heading</Text>
+```
+
+### Paragraphs
+
+#### PL - Large Paragraph
+
+- **Size**: 16px
+- **Weight**: Regular
+- **Use case**: Large body text, introductions
+
+```tsx
+<Text variant="pl">
+  This is large paragraph text for introductions and important content.
+</Text>
+```
+
+#### PM - Medium Paragraph (Default)
+
+- **Size**: 14px
+- **Weight**: Regular
+- **Use case**: Standard body text, descriptions
+
+```tsx
+<Text variant="pm">This is standard paragraph text used for most content.</Text>
+```
+
+#### PS - Small Paragraph
+
+- **Size**: 12px
+- **Weight**: Regular
+- **Use case**: Small descriptions, secondary information
+
+```tsx
+<Text variant="ps">This is small text for secondary information.</Text>
+```
+
+### Captions
+
+#### Caption
+
+- **Size**: 10px
+- **Weight**: Regular
+- **Use case**: Captions, footnotes, very small text
+
+```tsx
+<Text variant="caption">
+  This is caption text for footnotes and small labels.
+</Text>
+```
+
+## Basic examples
+
+### Typography hierarchy
+
+```tsx
+<View style={{ gap: 8 }}>
+  <Text variant="h1">Main Heading</Text>
+  <Text variant="h2">Section Heading</Text>
+  <Text variant="h3">Subsection Heading</Text>
+  <Text variant="h4">Small Heading</Text>
+  <Text variant="h5">Micro Heading</Text>
+
+  <Text variant="pl">Large paragraph text for introductions.</Text>
+  <Text variant="pm">Standard paragraph text for body content.</Text>
+  <Text variant="ps">Small paragraph text for details.</Text>
+  <Text variant="caption">Caption text for footnotes.</Text>
+</View>
+```
+
+### Content structure
+
+```tsx
+<Card>
+  <Text variant="h3">Article Title</Text>
+  <Text variant="ps" style={{ opacity: 0.7, marginTop: 4 }}>
+    Published on March 15, 2024
+  </Text>
+
+  <Text variant="pl" style={{ marginTop: 16 }}>
+    This is the introduction paragraph that provides an overview of the article
+    content.
+  </Text>
+
+  <Text variant="pm" style={{ marginTop: 12 }}>
+    This is the main body content with standard paragraph styling. It provides
+    detailed information and maintains good readability.
+  </Text>
+
+  <Text variant="caption" style={{ marginTop: 16, textAlign: 'center' }}>
+    © 2024 Company Name. All rights reserved.
+  </Text>
+</Card>
+```
+
+## Advanced examples
+
+### Custom styled text
+
+```tsx
+<View style={{ gap: 12 }}>
+  <Text variant="h2" style={{ color: colors.primary, textAlign: 'center' }}>
+    Colored Heading
+  </Text>
+
+  <Text
+    variant="pm"
+    style={{
+      fontStyle: 'italic',
+      textAlign: 'center',
+      opacity: 0.8,
+    }}
+  >
+    Italic paragraph text with custom styling
+  </Text>
+
+  <Text
+    variant="ps"
+    style={{
+      textDecorationLine: 'underline',
+      color: colors.primary,
+    }}
+  >
+    Underlined small text
+  </Text>
+</View>
+```
+
+### User profile card
+
+```tsx
+<Card>
+  <View style={{ alignItems: 'center', gap: 8 }}>
+    <View
+      style={{
+        width: 64,
+        height: 64,
+        borderRadius: 32,
+        backgroundColor: colors.primary,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <Text variant="h2" style={{ color: colors.background }}>
+        JD
+      </Text>
+    </View>
+
+    <Text variant="h3">John Doe</Text>
+    <Text variant="ps" style={{ opacity: 0.7 }}>
+      Software Developer
+    </Text>
+    <Text variant="caption" style={{ opacity: 0.5 }}>
+      john.doe@example.com
+    </Text>
+  </View>
+
+  <View style={{ marginTop: 16, gap: 4 }}>
+    <Text variant="h5">About</Text>
+    <Text variant="pm">
+      Passionate developer with 5 years of experience in React Native and mobile
+      app development.
+    </Text>
+  </View>
+</Card>
+```
+
+### Status messages
+
+```tsx
+const StatusMessage = ({
+  type,
+  title,
+  message,
+}: {
+  type: 'success' | 'error' | 'warning' | 'info';
+  title: string;
+  message: string;
+}) => {
+  const colors = {
+    success: '#22c55e',
+    error: '#ef4444',
+    warning: '#f59e0b',
+    info: '#3b82f6',
+  };
+
+  return (
+    <View
+      style={{
+        padding: 16,
+        backgroundColor: colors[type] + '10',
+        borderRadius: 8,
+        borderLeftWidth: 4,
+        borderLeftColor: colors[type],
+      }}
+    >
+      <Text variant="h5" style={{ color: colors[type] }}>
+        {title}
+      </Text>
+      <Text variant="pm" style={{ marginTop: 4 }}>
+        {message}
+      </Text>
+    </View>
+  );
+};
+
+// Usage
+<View style={{ gap: 12 }}>
+  <StatusMessage
+    type="success"
+    title="Success"
+    message="Your changes have been saved successfully."
+  />
+  <StatusMessage
+    type="error"
+    title="Error"
+    message="Unable to save changes. Please try again."
+  />
+  <StatusMessage
+    type="warning"
+    title="Warning"
+    message="This action cannot be undone."
+  />
+</View>;
+```
+
+### Form with text variants
+
+```tsx
+<Card>
+  <Text variant="h3">Contact Information</Text>
+  <Text variant="ps" style={{ opacity: 0.7, marginTop: 4 }}>
+    Please fill in your contact details
+  </Text>
+
+  <View style={{ gap: 16, marginTop: 20 }}>
+    <View>
+      <Text variant="h5" style={{ marginBottom: 8 }}>
+        Personal Details
+      </Text>
+      <Input label="Full Name" placeholder="Enter your full name" />
+      <Input label="Email" placeholder="Enter your email" />
+    </View>
+
+    <View>
+      <Text variant="h5" style={{ marginBottom: 8 }}>
+        Additional Information
+      </Text>
+      <TextArea
+        label="Message"
+        placeholder="Enter your message"
+        numberOfLines={4}
+      />
+    </View>
+  </View>
+
+  <Text
+    variant="caption"
+    style={{ marginTop: 16, textAlign: 'center', opacity: 0.6 }}
+  >
+    By submitting this form, you agree to our Terms of Service and Privacy
+    Policy.
+  </Text>
+</Card>
+```
+
+### Price display
+
+```tsx
+<View style={{ alignItems: 'center', gap: 4 }}>
+  <Text variant="caption" style={{ opacity: 0.7 }}>
+    Starting at
+  </Text>
+  <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 4 }}>
+    <Text variant="h1" style={{ color: colors.primary }}>
+      $99
+    </Text>
+    <Text variant="pm" style={{ opacity: 0.7 }}>
+      /month
+    </Text>
+  </View>
+  <Text
+    variant="ps"
+    style={{ opacity: 0.5, textDecorationLine: 'line-through' }}
+  >
+    Was $149/month
+  </Text>
+</View>
+```
+
+### Article content
+
+```tsx
+<ScrollView style={{ padding: 16 }}>
+  <Text variant="h1" style={{ textAlign: 'center', marginBottom: 8 }}>
+    The Future of Mobile Development
+  </Text>
+
+  <Text
+    variant="ps"
+    style={{ textAlign: 'center', opacity: 0.7, marginBottom: 24 }}
+  >
+    By John Smith • March 15, 2024 • 5 min read
+  </Text>
+
+  <Text variant="pl" style={{ marginBottom: 16 }}>
+    Mobile development continues to evolve at a rapid pace, with new
+    technologies and frameworks emerging to meet the growing demands of modern
+    applications.
+  </Text>
+
+  <Text variant="h3" style={{ marginBottom: 8 }}>
+    Cross-Platform Solutions
+  </Text>
+
+  <Text variant="pm" style={{ marginBottom: 16 }}>
+    React Native has established itself as a leading solution for cross-platform
+    mobile development, enabling developers to write once and deploy everywhere.
+  </Text>
+
+  <Text variant="pm" style={{ marginBottom: 24 }}>
+    The framework's component-based architecture and extensive ecosystem make it
+    an excellent choice for both startups and enterprise applications.
+  </Text>
+
+  <Text variant="caption" style={{ textAlign: 'center', fontStyle: 'italic' }}>
+    "The best mobile experiences are built with the user in mind."
+  </Text>
+</ScrollView>
+```
+
+### Error states
+
+```tsx
+const ErrorState = ({
+  title,
+  message,
+  action,
+}: {
+  title: string;
+  message: string;
+  action?: () => void;
+}) => (
+  <View style={{ alignItems: 'center', padding: 32 }}>
+    <Icon name="AlertCircle" size={48} color={colors.destructive} />
+    <Text variant="h3" style={{ marginTop: 16, textAlign: 'center' }}>
+      {title}
+    </Text>
+    <Text
+      variant="pm"
+      style={{
+        marginTop: 8,
+        textAlign: 'center',
+        opacity: 0.7,
+        maxWidth: 280,
+      }}
+    >
+      {message}
+    </Text>
+    {action && (
+      <Button text="Try Again" onPress={action} style={{ marginTop: 20 }} />
+    )}
+  </View>
+);
+
+// Usage
+<ErrorState
+  title="Connection Failed"
+  message="Unable to connect to the server. Please check your internet connection and try again."
+  action={handleRetry}
+/>;
+```
+
+## Implementation notes
+
+- The Text component automatically applies theme foreground color when no custom color is specified
+- All typography variants use the theme font family (regular, medium, or bold)
+- Color values from the style prop take precedence over theme colors
+- The component is a wrapper around React Native's Text component with enhanced typography
+- Font sizes and weights are carefully chosen for optimal readability across platforms
+
+## Typography scale
+
+The component follows a consistent typography scale:
+
+- **Display**: H1 (24px) for main titles
+- **Large**: H2 (18px) for section headings
+- **Medium**: H3 (16px) for subsections
+- **Small**: H4 (14px) for labels
+- **Micro**: H5 (12px) for micro labels
+- **Body Large**: PL (16px) for introductions
+- **Body**: PM (14px) for standard content
+- **Body Small**: PS (12px) for details
+- **Caption**: (10px) for footnotes
+
+## Accessibility
+
+- Text components properly support screen readers
+- Font scaling respects user's accessibility settings
+- Color contrast meets WCAG guidelines when using theme colors
+- Semantic heading structure is maintained with proper variants
+- All text is selectable by default for accessibility tools

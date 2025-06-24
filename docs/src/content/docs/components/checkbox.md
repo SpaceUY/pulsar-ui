@@ -1,0 +1,189 @@
+---
+title: Checkbox
+description: Interactive checkbox component with smooth animations, labels, and descriptions for form inputs.
+---
+
+The `Checkbox` component provides an interactive checkbox with smooth animations, optional labels and descriptions. It supports controlled state, disabled state, and custom styling.
+
+## Import
+
+```typescript
+import { Checkbox } from '@space-uy/rn-spacedev-uikit';
+```
+
+## Basic usage
+
+```tsx
+const [checked, setChecked] = useState(false);
+
+<Checkbox
+  checked={checked}
+  onCheckedChange={setChecked}
+  label="Accept terms and conditions"
+/>;
+```
+
+## Properties
+
+| Property          | Type                         | Required | Default value | Description                           |
+| ----------------- | ---------------------------- | -------- | ------------- | ------------------------------------- |
+| `checked`         | `boolean`                    | ✅       | -             | Current checked state                 |
+| `onCheckedChange` | `(checked: boolean) => void` | ✅       | -             | Callback when checked state changes   |
+| `label`           | `string`                     | ✅       | -             | Text label displayed next to checkbox |
+| `disabled`        | `boolean`                    | ❌       | `false`       | Whether the checkbox is disabled      |
+| `description`     | `string`                     | ❌       | -             | Optional description text             |
+| `style`           | `StyleProp<ViewStyle>`       | ❌       | -             | Custom styles for the container       |
+
+## Basic examples
+
+### Simple checkbox
+
+```tsx
+const [agreed, setAgreed] = useState(false);
+
+<Checkbox
+  checked={agreed}
+  onCheckedChange={setAgreed}
+  label="I agree to the terms"
+/>;
+```
+
+### Checkbox with description
+
+```tsx
+<Checkbox
+  checked={newsletterSubscription}
+  onCheckedChange={setNewsletterSubscription}
+  label="Subscribe to newsletter"
+  description="Receive weekly updates about new features and content"
+/>
+```
+
+### Disabled checkbox
+
+```tsx
+<Checkbox
+  checked={true}
+  onCheckedChange={() => {}}
+  label="Required setting"
+  description="This setting cannot be changed"
+  disabled={true}
+/>
+```
+
+## Advanced examples
+
+### Form with multiple checkboxes
+
+```tsx
+const [preferences, setPreferences] = useState({
+  notifications: false,
+  marketing: false,
+  analytics: true,
+});
+
+const updatePreference = (key: string, value: boolean) => {
+  setPreferences((prev) => ({ ...prev, [key]: value }));
+};
+
+return (
+  <Card>
+    <Text variant="h4">Privacy Preferences</Text>
+
+    <Checkbox
+      checked={preferences.notifications}
+      onCheckedChange={(value) => updatePreference('notifications', value)}
+      label="Push notifications"
+      description="Receive notifications about important updates"
+    />
+
+    <Checkbox
+      checked={preferences.marketing}
+      onCheckedChange={(value) => updatePreference('marketing', value)}
+      label="Marketing emails"
+      description="Receive promotional content and offers"
+    />
+
+    <Checkbox
+      checked={preferences.analytics}
+      onCheckedChange={(value) => updatePreference('analytics', value)}
+      label="Usage analytics"
+      description="Help us improve the app by sharing usage data"
+    />
+  </Card>
+);
+```
+
+### Custom styled checkbox
+
+```tsx
+<Checkbox
+  checked={customChecked}
+  onCheckedChange={setCustomChecked}
+  label="Custom styled checkbox"
+  style={{
+    backgroundColor: 'rgba(0, 100, 200, 0.1)',
+    borderRadius: 8,
+    padding: 16,
+  }}
+/>
+```
+
+### Validation with checkbox
+
+```tsx
+const [termsAccepted, setTermsAccepted] = useState(false);
+const [showError, setShowError] = useState(false);
+
+const handleSubmit = () => {
+  if (!termsAccepted) {
+    setShowError(true);
+    return;
+  }
+  // Process form...
+};
+
+return (
+  <>
+    <Checkbox
+      checked={termsAccepted}
+      onCheckedChange={(value) => {
+        setTermsAccepted(value);
+        if (value) setShowError(false);
+      }}
+      label="I accept the Terms of Service"
+      description="Required to create an account"
+    />
+    {showError && (
+      <Text variant="ps" style={{ color: 'red', marginTop: 4 }}>
+        You must accept the terms to continue
+      </Text>
+    )}
+    <Button text="Submit" onPress={handleSubmit} />
+  </>
+);
+```
+
+## Implementation notes
+
+- Smooth animations using React Native Reanimated for check state
+- Check icon uses Lucide React Native Check icon with custom styling
+- Hover effects are supported on web platforms
+- The checkbox automatically handles pressed states with visual feedback
+- Label and description text support automatic text wrapping
+- Component respects theme colors for consistent styling
+
+## Animation details
+
+- **Check transition**: 200ms duration for smooth check/uncheck
+- **Color transition**: Smooth interpolation between border and filled states
+- **Pressed state**: 200ms animation for press feedback
+- **Hover effects**: 200ms background color transitions (web only)
+
+## Accessibility
+
+- Fully keyboard accessible with proper focus management
+- Screen readers can navigate and understand checkbox state
+- Disabled state prevents interaction and reduces opacity
+- Label text is properly associated with the checkbox control
+- Colors respect contrast ratios defined in the theme

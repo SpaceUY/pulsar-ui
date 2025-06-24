@@ -1,0 +1,318 @@
+---
+title: Dialog
+description: Modal dialog component with customizable content, actions, and smooth animations for user interactions.
+---
+
+The `Dialog` component provides a modal dialog with customizable content and actions. It includes subcomponents for structured content like headers, titles, descriptions, and action buttons.
+
+## Import
+
+```typescript
+import {
+  Dialog,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+  DialogAction,
+  DialogCancel,
+} from '@space-uy/rn-spacedev-uikit';
+```
+
+## Basic usage
+
+```tsx
+const [visible, setVisible] = useState(false);
+
+<Dialog visible={visible} onDismiss={() => setVisible(false)}>
+  <DialogHeader>
+    <DialogTitle>Confirm Action</DialogTitle>
+    <DialogDescription>
+      Are you sure you want to continue? This action cannot be undone.
+    </DialogDescription>
+  </DialogHeader>
+  <DialogFooter>
+    <DialogCancel onPress={() => setVisible(false)}>Cancel</DialogCancel>
+    <DialogAction onPress={handleConfirm}>Confirm</DialogAction>
+  </DialogFooter>
+</Dialog>;
+```
+
+## Main Dialog Properties
+
+| Property    | Type              | Required | Default value | Description                              |
+| ----------- | ----------------- | -------- | ------------- | ---------------------------------------- |
+| `visible`   | `boolean`         | ✅       | -             | Controls dialog visibility               |
+| `onDismiss` | `() => void`      | ✅       | -             | Function called when dialog should close |
+| `children`  | `React.ReactNode` | ✅       | -             | Content to display inside the dialog     |
+
+## Subcomponents
+
+### DialogHeader
+
+Container for dialog header content.
+
+| Property   | Type                   | Required | Default value | Description                  |
+| ---------- | ---------------------- | -------- | ------------- | ---------------------------- |
+| `children` | `React.ReactNode`      | ✅       | -             | Header content               |
+| `style`    | `StyleProp<ViewStyle>` | ❌       | -             | Custom styles for the header |
+
+### DialogTitle
+
+Title text component for the dialog.
+
+| Property   | Type                   | Required | Default value | Description                 |
+| ---------- | ---------------------- | -------- | ------------- | --------------------------- |
+| `children` | `React.ReactNode`      | ✅       | -             | Title text content          |
+| `style`    | `StyleProp<ViewStyle>` | ❌       | -             | Custom styles for the title |
+
+### DialogDescription
+
+Description text component for the dialog.
+
+| Property   | Type                   | Required | Default value | Description                       |
+| ---------- | ---------------------- | -------- | ------------- | --------------------------------- |
+| `children` | `React.ReactNode`      | ✅       | -             | Description text content          |
+| `style`    | `StyleProp<ViewStyle>` | ❌       | -             | Custom styles for the description |
+
+### DialogFooter
+
+Container for dialog action buttons.
+
+| Property   | Type                   | Required | Default value | Description                  |
+| ---------- | ---------------------- | -------- | ------------- | ---------------------------- |
+| `children` | `React.ReactNode`      | ✅       | -             | Footer content (buttons)     |
+| `style`    | `StyleProp<ViewStyle>` | ❌       | -             | Custom styles for the footer |
+
+### DialogAction
+
+Primary action button for the dialog.
+
+| Property      | Type                  | Required | Default value | Description                          |
+| ------------- | --------------------- | -------- | ------------- | ------------------------------------ |
+| `onPress`     | `() => void`          | ✅       | -             | Function called when pressed         |
+| `children`    | `React.ReactNode`     | ✅       | -             | Button text content                  |
+| `variant`     | `'flat' \| 'outline'` | ❌       | `'flat'`      | Button visual variant                |
+| `destructive` | `boolean`             | ❌       | `false`       | Whether this is a destructive action |
+
+### DialogCancel
+
+Cancel button for the dialog.
+
+| Property   | Type              | Required | Default value | Description                  |
+| ---------- | ----------------- | -------- | ------------- | ---------------------------- |
+| `onPress`  | `() => void`      | ✅       | -             | Function called when pressed |
+| `children` | `React.ReactNode` | ✅       | -             | Button text content          |
+
+## Basic examples
+
+### Simple confirmation dialog
+
+```tsx
+<Dialog visible={showConfirm} onDismiss={() => setShowConfirm(false)}>
+  <DialogHeader>
+    <DialogTitle>Delete Item</DialogTitle>
+    <DialogDescription>
+      This will permanently delete the item. This action cannot be undone.
+    </DialogDescription>
+  </DialogHeader>
+  <DialogFooter>
+    <DialogCancel onPress={() => setShowConfirm(false)}>Cancel</DialogCancel>
+    <DialogAction
+      destructive={true}
+      onPress={() => {
+        handleDelete();
+        setShowConfirm(false);
+      }}
+    >
+      Delete
+    </DialogAction>
+  </DialogFooter>
+</Dialog>
+```
+
+### Information dialog
+
+```tsx
+<Dialog visible={showInfo} onDismiss={() => setShowInfo(false)}>
+  <DialogHeader>
+    <DialogTitle>Welcome!</DialogTitle>
+    <DialogDescription>
+      Thank you for using our app. Here are some tips to get started.
+    </DialogDescription>
+  </DialogHeader>
+  <DialogFooter>
+    <DialogAction onPress={() => setShowInfo(false)}>Got it</DialogAction>
+  </DialogFooter>
+</Dialog>
+```
+
+## Advanced examples
+
+### Form dialog
+
+```tsx
+const [formData, setFormData] = useState({ name: '', email: '' });
+
+<Dialog visible={showForm} onDismiss={() => setShowForm(false)}>
+  <DialogHeader>
+    <DialogTitle>Add Contact</DialogTitle>
+    <DialogDescription>Enter the contact information below.</DialogDescription>
+  </DialogHeader>
+
+  <View style={{ gap: 16, marginVertical: 16 }}>
+    <Input
+      label="Name"
+      value={formData.name}
+      onChangeText={(name) => setFormData((prev) => ({ ...prev, name }))}
+      placeholder="Enter full name"
+    />
+    <Input
+      label="Email"
+      value={formData.email}
+      onChangeText={(email) => setFormData((prev) => ({ ...prev, email }))}
+      placeholder="Enter email address"
+      variant="email"
+    />
+  </View>
+
+  <DialogFooter>
+    <DialogCancel onPress={() => setShowForm(false)}>Cancel</DialogCancel>
+    <DialogAction
+      onPress={() => {
+        handleAddContact(formData);
+        setShowForm(false);
+      }}
+    >
+      Add Contact
+    </DialogAction>
+  </DialogFooter>
+</Dialog>;
+```
+
+### Multi-action dialog
+
+```tsx
+<Dialog visible={showActions} onDismiss={() => setShowActions(false)}>
+  <DialogHeader>
+    <DialogTitle>Choose Action</DialogTitle>
+    <DialogDescription>
+      What would you like to do with this file?
+    </DialogDescription>
+  </DialogHeader>
+  <DialogFooter>
+    <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+      <DialogAction
+        variant="outline"
+        onPress={() => {
+          handleEdit();
+          setShowActions(false);
+        }}
+      >
+        Edit
+      </DialogAction>
+      <DialogAction
+        variant="outline"
+        onPress={() => {
+          handleShare();
+          setShowActions(false);
+        }}
+      >
+        Share
+      </DialogAction>
+      <DialogAction
+        destructive={true}
+        onPress={() => {
+          handleDelete();
+          setShowActions(false);
+        }}
+      >
+        Delete
+      </DialogAction>
+    </View>
+  </DialogFooter>
+</Dialog>
+```
+
+### Custom content dialog
+
+```tsx
+<Dialog visible={showCustom} onDismiss={() => setShowCustom(false)}>
+  <View style={{ alignItems: 'center', padding: 16 }}>
+    <Icon name="CheckCircle" size={48} color={colors.success} />
+    <Text variant="h3" style={{ marginTop: 16, textAlign: 'center' }}>
+      Success!
+    </Text>
+    <Text variant="pm" style={{ marginTop: 8, textAlign: 'center' }}>
+      Your changes have been saved successfully.
+    </Text>
+  </View>
+  <DialogFooter>
+    <DialogAction onPress={() => setShowCustom(false)}>Continue</DialogAction>
+  </DialogFooter>
+</Dialog>
+```
+
+### Loading dialog
+
+```tsx
+<Dialog visible={isLoading} onDismiss={() => {}}>
+  <View style={{ alignItems: 'center', padding: 32 }}>
+    <LoadingIndicator size={32} />
+    <Text variant="h4" style={{ marginTop: 16 }}>
+      Processing...
+    </Text>
+    <Text variant="pm" style={{ marginTop: 8, textAlign: 'center' }}>
+      Please wait while we process your request.
+    </Text>
+  </View>
+</Dialog>
+```
+
+## Implementation notes
+
+- The dialog uses React Native Modal for cross-platform compatibility
+- Smooth animations using React Native Reanimated with scale and opacity effects
+- Backdrop press automatically calls the `onDismiss` callback
+- Dialog content is automatically centered on screen
+- All subcomponents follow consistent theming and styling
+- Focus is trapped within the dialog when active
+- Supports both controlled visibility and automatic dismissal
+
+## Animation details
+
+- **Show animation**: 300ms scale from 0.7 to 1.0 with opacity fade-in
+- **Hide animation**: 300ms scale to 0.7 with opacity fade-out
+- **Backdrop**: Smooth opacity transition for overlay background
+- **Timing**: All animations use consistent 300ms duration
+
+## Styling
+
+### Theme integration
+
+The Dialog automatically applies theme styling:
+
+- **Background**: Uses theme background color
+- **Border**: Uses theme border color and roundness
+- **Text**: Uses theme typography and foreground colors
+- **Buttons**: Follow theme button styling conventions
+
+### Custom styling
+
+```tsx
+<Dialog visible={visible} onDismiss={onDismiss}>
+  <DialogHeader style={{ backgroundColor: colors.primary + '10' }}>
+    <DialogTitle style={{ color: colors.primary }}>
+      Custom Styled Dialog
+    </DialogTitle>
+  </DialogHeader>
+</Dialog>
+```
+
+## Accessibility
+
+- Modal content is properly announced by screen readers
+- Focus management ensures keyboard navigation works correctly
+- All interactive elements maintain proper accessibility properties
+- High contrast support for users with visual impairments
+- Proper role and aria attributes for assistive technologies
