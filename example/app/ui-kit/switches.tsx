@@ -1,23 +1,38 @@
 import { ScrollView, View, StyleSheet } from 'react-native';
-import { useState } from 'react';
+import { useState, useLayoutEffect } from 'react';
 import { Card, Switch, Text } from '@space-uy/rn-spacedev-uikit';
+import { useLocalSearchParams, useNavigation } from 'expo-router';
 
 export default function SwitchesExample() {
+  const { showHeader } = useLocalSearchParams<{ showHeader: string }>();
+  const headerVisible = showHeader === 'true';
+  const navigation = useNavigation();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: headerVisible,
+    });
+  }, [navigation, headerVisible]);
+
   const [switch1, setSwitch1] = useState(false);
   const [switch2, setSwitch2] = useState(false);
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <View style={styles.section}>
-        <Text variant="h2" style={styles.sectionTitle}>
-          Switches
-        </Text>
-        <Text variant="pm" style={styles.sectionDescription}>
-          Toggle controls to activate or deactivate features
-        </Text>
-      </View>
+      {headerVisible && (
+        <View style={styles.section}>
+          <Text variant="h2" style={styles.sectionTitle}>
+            Switches
+          </Text>
+          <Text variant="pm" style={styles.sectionDescription}>
+            Toggle controls to activate or deactivate features
+          </Text>
+        </View>
+      )}
 
-      <Card style={styles.exampleContainer}>
+      <Card
+        style={[styles.exampleContainer, headerVisible && styles.firstExample]}
+      >
         <Text variant="h4" style={styles.exampleTitle}>
           Interactive Switches
         </Text>
@@ -82,7 +97,8 @@ export default function SwitchesExample() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  section: { padding: 20, paddingBottom: 16 },
+  section: { marginHorizontal: 16, marginTop: 16 },
+  firstExample: { marginTop: 16 },
   sectionTitle: { marginBottom: 8 },
   sectionDescription: { opacity: 0.7 },
   exampleContainer: { marginHorizontal: 16, marginBottom: 24 },

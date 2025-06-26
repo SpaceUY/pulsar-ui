@@ -1,20 +1,37 @@
+import { useLayoutEffect } from 'react';
 import { ScrollView, View, StyleSheet } from 'react-native';
 import { Card, CopyToClipboard, Text } from '@space-uy/rn-spacedev-uikit';
+import { useLocalSearchParams, useNavigation } from 'expo-router';
 
 export default function CopyToClipboardExample() {
+  const { showHeader } = useLocalSearchParams<{ showHeader: string }>();
+  const headerVisible = showHeader === 'true';
+  const navigation = useNavigation();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: headerVisible,
+    });
+  }, [navigation, headerVisible]);
+
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <View style={styles.section}>
-        <Text variant="h2" style={styles.sectionTitle}>
-          Copy to Clipboard
-        </Text>
-        <Text variant="pm" style={styles.sectionDescription}>
-          Component for copying text to clipboard with visual feedback
-        </Text>
-      </View>
+      {headerVisible && (
+        <View style={styles.section}>
+          <Text variant="h2" style={styles.sectionTitle}>
+            Copy to Clipboard
+          </Text>
+          <Text variant="pm" style={styles.sectionDescription}>
+            Component for copying text to clipboard with visual feedback
+          </Text>
+        </View>
+      )}
 
       {/* Basic example */}
-      <Card variant="tinted" style={styles.exampleContainer}>
+      <Card
+        variant="tinted"
+        style={[styles.exampleContainer, headerVisible && styles.firstExample]}
+      >
         <Text variant="h4" style={styles.exampleTitle}>
           Basic Copy
         </Text>
@@ -40,7 +57,8 @@ export default function CopyToClipboardExample() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  section: { padding: 20, paddingBottom: 16 },
+  section: { marginHorizontal: 16, marginTop: 16 },
+  firstExample: { marginTop: 16 },
   sectionTitle: { marginBottom: 8 },
   sectionDescription: { opacity: 0.7, marginBottom: 16 },
   exampleContainer: { marginHorizontal: 16, marginBottom: 24 },

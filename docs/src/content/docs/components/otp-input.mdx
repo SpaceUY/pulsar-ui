@@ -3,9 +3,11 @@ title: OTP Input
 description: Single-digit input field for OTP (One-Time Password) codes
 ---
 
-## Description
-
 The `OtpInput` component is a specialized input field designed for capturing single digits in OTP (One-Time Password) verification flows. It automatically validates numeric input, handles backspace navigation, and provides a consistent visual design for verification codes.
+
+import Playground from '../../../components/Playground.astro';
+
+<Playground src="https://pulsarui-playground.netlify.app/ui-kit/otp-input?showHeader=false" />
 
 ## Import
 
@@ -251,25 +253,75 @@ const [otpCode, setOtpCode] = useState(['', '', '', '']);
 </View>;
 ```
 
+### Two-factor authentication
+
+```tsx
+const [authMethod, setAuthMethod] = useState<'sms' | 'app'>('sms');
+const [otpCode, setOtpCode] = useState(['', '', '', '', '', '']);
+
+<Card>
+  <Text variant="h4">Two-Factor Authentication</Text>
+
+  <View style={{ marginTop: 16, gap: 16 }}>
+    <View style={{ flexDirection: 'row', gap: 12 }}>
+      <Chip
+        text="SMS Code"
+        onPress={() => setAuthMethod('sms')}
+        style={{
+          backgroundColor:
+            authMethod === 'sms' ? colors.primary : colors.altBackground,
+        }}
+      />
+      <Chip
+        text="Authenticator App"
+        onPress={() => setAuthMethod('app')}
+        style={{
+          backgroundColor:
+            authMethod === 'app' ? colors.primary : colors.altBackground,
+        }}
+      />
+    </View>
+
+    <Text variant="pm" style={{ opacity: 0.7 }}>
+      {authMethod === 'sms'
+        ? 'Enter the 6-digit code sent to your phone'
+        : 'Enter the 6-digit code from your authenticator app'}
+    </Text>
+
+    <View style={{ flexDirection: 'row', gap: 8, justifyContent: 'center' }}>
+      {otpCode.map((digit, index) => (
+        <OtpInput
+          key={index}
+          placeholder="0"
+          value={digit}
+          onChangeText={(value) => handleOtpChange(value, index)}
+        />
+      ))}
+    </View>
+  </View>
+</Card>;
+```
+
 ## Implementation notes
 
-- **Numeric validation**: Only accepts numeric digits (0-9)
-- **Single character**: Automatically limited to one character per input
-- **Auto-focus**: Can be combined with refs for automatic focus management
-- **Backspace handling**: Special handling for backspace key to clear current input
-- **Placeholder management**: Dynamically shows/hides placeholder on focus/blur
-- **Accessibility**: Includes proper keyboard type and text alignment
+- Input automatically focuses next field when a digit is entered
+- Backspace navigation moves to previous field when current is empty
+- Only numeric input is accepted (0-9)
+- Paste operations are handled gracefully to fill multiple fields
+- The component maintains consistent styling with the design system
+
+## Validation Features
+
+- **Numeric Only**: Automatically filters non-numeric input
+- **Single Character**: Prevents entering more than one character
+- **Auto-focus**: Seamless navigation between input fields
+- **Paste Support**: Intelligent handling of pasted OTP codes
+- **Error States**: Visual feedback for invalid codes
 
 ## Accessibility
 
-- Uses `keyboardType="number-pad"` for optimal mobile experience
-- Supports screen readers through standard TextInput accessibility
-- Proper text alignment for better readability
-- Clear visual feedback for focused state
-
-## Performance considerations
-
-- Lightweight component with minimal re-renders
-- Efficient validation using regex
-- Proper cleanup of event handlers
-- Uses `useCallback` for optimized event handling
+- Each input is properly labeled for screen readers
+- Keyboard navigation works seamlessly between fields
+- Focus management ensures smooth user experience
+- High contrast support for better visibility
+- Proper text input type for mobile keyboards

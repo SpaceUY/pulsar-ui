@@ -1,19 +1,36 @@
+import { useLayoutEffect } from 'react';
 import { ScrollView, View, StyleSheet } from 'react-native';
 import { Card, Chip, Text } from '@space-uy/rn-spacedev-uikit';
+import { useLocalSearchParams, useNavigation } from 'expo-router';
 
 export default function ChipsExample() {
+  const { showHeader } = useLocalSearchParams<{ showHeader: string }>();
+  const headerVisible = showHeader === 'true';
+  const navigation = useNavigation();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: headerVisible,
+    });
+  }, [navigation, headerVisible]);
+
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <View style={styles.section}>
-        <Text variant="h2" style={styles.sectionTitle}>
-          Chips
-        </Text>
-        <Text variant="pm" style={styles.sectionDescription}>
-          Compact elements for displaying information or actions
-        </Text>
-      </View>
+      {headerVisible && (
+        <View style={styles.section}>
+          <Text variant="h2" style={styles.sectionTitle}>
+            Chips
+          </Text>
+          <Text variant="pm" style={styles.sectionDescription}>
+            Compact elements for displaying information or actions
+          </Text>
+        </View>
+      )}
 
-      <Card variant="tinted" style={styles.exampleContainer}>
+      <Card
+        variant="tinted"
+        style={[styles.exampleContainer, headerVisible && styles.firstExample]}
+      >
         <Text variant="h4" style={styles.exampleTitle}>
           Chip Sizes
         </Text>
@@ -56,7 +73,8 @@ export default function ChipsExample() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  section: { padding: 20, paddingBottom: 16 },
+  section: { marginHorizontal: 16, marginTop: 16 },
+  firstExample: { marginTop: 16 },
   sectionTitle: { marginBottom: 8 },
   sectionDescription: { opacity: 0.7 },
   exampleContainer: { marginHorizontal: 16, marginBottom: 24 },

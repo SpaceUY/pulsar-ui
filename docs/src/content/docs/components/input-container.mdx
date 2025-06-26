@@ -3,9 +3,11 @@ title: Input Container
 description: Base container component for building custom input interfaces
 ---
 
-## Description
-
 The `InputContainer` component provides a foundational container for building custom input interfaces. It handles common input behaviors like focus states, error states, labels, hints, and animations. This component is used internally by other input components but can also be used directly to create custom input experiences.
+
+import Playground from '../../../components/Playground.astro';
+
+<Playground src="https://pulsarui-playground.netlify.app/ui-kit/input-container?showHeader=false" />
 
 ## Import
 
@@ -253,93 +255,17 @@ const handleFileSelect = async () => {
 </InputContainer>;
 ```
 
-### Search input with suggestions
+### Color picker input
 
 ```tsx
-const [query, setQuery] = useState('');
-const [suggestions, setSuggestions] = useState<string[]>([]);
-const [focused, setFocused] = useState(false);
-
-useEffect(() => {
-  if (query.length > 2) {
-    // Fetch suggestions based on query
-    fetchSuggestions(query).then(setSuggestions);
-  } else {
-    setSuggestions([]);
-  }
-}, [query]);
-
-<View>
-  <InputContainer
-    label="Search"
-    focused={focused}
-    onPress={() => {
-      /* Focus handled by TextInput */
-    }}
-    iconName="Search"
-    size="small"
-  >
-    <TextInput
-      value={query}
-      onChangeText={setQuery}
-      onFocus={() => setFocused(true)}
-      onBlur={() => setFocused(false)}
-      placeholder="Search for items..."
-      style={{ flex: 1, paddingVertical: 6 }}
-    />
-    {query.length > 0 && (
-      <IconButton
-        iconName="X"
-        size="small"
-        variant="transparent"
-        onPress={() => {
-          setQuery('');
-          setSuggestions([]);
-        }}
-      />
-    )}
-  </InputContainer>
-
-  {suggestions.length > 0 && focused && (
-    <Card style={{ marginTop: 4, maxHeight: 200 }}>
-      <ScrollView>
-        {suggestions.map((suggestion, index) => (
-          <Pressable
-            key={index}
-            onPress={() => {
-              setQuery(suggestion);
-              setSuggestions([]);
-              setFocused(false);
-            }}
-            style={{
-              padding: 12,
-              borderBottomWidth: index < suggestions.length - 1 ? 1 : 0,
-              borderBottomColor: colors.border,
-            }}
-          >
-            <Text>{suggestion}</Text>
-          </Pressable>
-        ))}
-      </ScrollView>
-    </Card>
-  )}
-</View>;
-```
-
-### Custom numeric stepper
-
-```tsx
-const [value, setValue] = useState(0);
-const [focused, setFocused] = useState(false);
-
-const increment = () => setValue((prev) => prev + 1);
-const decrement = () => setValue((prev) => Math.max(0, prev - 1));
+const [selectedColor, setSelectedColor] = useState<string>('#3b82f6');
+const [showColorPicker, setShowColorPicker] = useState(false);
 
 <InputContainer
-  label="Quantity"
-  focused={focused}
-  onPress={() => setFocused(true)}
-  hint="Use buttons to adjust quantity"
+  label="Brand Color"
+  onPress={() => setShowColorPicker(true)}
+  iconName="Palette"
+  hint="Choose your brand color"
 >
   <View
     style={{
@@ -347,49 +273,104 @@ const decrement = () => setValue((prev) => Math.max(0, prev - 1));
       flexDirection: 'row',
       alignItems: 'center',
       gap: 12,
-      paddingVertical: 4,
+      paddingVertical: 8,
     }}
   >
-    <IconButton
-      iconName="Minus"
-      size="small"
-      variant="outline"
-      onPress={decrement}
-      disabled={value <= 0}
+    <View
+      style={{
+        width: 24,
+        height: 24,
+        borderRadius: 12,
+        backgroundColor: selectedColor,
+        borderWidth: 1,
+        borderColor: colors.border,
+      }}
     />
-    <Text variant="h5" style={{ minWidth: 40, textAlign: 'center' }}>
-      {value}
-    </Text>
-    <IconButton
-      iconName="Plus"
-      size="small"
-      variant="outline"
-      onPress={increment}
-    />
+    <Text style={{ color: colors.foreground }}>{selectedColor}</Text>
   </View>
+  <Icon name="ChevronDown" size={16} color={colors.foreground} />
 </InputContainer>;
+```
+
+### Search input with suggestions
+
+```tsx
+const [searchQuery, setSearchQuery] = useState('');
+const [focused, setFocused] = useState(false);
+const [suggestions, setSuggestions] = useState<string[]>([]);
+
+const handleSearch = (query: string) => {
+  setSearchQuery(query);
+  // Mock suggestions
+  if (query) {
+    setSuggestions([
+      `${query} option 1`,
+      `${query} option 2`,
+      `${query} option 3`,
+    ]);
+  } else {
+    setSuggestions([]);
+  }
+};
+
+<View>
+  <InputContainer
+    label="Search"
+    focused={focused}
+    onPress={() => {}}
+    iconName="Search"
+    hint="Start typing to see suggestions"
+  >
+    <TextInput
+      value={searchQuery}
+      onChangeText={handleSearch}
+      onFocus={() => setFocused(true)}
+      onBlur={() => setFocused(false)}
+      style={{ flex: 1, paddingVertical: 8 }}
+      placeholder="Search for items..."
+    />
+  </InputContainer>
+
+  {suggestions.length > 0 && (
+    <Card style={{ marginTop: 8 }}>
+      {suggestions.map((suggestion, index) => (
+        <Button
+          key={index}
+          text={suggestion}
+          variant="transparent"
+          onPress={() => {
+            setSearchQuery(suggestion);
+            setSuggestions([]);
+          }}
+          style={{ justifyContent: 'flex-start' }}
+        />
+      ))}
+    </Card>
+  )}
+</View>;
 ```
 
 ## Implementation notes
 
-- **Focus management**: Handles visual focus states with smooth animations
-- **Error states**: Provides visual feedback for validation errors
-- **Flexible content**: Can contain any React components as children
-- **Icon support**: Optional left-side icon with fade animation on focus
-- **Size variants**: Supports different height configurations
-- **Accessibility**: Proper labeling and hint text for screen readers
+- The component provides a consistent foundation for all input components
+- Focus states are automatically managed with theme-appropriate styling
+- Error states display with distinctive red border and error text coloring
+- Icons are positioned consistently on the left side with proper spacing
+- Animations are smooth and respect reduced motion preferences
+- The component supports custom heights while maintaining proper touch targets
+- Theme integration ensures consistent styling across your application
+
+## Animation details
+
+- **Focus transitions**: 200ms duration with smooth border color changes
+- **Error state**: 200ms duration with color transitions to error state
+- **Press feedback**: Subtle opacity changes for better user feedback
+- **Icon animations**: Smooth color transitions based on component state
 
 ## Accessibility
 
-- Supports screen readers with proper labeling
-- Hint text is associated with the input for accessibility
-- Focus states are clearly indicated visually
-- Disabled state is properly communicated
-- Pressable area follows accessibility guidelines
-
-## Performance considerations
-
-- Efficient animations using React Native Reanimated
-- Minimal re-renders with proper state management
-- Lightweight component with optimized styling
-- Smooth transitions for focus and error states
+- The container properly handles focus states for keyboard navigation
+- Screen readers can navigate and understand the input structure
+- Error states are properly announced to assistive technology
+- All interactive elements maintain minimum touch target sizes
+- Color changes maintain proper contrast ratios for accessibility

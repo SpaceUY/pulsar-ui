@@ -1,8 +1,19 @@
 import { ScrollView, View, StyleSheet } from 'react-native';
-import { useState } from 'react';
+import { useState, useLayoutEffect } from 'react';
 import { CalendarPicker, Card, Text } from '@space-uy/rn-spacedev-uikit';
+import { useLocalSearchParams, useNavigation } from 'expo-router';
 
 export default function CalendarPickerExample() {
+  const { showHeader } = useLocalSearchParams<{ showHeader: string }>();
+  const headerVisible = showHeader === 'true';
+  const navigation = useNavigation();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: headerVisible,
+    });
+  }, [navigation, headerVisible]);
+
   const [selectedDateRange1, setSelectedDateRange1] = useState<{
     fromDate?: string;
     toDate?: string;
@@ -20,16 +31,20 @@ export default function CalendarPickerExample() {
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <View style={styles.section}>
-        <Text variant="h2" style={styles.sectionTitle}>
-          Calendar Picker
-        </Text>
-        <Text variant="pm" style={styles.sectionDescription}>
-          Date range selection component with calendar interface
-        </Text>
-      </View>
+      {headerVisible && (
+        <View style={styles.section}>
+          <Text variant="h2" style={styles.sectionTitle}>
+            Calendar Picker
+          </Text>
+          <Text variant="pm" style={styles.sectionDescription}>
+            Date range selection component with calendar interface
+          </Text>
+        </View>
+      )}
 
-      <Card style={styles.exampleContainer}>
+      <Card
+        style={[styles.exampleContainer, headerVisible && styles.firstExample]}
+      >
         <Text variant="h4" style={styles.exampleTitle}>
           Basic Calendar Range Picker
         </Text>
@@ -103,7 +118,8 @@ export default function CalendarPickerExample() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  section: { padding: 20, paddingBottom: 16 },
+  section: { marginHorizontal: 16, marginTop: 16 },
+  firstExample: { marginTop: 16 },
   sectionTitle: { marginBottom: 8 },
   sectionDescription: { opacity: 0.7 },
   exampleContainer: { marginHorizontal: 16, marginBottom: 24 },

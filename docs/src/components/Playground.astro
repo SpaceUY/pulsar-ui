@@ -1,0 +1,91 @@
+---
+interface Props {
+  src: string;
+  title?: string;
+}
+
+const { src, title = "Pulsar UI Playground - Interactive Component Demo" } = Astro.props;
+---
+
+<div style="
+  width: 100%; 
+  height: 60svh; 
+  margin: 20px 0; 
+  border-radius: 8px; 
+  overflow: hidden; 
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+">
+  <!-- Barra superior estilo macOS -->
+  <div data-macos-bar style="
+    height: 28px;
+    background: #23262F;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 12px;
+    flex-shrink: 0;
+    margin: 0;
+    line-height: 28px;
+  ">
+    <!-- Botones de ventana macOS -->
+    <div style="
+      display: flex; 
+      gap: 8px; 
+      align-items: center;
+      height: 28px;
+      margin: 0;
+      padding: 0;
+    ">
+      <div style="
+        width: 12px; 
+        height: 12px; 
+        border-radius: 50%; 
+        background: #FFFFFF;
+        opacity: 20%;
+        margin: 0;
+        padding: 0;
+        flex-shrink: 0;
+        display: block;
+      "></div>
+      <div style="
+        width: 12px; 
+        height: 12px; 
+        border-radius: 50%; 
+        background: #FFFFFF;
+        opacity: 20%;
+        margin: 0;
+        padding: 0;
+        flex-shrink: 0;
+        display: block;
+      "></div>
+      <div style="
+        width: 12px; 
+        height: 12px; 
+        border-radius: 50%; 
+        background: #FFFFFF;
+        opacity: 20%;
+        margin: 0;
+        padding: 0;
+        flex-shrink: 0;
+        display: block;
+      "></div>
+    </div>
+  </div>
+  
+  <!-- Contenido del iframe -->
+  <iframe 
+    src={src}
+    width="100%" 
+    style="
+      border: none; 
+      flex: 1;
+      display: block;
+      margin: 0;
+      padding: 0;
+      vertical-align: top;
+    "
+    title={title}
+  ></iframe>
+</div> 

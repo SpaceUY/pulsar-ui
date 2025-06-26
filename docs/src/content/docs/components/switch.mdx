@@ -1,0 +1,208 @@
+---
+title: Switch
+description: Interactive toggle switch component with smooth animations for boolean state management.
+---
+
+The `Switch` component provides an interactive toggle switch for boolean state management. It features smooth animations, disabled states, and automatic theming support.
+
+import Playground from '../../../components/Playground.astro';
+
+<Playground src="https://pulsarui-playground.netlify.app/ui-kit/switches?showHeader=false" />
+
+## Import
+
+```typescript
+import { Switch } from '@space-uy/rn-spacedev-uikit';
+```
+
+## Basic usage
+
+```tsx
+const [enabled, setEnabled] = useState(false);
+
+<Switch value={enabled} onValueChange={setEnabled} />;
+```
+
+## Properties
+
+| Property        | Type                       | Required | Default value | Description                            |
+| --------------- | -------------------------- | -------- | ------------- | -------------------------------------- |
+| `value`         | `boolean`                  | ✅       | -             | Current switch state (on/off)          |
+| `onValueChange` | `(value: boolean) => void` | ✅       | -             | Callback when switch state changes     |
+| `disabled`      | `boolean`                  | ❌       | `false`       | Whether the switch is disabled         |
+| `style`         | `StyleProp<ViewStyle>`     | ❌       | -             | Custom styles for the switch container |
+
+## Basic examples
+
+### Simple switch
+
+```tsx
+const [notifications, setNotifications] = useState(true);
+
+<View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+  <Switch value={notifications} onValueChange={setNotifications} />
+  <Text variant="pm">Enable notifications</Text>
+</View>;
+```
+
+### Disabled switch
+
+```tsx
+<View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+  <Switch value={true} onValueChange={() => {}} disabled={true} />
+  <Text variant="pm" style={{ opacity: 0.5 }}>
+    This setting cannot be changed
+  </Text>
+</View>
+```
+
+## Advanced examples
+
+### Settings form
+
+```tsx
+const [settings, setSettings] = useState({
+  notifications: true,
+  locationAccess: false,
+  biometricAuth: true,
+  autoBackup: false,
+  darkMode: false,
+});
+
+const updateSetting = (key: string, value: boolean) => {
+  setSettings((prev) => ({ ...prev, [key]: value }));
+};
+
+<Card>
+  <Text variant="h4">App Settings</Text>
+  <View style={{ gap: 16, marginTop: 16 }}>
+    <View
+      style={{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      }}
+    >
+      <View>
+        <Text variant="pm">Push Notifications</Text>
+        <Text variant="ps" style={{ opacity: 0.7 }}>
+          Receive notifications about important updates
+        </Text>
+      </View>
+      <Switch
+        value={settings.notifications}
+        onValueChange={(value) => updateSetting('notifications', value)}
+      />
+    </View>
+
+    <View
+      style={{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      }}
+    >
+      <View>
+        <Text variant="pm">Location Access</Text>
+        <Text variant="ps" style={{ opacity: 0.7 }}>
+          Allow app to access your location
+        </Text>
+      </View>
+      <Switch
+        value={settings.locationAccess}
+        onValueChange={(value) => updateSetting('locationAccess', value)}
+      />
+    </View>
+
+    <View
+      style={{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      }}
+    >
+      <View>
+        <Text variant="pm">Biometric Authentication</Text>
+        <Text variant="ps" style={{ opacity: 0.7 }}>
+          Use fingerprint or Face ID to unlock
+        </Text>
+      </View>
+      <Switch
+        value={settings.biometricAuth}
+        onValueChange={(value) => updateSetting('biometricAuth', value)}
+      />
+    </View>
+  </View>
+</Card>;
+```
+
+### Conditional settings
+
+```tsx
+const [settings, setSettings] = useState({
+  autoSync: false,
+  syncWifiOnly: true,
+  syncFrequency: 'daily',
+});
+
+<Card>
+  <Text variant="h4">Sync Settings</Text>
+  <View style={{ gap: 16, marginTop: 16 }}>
+    <View
+      style={{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      }}
+    >
+      <Text variant="pm">Auto Sync</Text>
+      <Switch
+        value={settings.autoSync}
+        onValueChange={(value) =>
+          setSettings((prev) => ({ ...prev, autoSync: value }))
+        }
+      />
+    </View>
+
+    {settings.autoSync && (
+      <>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            paddingLeft: 16,
+            opacity: 0.8,
+          }}
+        >
+          <Text variant="pm">WiFi Only</Text>
+          <Switch
+            value={settings.syncWifiOnly}
+            onValueChange={(value) =>
+              setSettings((prev) => ({ ...prev, syncWifiOnly: value }))
+            }
+          />
+        </View>
+
+        <View style={{ paddingLeft: 16 }}>
+          <Text variant="h5">Sync Frequency</Text>
+          <Tabs
+            options={[
+              { value: 'hourly', label: 'Hourly' },
+              { value: 'daily', label: 'Daily' },
+              { value: 'weekly', label: 'Weekly' },
+            ]}
+            selected={{
+              value: settings.syncFrequency,
+              label: settings.syncFrequency,
+            }}
+            onChange={(option) =>
+              setSettings((prev) => ({ ...prev, syncFrequency: option.value }))
+            }
+          />
+        </View>
+      </>
+    )}
+  </View>
+</Card>;
+```

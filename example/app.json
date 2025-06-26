@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "example",
-    "slug": "example",
+    "slug": "pulsarui",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -14,20 +14,37 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "rnspacedevuikit.example"
+      "bundleIdentifier": "pulsarui.playground"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "rnspacedevuikit.example"
+      "package": "pulsarui.playground"
     },
     "web": {
       "favicon": "./assets/images/favicon.png",
       "bundler": "metro"
     },
-    "plugins": ["expo-font", "expo-router", "expo-web-browser"],
-    "scheme": "rnspacedevuikit"
+    "plugins": [
+      "expo-font",
+      "expo-router",
+      "expo-web-browser"
+    ],
+    "scheme": "pulsarui",
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "e1739a95-baa9-40ce-a411-b14a1ab04310"
+      }
+    },
+    "owner": "chacaa",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/e1739a95-baa9-40ce-a411-b14a1ab04310"
+    }
   }
 }

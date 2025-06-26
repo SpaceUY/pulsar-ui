@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useLayoutEffect } from 'react';
 import { ScrollView, View, StyleSheet } from 'react-native';
 import {
   Card,
@@ -6,6 +6,7 @@ import {
   Text,
   type SelectOption,
 } from '@space-uy/rn-spacedev-uikit';
+import { useLocalSearchParams, useNavigation } from 'expo-router';
 
 const options = [
   { label: 'Option 1', value: 'option1' },
@@ -71,6 +72,16 @@ const largeCountryOptions = [
 ];
 
 export default function SelectExample() {
+  const { showHeader } = useLocalSearchParams<{ showHeader: string }>();
+  const headerVisible = showHeader === 'true';
+  const navigation = useNavigation();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: headerVisible,
+    });
+  }, [navigation, headerVisible]);
+
   const [selected1, setSelected1] = useState<SelectOption | undefined>(
     undefined
   );
@@ -86,16 +97,20 @@ export default function SelectExample() {
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <View style={styles.section}>
-        <Text variant="h2" style={styles.sectionTitle}>
-          Select
-        </Text>
-        <Text variant="pm" style={styles.sectionDescription}>
-          Dropdown selection components for choosing from multiple options
-        </Text>
-      </View>
+      {headerVisible && (
+        <View style={styles.section}>
+          <Text variant="h2" style={styles.sectionTitle}>
+            Select
+          </Text>
+          <Text variant="pm" style={styles.sectionDescription}>
+            Dropdown selection components for choosing from multiple options
+          </Text>
+        </View>
+      )}
 
-      <Card style={styles.exampleContainer}>
+      <Card
+        style={[styles.exampleContainer, headerVisible && styles.firstExample]}
+      >
         <Text variant="h4" style={styles.exampleTitle}>
           Basic Select
         </Text>
@@ -175,7 +190,8 @@ export default function SelectExample() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  section: { padding: 20, paddingBottom: 16 },
+  section: { marginHorizontal: 16, marginTop: 16 },
+  firstExample: { marginTop: 16 },
   sectionTitle: { marginBottom: 8 },
   sectionDescription: { opacity: 0.7 },
   exampleContainer: { marginHorizontal: 16, marginBottom: 24 },

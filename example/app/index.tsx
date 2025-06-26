@@ -58,8 +58,8 @@ export default function UIKitScreen() {
   };
 
   return (
-    <View style={[styles.root, { paddingTop: top + 16 }]}>
-      <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
+    <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
+      <View style={[styles.root, { paddingTop: top + 16 }]}>
         <View style={styles.header}>
           <Input
             style={styles.searchInput}
@@ -76,52 +76,49 @@ export default function UIKitScreen() {
             onPress={handleThemePress}
           />
         </View>
-      </TouchableWithoutFeedback>
-      <FlatList
-        data={filteredComponents}
-        numColumns={2}
-        keyboardShouldPersistTaps="handled"
-        removeClippedSubviews={true}
-        maxToRenderPerBatch={10}
-        windowSize={10}
-        contentContainerStyle={[
-          styles.contentListContainer,
-          { paddingBottom: bottom + 16 },
-        ]}
-        renderItem={({ item }) => (
-          <Pressable
-            style={styles.button}
-            onPress={() => handleCardPress(item.route)}
-          >
-            <Card style={{ width: cardSize, height: cardSize }}>
-              <Card variant="tinted" style={styles.iconContainer}>
-                <Icon
-                  name={item.iconName as any}
-                  size={40}
-                  color={colors.primary}
-                />
-              </Card>
-              <View style={styles.contentContainer}>
-                <Text style={styles.label} variant="h4" numberOfLines={1}>
-                  {item.name}
-                </Text>
-                <Icon
-                  style={styles.chevron}
-                  name="ChevronRight"
-                  size={16}
-                  color={colors.foreground}
-                />
-              </View>
-            </Card>
-          </Pressable>
-        )}
-      />
 
-      <ThemeSettingsModal
-        visible={isThemeModalVisible}
-        onClose={() => setIsThemeModalVisible(false)}
-      />
-    </View>
+        <FlatList
+          data={filteredComponents}
+          numColumns={2}
+          contentContainerStyle={[
+            styles.contentListContainer,
+            { paddingBottom: bottom + 16 },
+          ]}
+          renderItem={({ item }) => (
+            <Pressable
+              style={styles.button}
+              onPress={() => handleCardPress(item.route)}
+            >
+              <Card style={{ width: cardSize, height: cardSize }}>
+                <Card variant="tinted" style={styles.iconContainer}>
+                  <Icon
+                    name={item.iconName as any}
+                    size={40}
+                    color={colors.primary}
+                  />
+                </Card>
+                <View style={styles.contentContainer}>
+                  <Text style={styles.label} variant="h4" numberOfLines={1}>
+                    {item.name}
+                  </Text>
+                  <Icon
+                    style={styles.chevron}
+                    name="ChevronRight"
+                    size={16}
+                    color={colors.foreground}
+                  />
+                </View>
+              </Card>
+            </Pressable>
+          )}
+        />
+
+        <ThemeSettingsModal
+          visible={isThemeModalVisible}
+          onClose={() => setIsThemeModalVisible(false)}
+        />
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 

@@ -1,8 +1,19 @@
 import { ScrollView, View, StyleSheet } from 'react-native';
-import { useState } from 'react';
+import { useState, useLayoutEffect } from 'react';
 import { Card, TextArea, Text } from '@space-uy/rn-spacedev-uikit';
+import { useLocalSearchParams, useNavigation } from 'expo-router';
 
 export default function TextAreaExample() {
+  const { showHeader } = useLocalSearchParams<{ showHeader: string }>();
+  const headerVisible = showHeader === 'true';
+  const navigation = useNavigation();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: headerVisible,
+    });
+  }, [navigation, headerVisible]);
+
   const [value1, setValue1] = useState('');
   const [value2, setValue2] = useState('Sample text for textarea');
   const [value3, setValue3] = useState('');
@@ -10,16 +21,20 @@ export default function TextAreaExample() {
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <View style={styles.section}>
-        <Text variant="h2" style={styles.sectionTitle}>
-          TextArea
-        </Text>
-        <Text variant="pm" style={styles.sectionDescription}>
-          Multiline text fields for extensive text input
-        </Text>
-      </View>
+      {headerVisible && (
+        <View style={styles.section}>
+          <Text variant="h2" style={styles.sectionTitle}>
+            TextArea
+          </Text>
+          <Text variant="pm" style={styles.sectionDescription}>
+            Multiline text fields for extensive text input
+          </Text>
+        </View>
+      )}
 
-      <Card style={styles.exampleContainer}>
+      <Card
+        style={[styles.exampleContainer, headerVisible && styles.firstExample]}
+      >
         <Text variant="h4" style={styles.exampleTitle}>
           Basic TextArea
         </Text>
@@ -86,7 +101,8 @@ export default function TextAreaExample() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  section: { padding: 20, paddingBottom: 16 },
+  section: { marginHorizontal: 16, marginTop: 16 },
+  firstExample: { marginTop: 16 },
   sectionTitle: { marginBottom: 8 },
   sectionDescription: { opacity: 0.7 },
   exampleContainer: { marginHorizontal: 16, marginBottom: 24 },

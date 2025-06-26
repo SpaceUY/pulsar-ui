@@ -3,9 +3,11 @@ title: Calendar Picker
 description: Date range picker component with calendar interface
 ---
 
-## Description
-
 The `CalendarPicker` component provides an elegant date range selection interface with a bottom sheet calendar. It supports single date selection, date ranges, and includes features like month navigation, date validation, and customizable styling.
+
+import Playground from '../../../components/Playground.astro';
+
+<Playground src="https://pulsarui-playground.netlify.app/ui-kit/calendar-picker?showHeader=false" />
 
 ## Import
 
@@ -252,172 +254,82 @@ const handleEventTypeChange = (type: 'single' | 'multi') => {
 </View>;
 ```
 
-### Comparison with preset ranges
+### Recurring events
 
 ```tsx
-const [reportDates, setReportDates] = useState<{
+const [recurringEvent, setRecurringEvent] = useState<{
   fromDate?: string;
   toDate?: string;
 }>({});
+const [recurringPattern, setRecurringPattern] = useState<string>('weekly');
 
-const presetRanges = [
-  {
-    label: 'Last 7 days',
-    range: {
-      fromDate: format(subDays(new Date(), 7), 'yyyy-MM-dd'),
-      toDate: format(new Date(), 'yyyy-MM-dd'),
-    },
-  },
-  {
-    label: 'Last 30 days',
-    range: {
-      fromDate: format(subDays(new Date(), 30), 'yyyy-MM-dd'),
-      toDate: format(new Date(), 'yyyy-MM-dd'),
-    },
-  },
-  {
-    label: 'This month',
-    range: {
-      fromDate: format(startOfMonth(new Date()), 'yyyy-MM-dd'),
-      toDate: format(endOfMonth(new Date()), 'yyyy-MM-dd'),
-    },
-  },
+const recurringOptions = [
+  { value: 'daily', label: 'Daily' },
+  { value: 'weekly', label: 'Weekly' },
+  { value: 'monthly', label: 'Monthly' },
 ];
 
-<View style={{ gap: 16 }}>
-  <Text variant="h4">Generate Report</Text>
+<Card>
+  <Text variant="h4">Create Recurring Event</Text>
 
-  <CalendarPicker
-    label="Report period"
-    value={reportDates}
-    onChange={setReportDates}
-    placeholder="Select date range for report"
-    hint="Choose the period for your analytics report"
-  />
-
-  <View style={{ gap: 8 }}>
-    <Text variant="h5">Quick select:</Text>
-    <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-      {presetRanges.map((preset) => (
-        <Chip
-          key={preset.label}
-          text={preset.label}
-          onPress={() => setReportDates(preset.range)}
-          size="small"
-        />
-      ))}
-    </View>
-  </View>
-
-  {reportDates.fromDate && reportDates.toDate && (
-    <Button
-      text="Generate Report"
-      onPress={() => generateReport(reportDates)}
-      style={{ marginTop: 8 }}
-    />
-  )}
-</View>;
-```
-
-### Form integration
-
-```tsx
-const [formData, setFormData] = useState({
-  projectName: '',
-  dates: { fromDate: undefined, toDate: undefined },
-  description: '',
-});
-
-const [errors, setErrors] = useState<Record<string, boolean>>({});
-
-const validateForm = () => {
-  const newErrors: Record<string, boolean> = {};
-
-  if (!formData.projectName.trim()) newErrors.projectName = true;
-  if (!formData.dates.fromDate || !formData.dates.toDate)
-    newErrors.dates = true;
-  if (!formData.description.trim()) newErrors.description = true;
-
-  setErrors(newErrors);
-  return Object.keys(newErrors).length === 0;
-};
-
-<Card style={{ padding: 16 }}>
-  <Text variant="h4" style={{ marginBottom: 16 }}>
-    Create Project
-  </Text>
-
-  <View style={{ gap: 16 }}>
-    <Input
-      label="Project Name"
-      value={formData.projectName}
-      onChangeText={(projectName) =>
-        setFormData((prev) => ({ ...prev, projectName }))
-      }
-      error={errors.projectName}
-      hint={errors.projectName ? 'Project name is required' : undefined}
-      placeholder="Enter project name"
-    />
-
+  <View style={{ marginTop: 16, gap: 16 }}>
     <CalendarPicker
-      label="Project Timeline"
-      value={formData.dates}
-      onChange={(dates) => setFormData((prev) => ({ ...prev, dates }))}
-      error={errors.dates}
-      hint={
-        errors.dates
-          ? 'Please select project start and end dates'
-          : 'Choose project duration'
-      }
-      placeholder="Select project timeline"
+      label="Event dates"
+      value={recurringEvent}
+      onChange={setRecurringEvent}
+      placeholder="Select event period"
+      hint="Choose start and end dates for the recurring event"
     />
 
-    <TextArea
-      label="Description"
-      value={formData.description}
-      onChangeText={(description) =>
-        setFormData((prev) => ({ ...prev, description }))
-      }
-      error={errors.description}
-      hint={errors.description ? 'Description is required' : undefined}
-      placeholder="Describe your project"
-      numberOfLines={3}
+    <Select
+      label="Repeat pattern"
+      options={recurringOptions}
+      value={recurringOptions.find((opt) => opt.value === recurringPattern)}
+      onChange={(option) => setRecurringPattern(option.value)}
+      placeholder="Select pattern"
     />
 
-    <Button
-      text="Create Project"
-      onPress={() => {
-        if (validateForm()) {
-          handleCreateProject(formData);
-        }
-      }}
-    />
+    {recurringEvent.fromDate && recurringEvent.toDate && (
+      <View
+        style={{
+          padding: 12,
+          backgroundColor: colors.altBackground,
+          borderRadius: 8,
+        }}
+      >
+        <Text variant="pm">Preview:</Text>
+        <Text variant="ps" style={{ opacity: 0.7 }}>
+          Event will repeat {recurringPattern} from{' '}
+          {format(new Date(recurringEvent.fromDate), 'MMM dd')} to{' '}
+          {format(new Date(recurringEvent.toDate), 'MMM dd, yyyy')}
+        </Text>
+      </View>
+    )}
   </View>
 </Card>;
 ```
 
 ## Implementation notes
 
-- **Date format**: Uses ISO string format for date values
-- **Bottom sheet**: Calendar opens in a bottom sheet overlay
-- **Range selection**: Supports both single date and date range selection
-- **Visual feedback**: Shows selected dates with highlighting and range indicators
-- **Navigation**: Includes month navigation with custom header
-- **Validation**: Built-in date validation and custom error states
-- **Accessibility**: Proper labeling and keyboard navigation support
+- The calendar uses a bottom sheet interface for better mobile experience
+- Date range selection is intuitive with visual feedback for start and end dates
+- Month navigation is smooth with proper animations
+- The component respects locale settings for date formatting
+- Past dates can be disabled based on configuration
+- The calendar automatically handles different month lengths and leap years
+
+## Calendar Features
+
+- **Month Navigation**: Smooth transitions between months with arrow controls
+- **Date Range Selection**: Visual feedback for selecting start and end dates
+- **Today Highlighting**: Current date is clearly marked
+- **Disabled Dates**: Past dates or custom disabled dates are visually distinct
+- **Responsive Design**: Adapts to different screen sizes
 
 ## Accessibility
 
-- Supports screen readers with proper labeling
-- Keyboard navigation for calendar interaction
-- Clear visual indicators for selected dates
-- High contrast colors for better visibility
-- Proper focus management in bottom sheet
-
-## Performance considerations
-
-- Efficient date calculations using date-fns library
-- Optimized re-renders with proper memoization
-- Lazy loading of calendar components
-- Smooth animations with React Native Reanimated
-- Memory efficient date range calculations
+- Full keyboard navigation support for calendar interaction
+- Screen reader compatibility with proper date announcements
+- High contrast mode support for better visibility
+- Touch targets meet minimum size requirements for easy interaction
+- Focus management ensures smooth navigation through calendar dates

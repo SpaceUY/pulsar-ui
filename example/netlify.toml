@@ -1,0 +1,9 @@
+[build]
+  publish = "dist"
+  command = "expo export -p web"
+
+# Redirect all routes to index.html for SPA routing
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200 

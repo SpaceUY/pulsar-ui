@@ -4,8 +4,6 @@ description: Get started building your docs site with Starlight.
 template: splash
 hero:
   tagline: Congrats on setting up a new Starlight project!
-  image:
-    file: ../../assets/houston.webp
   actions:
     - text: Example Guide
       link: /overview/introduction/
@@ -17,6 +15,83 @@ hero:
 ---
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
+
+<style>
+  {`
+  .hero-container {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    padding: 2rem;
+  }
+  .hero-content {
+    flex: 1;
+    max-width: 600px;
+  }
+  .mobile-preview {
+    flex-shrink: 0;
+    position: sticky;
+    top: 120px;
+    z-index: 999;
+  }
+  .mobile-frame {
+    width: 280px;
+    height: 560px;
+    border: 6px solid #1a1a1a;
+    border-radius: 30px;
+    box-shadow: 0 0 25px rgba(0,0,0,0.3);
+    background: #1a1a1a;
+    padding: 15px 6px;
+    position: relative;
+  }
+  .mobile-frame::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background: #666;
+    border-radius: 2px;
+  }
+  .mobile-screen {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 22px;
+    overflow: hidden;
+  }
+  @media (max-width: 768px) {
+    .hero-container {
+      flex-direction: column;
+      align-items: center;
+    }
+    .mobile-preview {
+      position: relative;
+      top: 0;
+    }
+  }
+`}
+</style>
+
+<div className="hero-container">
+  <div className="hero-content">
+    {/* El contenido del hero se mantiene aquí */}
+  </div>
+  <div className="mobile-preview">
+    <div className="mobile-frame">
+      <iframe
+        src="https://pulsarui-playground.netlify.app"
+        className="mobile-screen"
+        title="Pulsar UI Playground - Mobile Preview"
+      ></iframe>
+    </div>
+  </div>
+</div>
 
 ## Next steps
 

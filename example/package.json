@@ -1,5 +1,5 @@
 {
-  "name": "rn-spacedev-uikit-example",
+  "name": "pulsar-ui-playground",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
@@ -27,6 +27,7 @@
     "expo-splash-screen": "~0.30.8",
     "expo-status-bar": "~2.2.3",
     "expo-system-ui": "~5.0.7",
+    "expo-updates": "~0.28.15",
     "expo-web-browser": "~14.1.6",
     "lucide-react-native": "^0.503.0",
     "react": "19.0.0",

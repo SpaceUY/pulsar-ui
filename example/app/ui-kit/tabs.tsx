@@ -1,6 +1,7 @@
 import { ScrollView, View, StyleSheet } from 'react-native';
-import { useState } from 'react';
+import { useState, useLayoutEffect } from 'react';
 import { Card, Tabs, Text } from '@space-uy/rn-spacedev-uikit';
+import { useLocalSearchParams, useNavigation } from 'expo-router';
 
 const tabs1 = [
   { label: 'Home', value: 'home' },
@@ -21,22 +22,36 @@ const tabs3 = [
 ];
 
 export default function TabsExample() {
+  const { showHeader } = useLocalSearchParams<{ showHeader: string }>();
+  const headerVisible = showHeader === 'true';
+  const navigation = useNavigation();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: headerVisible,
+    });
+  }, [navigation, headerVisible]);
+
   const [selectedTab1, setSelectedTab1] = useState(tabs1[0]!);
   const [selectedTab2, setSelectedTab2] = useState(tabs2[0]!);
   const [selectedTab3, setSelectedTab3] = useState(tabs3[0]!);
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <View style={styles.section}>
-        <Text variant="h2" style={styles.sectionTitle}>
-          Tabs
-        </Text>
-        <Text variant="pm" style={styles.sectionDescription}>
-          Navigation components to organize content into separate views
-        </Text>
-      </View>
+      {headerVisible && (
+        <View style={styles.section}>
+          <Text variant="h2" style={styles.sectionTitle}>
+            Tabs
+          </Text>
+          <Text variant="pm" style={styles.sectionDescription}>
+            Navigation components to organize content into separate views
+          </Text>
+        </View>
+      )}
 
-      <Card style={styles.exampleContainer}>
+      <Card
+        style={[styles.exampleContainer, headerVisible && styles.firstExample]}
+      >
         <Text variant="h4" style={styles.exampleTitle}>
           Basic Tabs
         </Text>
@@ -85,7 +100,8 @@ export default function TabsExample() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  section: { padding: 20, paddingBottom: 16 },
+  section: { marginHorizontal: 16, marginTop: 16 },
+  firstExample: { marginTop: 16 },
   sectionTitle: { marginBottom: 8 },
   sectionDescription: { opacity: 0.7 },
   exampleContainer: { marginHorizontal: 16, marginBottom: 24 },

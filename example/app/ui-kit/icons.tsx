@@ -5,13 +5,13 @@ import {
   Dimensions,
   type ViewStyle,
   type StyleProp,
-  FlatList,
   Pressable,
 } from 'react-native';
 import { icons } from 'lucide-react-native';
 import { Icon, Input, Header } from '@space-uy/rn-spacedev-uikit';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
+import { LegendList } from '@legendapp/list';
 
 import useTheme from '../../../src/hooks/useTheme';
 
@@ -112,22 +112,16 @@ export default function IconsScreen() {
           clearable
         />
       </Header>
-      <FlatList
+      <LegendList
         data={iconRows}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
+        estimatedItemSize={ITEM_HEIGHT}
         contentContainerStyle={styles.container}
-        removeClippedSubviews={true}
-        maxToRenderPerBatch={5}
-        windowSize={3}
-        initialNumToRender={8}
-        updateCellsBatchingPeriod={100}
-        getItemLayout={(_, index) => ({
-          length: ITEM_HEIGHT,
-          offset: ITEM_HEIGHT * index,
-          index,
-        })}
-        progressViewOffset={100}
+        recycleItems={true}
+        drawDistance={100}
+        waitForInitialLayout={true}
+        maintainVisibleContentPosition={true}
       />
     </View>
   );
@@ -135,7 +129,10 @@ export default function IconsScreen() {
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
-  container: { paddingHorizontal: SPACING, paddingTop: SPACING / 2 },
+  container: {
+    paddingHorizontal: SPACING,
+    paddingTop: SPACING / 2,
+  },
   row: {
     flexDirection: 'row',
     marginBottom: SPACING,
