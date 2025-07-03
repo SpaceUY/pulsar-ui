@@ -1,6 +1,6 @@
 {
   "extends": "./tsconfig",
-  "exclude": ["example", "lib"],
+  "exclude": ["example", "docs", "lib"],
   "compilerOptions": {
     "noEmit": false,
     "declaration": true,
