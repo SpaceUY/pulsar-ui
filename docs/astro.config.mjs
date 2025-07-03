@@ -4,7 +4,7 @@ import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://spaceuy.github.io/rn-spacedev-uikit',
+  site: 'https://spaceuy.github.io/pulsar-ui',
   base: '/',
   integrations: [
     starlight({
@@ -13,7 +13,7 @@ export default defineConfig({
         {
           icon: 'github',
           label: 'GitHub',
-          href: 'https://github.com/SpaceUY/rn-spacedev-uikit',
+          href: 'https://github.com/SpaceUY/pulsar-ui',
         },
       ],
       sidebar: [

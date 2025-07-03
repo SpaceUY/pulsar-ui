@@ -110,7 +110,7 @@ function MyApp() {
 1. Clone the repository:
 
 ```sh
-git clone https://github.com/SpaceUY/rn-spacedev-uikit.git
+git clone https://github.com/SpaceUY/pulsar-ui.git
 cd @space-uy/pulsar-ui
 ```
 
