@@ -5,7 +5,7 @@ import starlight from '@astrojs/starlight';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://spaceuy.github.io/pulsar-ui',
-  base: '/',
+  base: '/pulsar-ui',
   integrations: [
     starlight({
       title: 'SpaceDev UI Kit',
