@@ -3699,9 +3699,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@space-uy/rn-spacedev-uikit@workspace:.":
+"@space-uy/pulsar-ui@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@space-uy/rn-spacedev-uikit@workspace:."
+  resolution: "@space-uy/pulsar-ui@workspace:."
   dependencies:
     "@commitlint/config-conventional": ^19.6.0
     "@eslint/compat": ^1.2.7

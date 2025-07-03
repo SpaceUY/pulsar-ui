@@ -6,7 +6,8 @@ import {
   Text,
   CopyToClipboard,
   useUIKitTheme,
-} from '@space-uy/rn-spacedev-uikit';
+} from '@space-uy/pulsar-ui';
+import ResponsiveScroll from '../../components/ResponsiveScroll';
 
 export default function IconDetailScreen() {
   const { iconName } = useLocalSearchParams<{ iconName: string }>();
@@ -19,7 +20,7 @@ export default function IconDetailScreen() {
   const codeSnippet = `<Icon name="${iconName}" size={24} />`;
 
   return (
-    <View style={styles.container}>
+    <ResponsiveScroll style={styles.container}>
       <View style={styles.content}>
         <Card variant="tinted" style={[styles.iconCard]}>
           <Icon name={iconName as any} size={120} color={colors.primary} />
@@ -69,7 +70,7 @@ export default function IconDetailScreen() {
           </CopyToClipboard>
         </View>
       </View>
-    </View>
+    </ResponsiveScroll>
   );
 }
 

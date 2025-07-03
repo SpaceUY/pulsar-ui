@@ -1,25 +1,12 @@
 import { useLayoutEffect } from 'react';
-import { ScrollView, View, StyleSheet } from 'react-native';
-import { Card, Text } from '@space-uy/rn-spacedev-uikit';
+import { View, StyleSheet } from 'react-native';
+import { Card, Text } from '@space-uy/pulsar-ui';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
-
-const textVariants = [
-  { variant: 'h1', label: 'Heading 1' },
-  { variant: 'h2', label: 'Heading 2' },
-  { variant: 'h3', label: 'Heading 3' },
-  { variant: 'h4', label: 'Heading 4' },
-  { variant: 'xl', label: 'Extra Large' },
-  { variant: 'lg', label: 'Large' },
-  { variant: 'md', label: 'Medium' },
-  { variant: 'sm', label: 'Small' },
-  { variant: 'xs', label: 'Extra Small' },
-  { variant: 'pm', label: 'Paragraph Medium' },
-  { variant: 'ps', label: 'Paragraph Small' },
-];
+import ResponsiveScroll from '../../components/ResponsiveScroll';
 
 export default function TextsExample() {
   const { showHeader } = useLocalSearchParams<{ showHeader: string }>();
-  const headerVisible = showHeader === 'true';
+  const headerVisible = showHeader !== 'false';
   const navigation = useNavigation();
 
   useLayoutEffect(() => {
@@ -29,64 +16,109 @@ export default function TextsExample() {
   }, [navigation, headerVisible]);
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <ResponsiveScroll>
       {headerVisible && (
         <View style={styles.section}>
           <Text variant="h2" style={styles.sectionTitle}>
-            Typography
+            Text
           </Text>
           <Text variant="pm" style={styles.sectionDescription}>
-            Typography system with different variants and hierarchies
+            Text components with different variants and typography styles
           </Text>
         </View>
       )}
 
       <Card
-        variant="tinted"
         style={[styles.exampleContainer, headerVisible && styles.firstExample]}
       >
         <Text variant="h4" style={styles.exampleTitle}>
-          Text Hierarchy
+          Headings
         </Text>
         <View style={styles.textContainer}>
-          {textVariants.map(({ variant, label }) => (
-            <View key={variant} style={styles.textRow}>
-              <Text variant={variant as any} style={styles.text}>
-                {label} - This is a sample {variant} text
-              </Text>
-            </View>
-          ))}
+          <View style={styles.textRow}>
+            <Text variant="h1" style={styles.text}>
+              Heading 1
+            </Text>
+          </View>
+          <View style={styles.textRow}>
+            <Text variant="h2" style={styles.text}>
+              Heading 2
+            </Text>
+          </View>
+          <View style={styles.textRow}>
+            <Text variant="h3" style={styles.text}>
+              Heading 3
+            </Text>
+          </View>
+          <View style={styles.textRow}>
+            <Text variant="h4" style={styles.text}>
+              Heading 4
+            </Text>
+          </View>
+          <View style={styles.textRow}>
+            <Text variant="h5" style={styles.text}>
+              Heading 5
+            </Text>
+          </View>
         </View>
       </Card>
 
-      <Card variant="tinted" style={styles.exampleContainer}>
+      <Card style={styles.exampleContainer}>
+        <Text variant="h4" style={styles.exampleTitle}>
+          Body Text
+        </Text>
+        <View style={styles.textContainer}>
+          <View style={styles.textRow}>
+            <Text variant="pl" style={styles.text}>
+              Large Body Text
+            </Text>
+          </View>
+          <View style={styles.textRow}>
+            <Text variant="pm" style={styles.text}>
+              Medium Body Text
+            </Text>
+          </View>
+          <View style={styles.textRow}>
+            <Text variant="ps" style={styles.text}>
+              Small Body Text
+            </Text>
+          </View>
+          <View style={styles.textRow}>
+            <Text variant="caption" style={styles.text}>
+              Caption Text
+            </Text>
+          </View>
+        </View>
+      </Card>
+
+      <Card style={styles.exampleContainer}>
         <Text variant="h4" style={styles.exampleTitle}>
           Paragraph Example
         </Text>
         <Text variant="pm" style={styles.paragraph}>
-          This is a paragraph example that demonstrates how text flows naturally
-          across multiple lines. It shows proper line height, spacing, and
-          readability. Typography is crucial for creating great user experiences
-          and maintaining visual hierarchy throughout the application.
+          This is a longer paragraph text example that demonstrates how text
+          flows naturally within a container. It shows proper line spacing,
+          readability, and how the text component handles multiple lines of
+          content. The paragraph maintains good typography principles with
+          appropriate line height and spacing between words and letters.
         </Text>
       </Card>
 
       <View style={styles.spacer} />
-    </ScrollView>
+    </ResponsiveScroll>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  section: { marginHorizontal: 16, marginTop: 16 },
+  section: { marginTop: 16 },
+  spacer: { height: 40 },
   firstExample: { marginTop: 16 },
   sectionTitle: { marginBottom: 8 },
   sectionDescription: { opacity: 0.7 },
-  exampleContainer: { marginHorizontal: 16, marginBottom: 24 },
+  exampleContainer: { marginBottom: 24 },
   exampleTitle: { marginBottom: 12 },
   textContainer: { gap: 16 },
   textRow: {},
   text: {},
   paragraph: { lineHeight: 24 },
-  spacer: { height: 40 },
 });

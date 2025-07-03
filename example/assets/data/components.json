@@ -93,5 +93,20 @@
     "name": "Dialog",
     "route": "ui-kit/dialog",
     "iconName": "MessageSquare"
+  },
+  {
+    "name": "Bottom Sheet",
+    "route": "ui-kit/bottom-sheet",
+    "iconName": "PanelBottom"
+  },
+  {
+    "name": "Input Container",
+    "route": "ui-kit/input-container",
+    "iconName": "Square"
+  },
+  {
+    "name": "Button Container",
+    "route": "ui-kit/button-container",
+    "iconName": "RectangleEllipsis"
   }
 ]

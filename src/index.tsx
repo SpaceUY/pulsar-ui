@@ -13,7 +13,11 @@ export { default as Icon, type IconName } from './components/Icon';
 export { default as IconButton } from './components/IconButton';
 export { default as Header } from './components/Header';
 export { default as Switch } from './components/Switch';
-export { ButtonVariant, ButtonSize } from './components/ButtonContainer';
+export {
+  default as ButtonContainer,
+  ButtonVariant,
+  ButtonSize,
+} from './components/ButtonContainer';
 export { convertHexToRgba } from './utils/uiUtils';
 export { default as BottomSheet } from './components/BottomSheet';
 export { default as TextArea } from './components/TextArea';

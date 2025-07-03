@@ -6,20 +6,20 @@ import {
   TouchableWithoutFeedback,
   useWindowDimensions,
   View,
+  Platform,
+  Dimensions,
 } from 'react-native';
-import {
-  Card,
-  Icon,
-  IconButton,
-  Input,
-  Text,
-} from '@space-uy/rn-spacedev-uikit';
+import { Card, Icon, IconButton, Input, Text } from '@space-uy/pulsar-ui';
 import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useTheme from '../../src/hooks/useTheme';
 import { useEffect, useState } from 'react';
 import ThemeSettingsModal from '../components/ThemeSettingsModal';
 import componentsData from '../assets/data/components.json';
+
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const IS_WEB = Platform.OS === 'web';
+const MAX_WIDTH = 600;
 
 const components = componentsData;
 
@@ -31,7 +31,9 @@ export default function UIKitScreen() {
   const { width } = useWindowDimensions();
   const { colors } = useTheme();
 
-  const cardSize = (width - 48) / 2;
+  // Calcular el ancho disponible respetando el maxWidth
+  const availableWidth = IS_WEB && SCREEN_WIDTH > MAX_WIDTH ? MAX_WIDTH : width;
+  const cardSize = (availableWidth - 48) / 2;
 
   useEffect(() => {
     setFilteredComponents(
@@ -57,10 +59,29 @@ export default function UIKitScreen() {
     setIsThemeModalVisible(true);
   };
 
+  const responsiveStyles = {
+    container:
+      IS_WEB && SCREEN_WIDTH > MAX_WIDTH
+        ? {
+            maxWidth: MAX_WIDTH,
+            alignSelf: 'center' as const,
+            width: '100%' as const,
+          }
+        : {},
+    header: { marginHorizontal: IS_WEB ? 24 : 16 },
+    contentList: { paddingHorizontal: IS_WEB ? 16 : 8 },
+  };
+
   return (
     <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
-      <View style={[styles.root, { paddingTop: top + 16 }]}>
-        <View style={styles.header}>
+      <View
+        style={[
+          styles.root,
+          { paddingTop: top + 16 },
+          responsiveStyles.container,
+        ]}
+      >
+        <View style={[styles.header, responsiveStyles.header]}>
           <Input
             style={styles.searchInput}
             iconName="Search"
@@ -83,6 +104,7 @@ export default function UIKitScreen() {
           contentContainerStyle={[
             styles.contentListContainer,
             { paddingBottom: bottom + 16 },
+            responsiveStyles.contentList,
           ]}
           renderItem={({ item }) => (
             <Pressable

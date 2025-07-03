@@ -1,5 +1,5 @@
 {
-  "name": "@space-uy/rn-spacedev-uikit",
+  "name": "@space-uy/pulsar-ui",
   "version": "0.2.5",
   "description": "react native ui kit for spacedev",
   "source": "./src/index.tsx",
@@ -47,14 +47,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SpaceUY/rn-spacedev-uikit.git"
+    "url": "git+https://github.com/SpaceUY/pulsar-ui.git"
   },
   "author": "chacaa <santiagocasaslopez@gmail.com> (https://github.com/chacaa)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/SpaceUY/rn-spacedev-uikit/issues"
+    "url": "https://github.com/SpaceUY/pulsar-ui/issues"
   },
-  "homepage": "https://github.com/SpaceUY/rn-spacedev-uikit#readme",
+  "homepage": "https://github.com/SpaceUY/pulsar-ui#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"

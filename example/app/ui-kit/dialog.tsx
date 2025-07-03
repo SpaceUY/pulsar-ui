@@ -1,23 +1,29 @@
 import { useState, useLayoutEffect } from 'react';
-import { ScrollView, View, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import {
   Button,
   Card,
   Dialog,
-  DialogHeader,
-  DialogTitle,
+  DialogAction,
   DialogDescription,
   DialogFooter,
-  DialogAction,
-  DialogCancel,
+  DialogHeader,
+  DialogTitle,
   Text,
-} from '@space-uy/rn-spacedev-uikit';
+  Input,
+} from '@space-uy/pulsar-ui';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
+import ResponsiveScroll from '../../components/ResponsiveScroll';
 
 export default function DialogExample() {
   const { showHeader } = useLocalSearchParams<{ showHeader: string }>();
-  const headerVisible = showHeader === 'true';
+  const headerVisible = showHeader !== 'false';
   const navigation = useNavigation();
+
+  const [basicDialogVisible, setBasicDialogVisible] = useState(false);
+  const [confirmDialogVisible, setConfirmDialogVisible] = useState(false);
+  const [formDialogVisible, setFormDialogVisible] = useState(false);
+  const [inputValue, setInputValue] = useState('');
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -25,55 +31,50 @@ export default function DialogExample() {
     });
   }, [navigation, headerVisible]);
 
-  const [basicDialogVisible, setBasicDialogVisible] = useState(false);
-  const [confirmDialogVisible, setConfirmDialogVisible] = useState(false);
-  const [destructiveDialogVisible, setDestructiveDialogVisible] =
-    useState(false);
-
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <ResponsiveScroll>
       {headerVisible && (
         <View style={styles.section}>
           <Text variant="h2" style={styles.sectionTitle}>
-            Dialog
+            Dialogs
           </Text>
           <Text variant="pm" style={styles.sectionDescription}>
-            Modal dialogs that interrupt the user with important content
+            Modal dialogs for user interaction and confirmation
           </Text>
         </View>
       )}
 
       <Card
-        variant="tinted"
         style={[styles.exampleContainer, headerVisible && styles.firstExample]}
       >
         <Text variant="h4" style={styles.exampleTitle}>
           Basic Dialog
         </Text>
         <Button
-          text="Open Basic Dialog"
+          text="Show Basic Dialog"
           onPress={() => setBasicDialogVisible(true)}
         />
       </Card>
 
-      <Card variant="tinted" style={styles.exampleContainer}>
+      <Card style={styles.exampleContainer}>
         <Text variant="h4" style={styles.exampleTitle}>
           Confirmation Dialog
         </Text>
         <Button
-          text="Open Confirmation Dialog"
+          text="Show Confirmation"
+          variant="outline"
           onPress={() => setConfirmDialogVisible(true)}
         />
       </Card>
 
-      <Card variant="tinted" style={styles.exampleContainer}>
+      <Card style={styles.exampleContainer}>
         <Text variant="h4" style={styles.exampleTitle}>
-          Destructive Dialog
+          Form Dialog
         </Text>
         <Button
-          text="Open Destructive Dialog"
-          variant="destructive"
-          onPress={() => setDestructiveDialogVisible(true)}
+          text="Show Form Dialog"
+          variant="transparent"
+          onPress={() => setFormDialogVisible(true)}
         />
       </Card>
 
@@ -83,15 +84,17 @@ export default function DialogExample() {
         onDismiss={() => setBasicDialogVisible(false)}
       >
         <DialogHeader>
-          <DialogTitle>Information</DialogTitle>
+          <DialogTitle>Basic Dialog</DialogTitle>
           <DialogDescription>
-            This is a basic dialog with important information for the user. It
-            can contain text, images, or other content.
+            This is a simple dialog with basic content and actions.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <DialogAction onPress={() => setBasicDialogVisible(false)}>
-            OK
+            Cancel
+          </DialogAction>
+          <DialogAction onPress={() => setBasicDialogVisible(false)}>
+            Accept
           </DialogAction>
         </DialogFooter>
       </Dialog>
@@ -104,56 +107,69 @@ export default function DialogExample() {
         <DialogHeader>
           <DialogTitle>Confirm Action</DialogTitle>
           <DialogDescription>
-            This action will save the changes made. Do you want to continue?
+            Are you sure you want to proceed with this action? This cannot be
+            undone.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <DialogCancel onPress={() => setConfirmDialogVisible(false)}>
-            Cancel
-          </DialogCancel>
           <DialogAction onPress={() => setConfirmDialogVisible(false)}>
-            Save
-          </DialogAction>
-        </DialogFooter>
-      </Dialog>
-
-      {/* Destructive Dialog */}
-      <Dialog
-        visible={destructiveDialogVisible}
-        onDismiss={() => setDestructiveDialogVisible(false)}
-      >
-        <DialogHeader>
-          <DialogTitle>Delete Account</DialogTitle>
-          <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove all your data from our servers.
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
-          <DialogCancel onPress={() => setDestructiveDialogVisible(false)}>
             Cancel
-          </DialogCancel>
+          </DialogAction>
           <DialogAction
-            onPress={() => setDestructiveDialogVisible(false)}
             destructive
+            onPress={() => setConfirmDialogVisible(false)}
           >
             Delete
           </DialogAction>
         </DialogFooter>
       </Dialog>
 
+      {/* Form Dialog */}
+      <Dialog
+        visible={formDialogVisible}
+        onDismiss={() => setFormDialogVisible(false)}
+      >
+        <DialogHeader>
+          <DialogTitle>Add Item</DialogTitle>
+          <DialogDescription>
+            Enter the details for the new item you want to add.
+          </DialogDescription>
+        </DialogHeader>
+        <View style={styles.formContent}>
+          <Input
+            label="Item Name"
+            value={inputValue}
+            onChangeText={setInputValue}
+            placeholder="Enter item name"
+          />
+        </View>
+        <DialogFooter>
+          <DialogAction onPress={() => setFormDialogVisible(false)}>
+            Cancel
+          </DialogAction>
+          <DialogAction
+            onPress={() => {
+              setInputValue('');
+              setFormDialogVisible(false);
+            }}
+          >
+            Add Item
+          </DialogAction>
+        </DialogFooter>
+      </Dialog>
+
       <View style={styles.spacer} />
-    </ScrollView>
+    </ResponsiveScroll>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  section: { marginHorizontal: 16, marginTop: 16 },
+  section: { marginTop: 16 },
+  spacer: { height: 40 },
   firstExample: { marginTop: 16 },
   sectionTitle: { marginBottom: 8 },
   sectionDescription: { opacity: 0.7 },
-  exampleContainer: { marginHorizontal: 16, marginBottom: 24 },
+  exampleContainer: { marginBottom: 24 },
   exampleTitle: { marginBottom: 12 },
-  spacer: { height: 40 },
+  formContent: { paddingVertical: 16 },
 });

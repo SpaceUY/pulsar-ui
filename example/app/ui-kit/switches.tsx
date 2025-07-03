@@ -1,12 +1,19 @@
-import { ScrollView, View, StyleSheet } from 'react-native';
 import { useState, useLayoutEffect } from 'react';
-import { Card, Switch, Text } from '@space-uy/rn-spacedev-uikit';
+import { View, StyleSheet } from 'react-native';
+import { Card, Switch, Text } from '@space-uy/pulsar-ui';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
+import ResponsiveScroll from '../../components/ResponsiveScroll';
 
 export default function SwitchesExample() {
   const { showHeader } = useLocalSearchParams<{ showHeader: string }>();
-  const headerVisible = showHeader === 'true';
+  const headerVisible = showHeader !== 'false';
   const navigation = useNavigation();
+
+  const [notifications, setNotifications] = useState(true);
+  const [darkMode, setDarkMode] = useState(false);
+  const [autoSync, setAutoSync] = useState(true);
+  const [location, setLocation] = useState(false);
+  const [analytics, setAnalytics] = useState(true);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -14,18 +21,15 @@ export default function SwitchesExample() {
     });
   }, [navigation, headerVisible]);
 
-  const [switch1, setSwitch1] = useState(false);
-  const [switch2, setSwitch2] = useState(false);
-
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <ResponsiveScroll>
       {headerVisible && (
         <View style={styles.section}>
           <Text variant="h2" style={styles.sectionTitle}>
             Switches
           </Text>
           <Text variant="pm" style={styles.sectionDescription}>
-            Toggle controls to activate or deactivate features
+            Toggle switches for boolean settings and preferences
           </Text>
         </View>
       )}
@@ -34,26 +38,64 @@ export default function SwitchesExample() {
         style={[styles.exampleContainer, headerVisible && styles.firstExample]}
       >
         <Text variant="h4" style={styles.exampleTitle}>
-          Interactive Switches
+          Basic Switches
         </Text>
         <View style={styles.switchContainer}>
           <View style={styles.switchRow}>
             <View style={styles.switchInfo}>
               <Text variant="pm">Push Notifications</Text>
               <Text variant="ps" style={styles.switchDescription}>
-                Receive notifications directly on your device
+                Receive alerts and updates
               </Text>
             </View>
-            <Switch value={switch1} onValueChange={setSwitch1} />
+            <Switch value={notifications} onValueChange={setNotifications} />
           </View>
+
           <View style={styles.switchRow}>
             <View style={styles.switchInfo}>
-              <Text variant="pm">Premium Features</Text>
+              <Text variant="pm">Dark Mode</Text>
               <Text variant="ps" style={styles.switchDescription}>
-                This feature requires a premium subscription
+                Use dark theme interface
               </Text>
             </View>
-            <Switch value={switch2} onValueChange={setSwitch2} />
+            <Switch value={darkMode} onValueChange={setDarkMode} />
+          </View>
+
+          <View style={styles.switchRow}>
+            <View style={styles.switchInfo}>
+              <Text variant="pm">Auto Sync</Text>
+              <Text variant="ps" style={styles.switchDescription}>
+                Automatically sync data
+              </Text>
+            </View>
+            <Switch value={autoSync} onValueChange={setAutoSync} />
+          </View>
+        </View>
+      </Card>
+
+      <Card style={styles.exampleContainer}>
+        <Text variant="h4" style={styles.exampleTitle}>
+          Privacy Settings
+        </Text>
+        <View style={styles.switchContainer}>
+          <View style={styles.switchRow}>
+            <View style={styles.switchInfo}>
+              <Text variant="pm">Location Services</Text>
+              <Text variant="ps" style={styles.switchDescription}>
+                Allow app to access your location
+              </Text>
+            </View>
+            <Switch value={location} onValueChange={setLocation} />
+          </View>
+
+          <View style={styles.switchRow}>
+            <View style={styles.switchInfo}>
+              <Text variant="pm">Analytics</Text>
+              <Text variant="ps" style={styles.switchDescription}>
+                Share usage data to improve app
+              </Text>
+            </View>
+            <Switch value={analytics} onValueChange={setAnalytics} />
           </View>
         </View>
       </Card>
@@ -64,44 +106,33 @@ export default function SwitchesExample() {
         </Text>
         <View style={styles.switchContainer}>
           <View style={styles.switchRow}>
-            <Text variant="pm" style={styles.switchInfo}>
-              Off
-            </Text>
-            <Switch value={false} onValueChange={() => {}} />
-          </View>
-          <View style={styles.switchRow}>
-            <Text variant="pm" style={styles.switchInfo}>
-              On
-            </Text>
+            <View style={styles.switchInfo}>
+              <Text variant="pm">Enabled Switch</Text>
+            </View>
             <Switch value={true} onValueChange={() => {}} />
           </View>
+
           <View style={styles.switchRow}>
-            <Text variant="pm" style={styles.switchInfo}>
-              Disabled Off
-            </Text>
+            <View style={styles.switchInfo}>
+              <Text variant="pm">Disabled Switch</Text>
+            </View>
             <Switch value={false} onValueChange={() => {}} disabled />
-          </View>
-          <View style={styles.switchRow}>
-            <Text variant="pm" style={styles.switchInfo}>
-              Disabled On
-            </Text>
-            <Switch value={true} onValueChange={() => {}} disabled />
           </View>
         </View>
       </Card>
 
       <View style={styles.spacer} />
-    </ScrollView>
+    </ResponsiveScroll>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  section: { marginHorizontal: 16, marginTop: 16 },
+  section: { marginTop: 16 },
+  spacer: { height: 40 },
   firstExample: { marginTop: 16 },
   sectionTitle: { marginBottom: 8 },
   sectionDescription: { opacity: 0.7 },
-  exampleContainer: { marginHorizontal: 16, marginBottom: 24 },
+  exampleContainer: { marginBottom: 24 },
   exampleTitle: { marginBottom: 12 },
   switchContainer: { gap: 16 },
   switchRow: {
@@ -111,5 +142,4 @@ const styles = StyleSheet.create({
   },
   switchInfo: { flex: 1, marginRight: 16 },
   switchDescription: { opacity: 0.7, marginTop: 4 },
-  spacer: { height: 40 },
 });

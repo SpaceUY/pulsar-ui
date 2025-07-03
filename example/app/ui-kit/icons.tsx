@@ -8,9 +8,9 @@ import {
   Pressable,
 } from 'react-native';
 import { icons } from 'lucide-react-native';
-import { Icon, Input, Header } from '@space-uy/rn-spacedev-uikit';
+import { Icon, Input, Header } from '@space-uy/pulsar-ui';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { LegendList } from '@legendapp/list';
 
 import useTheme from '../../../src/hooks/useTheme';
@@ -58,6 +58,8 @@ const IconRow = ({
 export default function IconsScreen() {
   const insets = useSafeAreaInsets();
   const [searchQuery, setSearchQuery] = useState('');
+  const { showHeader } = useLocalSearchParams<{ showHeader: string }>();
+  const headerVisible = showHeader !== 'false';
 
   const iconRows = useMemo(() => {
     let iconNames = ALL_ICON_NAMES;
@@ -100,10 +102,20 @@ export default function IconsScreen() {
 
   return (
     <View style={styles.root}>
-      <Header
-        title="Icons"
-        leftButton={{ iconName: 'ChevronLeft', onPress: () => router.back() }}
-      >
+      {headerVisible ? (
+        <Header
+          title="Icons"
+          leftButton={{ iconName: 'ChevronLeft', onPress: () => router.back() }}
+        >
+          <Input
+            placeholder="Search icons..."
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            iconName="Search"
+            clearable
+          />
+        </Header>
+      ) : (
         <Input
           placeholder="Search icons..."
           value={searchQuery}
@@ -111,7 +123,7 @@ export default function IconsScreen() {
           iconName="Search"
           clearable
         />
-      </Header>
+      )}
       <LegendList
         data={iconRows}
         renderItem={renderItem}

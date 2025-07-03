@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Platform, StyleSheet, useColorScheme } from 'react-native';
 import { Stack, router } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { Header, useUIKitTheme } from '@space-uy/rn-spacedev-uikit';
+import { Header, useUIKitTheme } from '@space-uy/pulsar-ui';
 import {
   SafeAreaProvider,
   useSafeAreaInsets,
@@ -158,6 +158,18 @@ const Layout = () => {
       />
       <Stack.Screen name="ui-kit/dialog" options={{ title: 'Dialog' }} />
       <Stack.Screen name="ui-kit/accordion" options={{ title: 'Accordion' }} />
+      <Stack.Screen
+        name="ui-kit/bottom-sheet"
+        options={{ title: 'Bottom Sheet' }}
+      />
+      <Stack.Screen
+        name="ui-kit/input-container"
+        options={{ title: 'Input Container' }}
+      />
+      <Stack.Screen
+        name="ui-kit/button-container"
+        options={{ title: 'Button Container' }}
+      />
     </Stack>
   );
 };

@@ -12,7 +12,7 @@ import {
   convertHexToRgba,
   getColorContrastRatio,
   getAccessibleTextColor,
-} from '@space-uy/rn-spacedev-uikit';
+} from '@space-uy/pulsar-ui';
 ```
 
 ## Available Functions
@@ -37,7 +37,7 @@ Converts a hex color code to an rgba color string with the specified opacity.
 #### Basic usage
 
 ```typescript
-import { convertHexToRgba } from '@space-uy/rn-spacedev-uikit';
+import { convertHexToRgba } from '@space-uy/pulsar-ui';
 
 // Convert hex to rgba with 50% opacity
 const redWithOpacity = convertHexToRgba('#FF0000', 0.5);
@@ -68,7 +68,7 @@ Calculates the contrast ratio between two colors according to WCAG guidelines.
 #### Basic usage
 
 ```typescript
-import { getColorContrastRatio } from '@space-uy/rn-spacedev-uikit';
+import { getColorContrastRatio } from '@space-uy/pulsar-ui';
 
 // Calculate contrast between black text on white background
 const contrast = getColorContrastRatio('#000000', '#FFFFFF');
@@ -98,7 +98,7 @@ Determines whether black or white text would be more readable on a given backgro
 #### Basic usage
 
 ```typescript
-import { getAccessibleTextColor } from '@space-uy/rn-spacedev-uikit';
+import { getAccessibleTextColor } from '@space-uy/pulsar-ui';
 
 // Determine text color for dark background
 const textColor1 = getAccessibleTextColor('#2C3E50');
@@ -119,7 +119,7 @@ import { View, Text } from 'react-native';
 import {
   convertHexToRgba,
   getAccessibleTextColor
-} from '@space-uy/rn-spacedev-uikit';
+} from '@space-uy/pulsar-ui';
 
 interface OverlayCardProps {
   backgroundColor: string;
@@ -162,7 +162,7 @@ function OverlayCard({
 import {
   getColorContrastRatio,
   getAccessibleTextColor,
-} from '@space-uy/rn-spacedev-uikit';
+} from '@space-uy/pulsar-ui';
 
 interface ThemeColors {
   primary: string;
@@ -205,7 +205,7 @@ console.log(validateThemeAccessibility(darkTheme)); // true
 ```typescript
 import React from 'react';
 import { View, Text, LinearGradient } from 'react-native';
-import { convertHexToRgba } from '@space-uy/rn-spacedev-uikit';
+import { convertHexToRgba } from '@space-uy/pulsar-ui';
 
 interface GradientOverlayProps {
   startColor: string;
@@ -236,7 +236,7 @@ import { TouchableOpacity, Text } from 'react-native';
 import {
   getAccessibleTextColor,
   getColorContrastRatio
-} from '@space-uy/rn-spacedev-uikit';
+} from '@space-uy/pulsar-ui';
 
 interface AccessibleButtonProps {
   text: string;

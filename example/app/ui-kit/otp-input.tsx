@@ -1,16 +1,17 @@
 import { useRef, useLayoutEffect } from 'react';
-import { ScrollView, View, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import {
   Card,
   OtpInputContainer,
   Text,
   type OtpInputContainerRef,
-} from '@space-uy/rn-spacedev-uikit';
+} from '@space-uy/pulsar-ui';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
+import ResponsiveScroll from '../../components/ResponsiveScroll';
 
 export default function OtpInputExample() {
   const { showHeader } = useLocalSearchParams<{ showHeader: string }>();
-  const headerVisible = showHeader === 'true';
+  const headerVisible = showHeader !== 'false';
   const navigation = useNavigation();
 
   useLayoutEffect(() => {
@@ -22,7 +23,7 @@ export default function OtpInputExample() {
   const otpInputRef = useRef<OtpInputContainerRef>(null);
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <ResponsiveScroll>
       {headerVisible && (
         <View style={styles.section}>
           <Text variant="h2" style={styles.sectionTitle}>
@@ -35,7 +36,6 @@ export default function OtpInputExample() {
       )}
 
       <Card
-        variant="tinted"
         style={[styles.exampleContainer, headerVisible && styles.firstExample]}
       >
         <Text variant="h4" style={styles.exampleTitle}>
@@ -50,17 +50,17 @@ export default function OtpInputExample() {
           inputStyle={styles.otpInput}
         />
       </Card>
-    </ScrollView>
+    </ResponsiveScroll>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  section: { marginHorizontal: 16, marginTop: 16 },
+  section: { marginTop: 16 },
   firstExample: { marginTop: 16 },
   sectionTitle: { marginBottom: 8 },
   sectionDescription: { opacity: 0.7 },
-  exampleContainer: { marginHorizontal: 16, marginBottom: 24 },
+  exampleContainer: { marginBottom: 24 },
   exampleTitle: { marginBottom: 12 },
   description: { marginBottom: 16, opacity: 0.8 },
   otpInput: {

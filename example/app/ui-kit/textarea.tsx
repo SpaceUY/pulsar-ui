@@ -1,11 +1,12 @@
-import { ScrollView, View, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useState, useLayoutEffect } from 'react';
-import { Card, TextArea, Text } from '@space-uy/rn-spacedev-uikit';
+import { Card, TextArea, Text } from '@space-uy/pulsar-ui';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
+import ResponsiveScroll from '../../components/ResponsiveScroll';
 
 export default function TextAreaExample() {
   const { showHeader } = useLocalSearchParams<{ showHeader: string }>();
-  const headerVisible = showHeader === 'true';
+  const headerVisible = showHeader !== 'false';
   const navigation = useNavigation();
 
   useLayoutEffect(() => {
@@ -20,7 +21,7 @@ export default function TextAreaExample() {
   const [value4, _setValue4] = useState('This text cannot be edited.');
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <ResponsiveScroll>
       {headerVisible && (
         <View style={styles.section}>
           <Text variant="h2" style={styles.sectionTitle}>
@@ -42,7 +43,7 @@ export default function TextAreaExample() {
           value={value1}
           onChangeText={setValue1}
           placeholder="Enter your message here..."
-          style={{ minHeight: 80 }}
+          style={styles.textAreaBasic}
         />
       </Card>
 
@@ -55,7 +56,7 @@ export default function TextAreaExample() {
           onChangeText={setValue2}
           label="Description"
           placeholder="Enter description..."
-          style={{ minHeight: 100 }}
+          style={styles.textAreaWithLabel}
         />
       </Card>
 
@@ -70,7 +71,7 @@ export default function TextAreaExample() {
           placeholder="Required field"
           error
           hint="This field is required"
-          style={{ minHeight: 80 }}
+          style={styles.textAreaBasic}
         />
       </Card>
 
@@ -79,34 +80,37 @@ export default function TextAreaExample() {
           TextArea States
         </Text>
         <View style={styles.textareaContainer}>
-          <TextArea placeholder="Normal" style={{ minHeight: 60 }} />
+          <TextArea placeholder="Normal" style={styles.textAreaSmall} />
           <TextArea
             placeholder="Disabled"
             editable={false}
-            style={{ minHeight: 60 }}
+            style={styles.textAreaSmall}
           />
           <TextArea
             value={value4}
             editable={false}
             label="Read-only information"
-            style={{ minHeight: 60 }}
+            style={styles.textAreaSmall}
           />
         </View>
       </Card>
 
       <View style={styles.spacer} />
-    </ScrollView>
+    </ResponsiveScroll>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  section: { marginHorizontal: 16, marginTop: 16 },
+  section: { marginTop: 16 },
   firstExample: { marginTop: 16 },
   sectionTitle: { marginBottom: 8 },
   sectionDescription: { opacity: 0.7 },
-  exampleContainer: { marginHorizontal: 16, marginBottom: 24 },
+  exampleContainer: { marginBottom: 24 },
   exampleTitle: { marginBottom: 12 },
   textareaContainer: { gap: 16 },
   spacer: { height: 40 },
+  textAreaBasic: { minHeight: 80 },
+  textAreaWithLabel: { minHeight: 100 },
+  textAreaSmall: { minHeight: 60 },
 });

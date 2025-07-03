@@ -93,16 +93,15 @@ export default function InputContainer({
       <Pressable onPress={onPress} disabled={disabled}>
         <Animated.View
           style={[
-            contentContainerStyle,
             animStyle,
             styles.container,
             { height: containerHeight, borderRadius: theme.roundness },
+            contentContainerStyle,
           ]}
         >
           {iconName && (
             <Animated.View style={iconAnimStyle}>
               <Icon
-                // style={styles.icon}
                 name={iconName}
                 size={16}
                 color={convertHexToRgba(colors.foreground, 0.5)}

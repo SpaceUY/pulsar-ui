@@ -8,7 +8,7 @@ The string utils provide helpful functions for string manipulation and date conv
 ## Import
 
 ```typescript
-import { convertDateToISOString } from '@space-uy/rn-spacedev-uikit';
+import { convertDateToISOString } from '@space-uy/pulsar-ui';
 ```
 
 ## Available Functions
@@ -32,7 +32,7 @@ Converts a date string in "yyyy-MM-dd" format to an ISO string representation wi
 #### Basic usage
 
 ```typescript
-import { convertDateToISOString } from '@space-uy/rn-spacedev-uikit';
+import { convertDateToISOString } from '@space-uy/pulsar-ui';
 
 // Convert a date string to ISO format
 const dateString = '2024-01-15';
@@ -45,7 +45,7 @@ console.log(isoString); // "2024-01-15T00:00:00.000Z"
 ##### Working with form data
 
 ```typescript
-import { convertDateToISOString } from '@space-uy/rn-spacedev-uikit';
+import { convertDateToISOString } from '@space-uy/pulsar-ui';
 
 const handleFormSubmit = (formData: { birthDate: string }) => {
   const user = {
@@ -61,7 +61,7 @@ const handleFormSubmit = (formData: { birthDate: string }) => {
 ##### Converting multiple dates
 
 ```typescript
-import { convertDateToISOString } from '@space-uy/rn-spacedev-uikit';
+import { convertDateToISOString } from '@space-uy/pulsar-ui';
 
 const dates = ['2024-01-15', '2024-02-20', '2024-03-25'];
 const isoDates = dates.map((date) => convertDateToISOString(date));
@@ -78,7 +78,7 @@ console.log(isoDates);
 
 ```typescript
 import { useState } from 'react';
-import { convertDateToISOString } from '@space-uy/rn-spacedev-uikit';
+import { convertDateToISOString } from '@space-uy/pulsar-ui';
 
 function DateForm() {
   const [selectedDate, setSelectedDate] = useState('');
@@ -115,7 +115,7 @@ function DateForm() {
 Make sure to validate the input format before using this function:
 
 ```typescript
-import { convertDateToISOString } from '@space-uy/rn-spacedev-uikit';
+import { convertDateToISOString } from '@space-uy/pulsar-ui';
 
 const isValidDateFormat = (dateString: string): boolean => {
   const datePattern = /^\d{4}-\d{2}-\d{2}$/;

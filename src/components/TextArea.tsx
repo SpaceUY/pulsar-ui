@@ -13,6 +13,7 @@ import {
   type TextInputProps,
   type TextInputFocusEventData,
   type NativeSyntheticEvent,
+  Platform,
 } from 'react-native';
 
 import InputContainer from './InputContainer';
@@ -98,7 +99,10 @@ export const TextArea = forwardRef<InputRef, Props>(
               fontFamily: theme.fonts.regular,
               color: colors.foreground,
               height: numberOfLines * 22,
+              // @ts-ignore
+              caretColor: colors.primary, // This to make the cursor color match the primary color on web
             },
+            Platform.OS === 'web' && styles.webInput,
           ]}
           onFocus={handleFocus}
           onBlur={handleBlur}
@@ -109,6 +113,12 @@ export const TextArea = forwardRef<InputRef, Props>(
           textAlignVertical="top"
           onChangeText={handleChangeText}
           multiline
+          cursorColor={colors.primary}
+          selectionColor={convertHexToRgba(
+            colors.primary,
+            Platform.OS === 'android' ? 0.15 : 1
+          )}
+          selectionHandleColor={colors.primary}
         />
         <Text
           variant="caption"
@@ -122,19 +132,10 @@ export const TextArea = forwardRef<InputRef, Props>(
 );
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  input: {
-    flex: 1,
-    fontSize: 14,
-    width: '100%',
-  },
-  caption: {
-    marginBottom: 6,
-    alignSelf: 'flex-end',
-  },
+  container: { flexDirection: 'column' },
+  input: { flex: 1, fontSize: 14, width: '100%', marginVertical: 8 },
+  caption: { marginBottom: 6, alignSelf: 'flex-end' },
+  webInput: { outlineWidth: 0 } as ViewStyle, // To remove native focus outline on web
 });
 
 export default TextArea;

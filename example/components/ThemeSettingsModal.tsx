@@ -1,13 +1,7 @@
 import { useRef, useEffect } from 'react';
-import { View, Pressable } from 'react-native';
-import {
-  BottomSheet,
-  Switch,
-  Text,
-  Card,
-  Icon,
-} from '@space-uy/rn-spacedev-uikit';
-import { useUIKitTheme } from '@space-uy/rn-spacedev-uikit';
+import { View, Pressable, StyleSheet } from 'react-native';
+import { BottomSheet, Switch, Text, Card, Icon } from '@space-uy/pulsar-ui';
+import { useUIKitTheme } from '@space-uy/pulsar-ui';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type Props = {
@@ -76,25 +70,31 @@ const ThemeSettingsModal = ({ visible, onClose }: Props) => {
     return isDarkMode ? '#FAFAFA' : '#09090B';
   };
 
+  const styles = StyleSheet.create({
+    container: {
+      gap: 16,
+      marginBottom: insets.bottom + 16,
+      marginHorizontal: 16,
+    },
+    cardRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    optionsRow: {
+      flexDirection: 'row',
+      gap: 8,
+      marginTop: 8,
+    },
+  });
+
   return (
     <BottomSheet ref={bottomSheetRef} onBackdropPress={onClose}>
-      <View
-        style={{
-          gap: 16,
-          marginBottom: insets.bottom + 16,
-          marginHorizontal: 16,
-        }}
-      >
+      <View style={[styles.container]}>
         <Text variant="h2">Theme Settings</Text>
 
         <Card>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
+          <View style={styles.cardRow}>
             <Text variant="h3">Dark Mode</Text>
             <Switch value={isDarkMode} onValueChange={handleDarkModeToggle} />
           </View>
@@ -102,7 +102,7 @@ const ThemeSettingsModal = ({ visible, onClose }: Props) => {
 
         <Card>
           <Text variant="h3">Border Radius</Text>
-          <View style={{ flexDirection: 'row', gap: 8, marginTop: 8 }}>
+          <View style={styles.optionsRow}>
             {[4, 6, 8, 12].map((radius) => (
               <Pressable
                 key={radius}
@@ -127,7 +127,7 @@ const ThemeSettingsModal = ({ visible, onClose }: Props) => {
 
         <Card>
           <Text variant="h3">Main Color</Text>
-          <View style={{ flexDirection: 'row', gap: 8, marginTop: 8 }}>
+          <View style={styles.optionsRow}>
             {[
               getDefaultColorForScheme(), // Use the default color for current scheme
               '#3B82F6', // Softer blue

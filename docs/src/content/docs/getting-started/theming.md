@@ -10,7 +10,7 @@ The **SpaceDev UI Kit** includes a complete theming system that allows you to cu
 To use the theming system, you need to configure the `useUIKitTheme` hook in your application's root component:
 
 ```tsx
-import { useUIKitTheme } from '@space-uy/rn-spacedev-uikit';
+import { useUIKitTheme } from '@space-uy/pulsar-ui';
 import { useColorScheme } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useEffect } from 'react';
@@ -77,7 +77,7 @@ The UI Kit can automatically sync with system preferences:
 
 ```tsx
 import { useColorScheme } from 'react-native';
-import { useUIKitTheme } from '@space-uy/rn-spacedev-uikit';
+import { useUIKitTheme } from '@space-uy/pulsar-ui';
 
 function App() {
   const systemColorScheme = useColorScheme();
@@ -95,7 +95,7 @@ function App() {
 To allow users to manually switch between dark and light modes:
 
 ```tsx
-import { useUIKitTheme } from '@space-uy/rn-spacedev-uikit';
+import { useUIKitTheme } from '@space-uy/pulsar-ui';
 import { Switch, View, Text } from 'react-native';
 
 function ThemeToggle() {
@@ -120,7 +120,7 @@ function ThemeToggle() {
 Once the theme is configured, you can access current colors from any component:
 
 ```tsx
-import { useUIKitTheme } from '@space-uy/rn-spacedev-uikit';
+import { useUIKitTheme } from '@space-uy/pulsar-ui';
 import { View, Text } from 'react-native';
 
 function MyComponent() {
@@ -267,7 +267,7 @@ UI Kit components automatically handle theme transitions, but you can add additi
 The theming system includes complete TypeScript types:
 
 ```tsx
-import type { Theme, ColorPalette } from '@space-uy/rn-spacedev-uikit';
+import type { Theme, ColorPalette } from '@space-uy/pulsar-ui';
 
 // Type for a complete theme
 const myTheme: Theme = {

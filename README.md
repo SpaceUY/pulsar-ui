@@ -1,4 +1,4 @@
-# @space-uy/rn-spacedev-uikit
+# @space-uy/pulsar-ui
 
 <div align="center">
 
@@ -25,13 +25,13 @@ A modern React Native UI kit for SpaceDev applications, providing a collection o
 
 ```sh
 # Using npm
-npm install @space-uy/rn-spacedev-uikit
+npm install @space-uy/pulsar-ui
 
 # Using yarn
-yarn add @space-uy/rn-spacedev-uikit
+yarn add @space-uy/pulsar-ui
 
 # Using pnpm
-pnpm add @space-uy/rn-spacedev-uikit
+pnpm add @space-uy/pulsar-ui
 ```
 
 ### Peer Dependencies
@@ -70,7 +70,7 @@ Note: `react` and `react-native` are typically already installed in your React N
 ## 🚀 Quick Start
 
 ```jsx
-import { Button } from '@space-uy/rn-spacedev-uikit';
+import { Button } from '@space-uy/pulsar-ui';
 
 function MyApp() {
   return (
@@ -111,7 +111,7 @@ function MyApp() {
 
 ```sh
 git clone https://github.com/SpaceUY/rn-spacedev-uikit.git
-cd @space-uy/rn-spacedev-uikit
+cd @space-uy/pulsar-ui
 ```
 
 2. Install dependencies:

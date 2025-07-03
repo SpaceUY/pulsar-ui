@@ -1,7 +1,8 @@
-import { ScrollView, View, StyleSheet } from 'react-native';
 import { useState, useLayoutEffect } from 'react';
-import { Card, Tabs, Text } from '@space-uy/rn-spacedev-uikit';
+import { View, StyleSheet } from 'react-native';
+import { Card, Text, Tabs } from '@space-uy/pulsar-ui';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
+import ResponsiveScroll from '../../components/ResponsiveScroll';
 
 const tabs1 = [
   { label: 'Home', value: 'home' },
@@ -23,8 +24,12 @@ const tabs3 = [
 
 export default function TabsExample() {
   const { showHeader } = useLocalSearchParams<{ showHeader: string }>();
-  const headerVisible = showHeader === 'true';
+  const headerVisible = showHeader !== 'false';
   const navigation = useNavigation();
+
+  const [selectedTab1, setSelectedTab1] = useState(tabs1[0]!);
+  const [selectedTab2, setSelectedTab2] = useState(tabs2[0]!);
+  const [selectedTab3, setSelectedTab3] = useState(tabs3[0]!);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -32,19 +37,15 @@ export default function TabsExample() {
     });
   }, [navigation, headerVisible]);
 
-  const [selectedTab1, setSelectedTab1] = useState(tabs1[0]!);
-  const [selectedTab2, setSelectedTab2] = useState(tabs2[0]!);
-  const [selectedTab3, setSelectedTab3] = useState(tabs3[0]!);
-
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <ResponsiveScroll>
       {headerVisible && (
         <View style={styles.section}>
           <Text variant="h2" style={styles.sectionTitle}>
             Tabs
           </Text>
           <Text variant="pm" style={styles.sectionDescription}>
-            Navigation components to organize content into separate views
+            Navigation tabs for organizing content into sections
           </Text>
         </View>
       )}
@@ -94,17 +95,17 @@ export default function TabsExample() {
       </Card>
 
       <View style={styles.spacer} />
-    </ScrollView>
+    </ResponsiveScroll>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  section: { marginHorizontal: 16, marginTop: 16 },
+  section: { marginTop: 16 },
+  spacer: { height: 40 },
   firstExample: { marginTop: 16 },
   sectionTitle: { marginBottom: 8 },
   sectionDescription: { opacity: 0.7 },
-  exampleContainer: { marginHorizontal: 16, marginBottom: 24 },
+  exampleContainer: { marginBottom: 24 },
   exampleTitle: { marginBottom: 12 },
   tabContent: {
     marginTop: 16,
@@ -112,5 +113,4 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.05)',
     borderRadius: 8,
   },
-  spacer: { height: 40 },
 });
