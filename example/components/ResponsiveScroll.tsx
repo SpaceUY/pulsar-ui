@@ -22,6 +22,7 @@ export default function ResponsiveScroll({ style, children }: Props) {
     <View style={[style, styles.container]}>
       <ScrollView
         style={[style]}
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={[
           styles.contentContainer,
           { width: isWeb ? Math.min(600, width) : width },

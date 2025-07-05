@@ -68,8 +68,8 @@ export default function UIKitScreen() {
             width: '100%' as const,
           }
         : {},
-    header: { marginHorizontal: IS_WEB ? 24 : 16 },
-    contentList: { paddingHorizontal: IS_WEB ? 16 : 8 },
+    header: { marginHorizontal: 16 },
+    contentList: { paddingHorizontal: 8 },
   };
 
   return (
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   searchInput: { flex: 1 },
-  contentListContainer: { gap: 16, paddingHorizontal: 8 },
+  contentListContainer: { gap: 16, columnGap: 16 },
   button: { marginHorizontal: 8 },
   iconContainer: {
     flex: 3,

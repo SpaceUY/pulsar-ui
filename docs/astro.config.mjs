@@ -8,7 +8,12 @@ export default defineConfig({
   base: '/pulsar-ui',
   integrations: [
     starlight({
-      title: 'SpaceDev UI Kit',
+      title: '',
+      logo: {
+        src: './src/assets/logo.svg',
+        alt: 'Pulsar UI Logo',
+        replacesTitle: true,
+      },
       social: [
         {
           icon: 'github',
