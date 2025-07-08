@@ -1,12 +1,10 @@
-# @space-uy/pulsar-ui
+<div align="right">
 
-<div align="center">
+<img src="./assets/banner.png">
 
 ![Version](https://img.shields.io/badge/version-0.1.0-blue.svg?cacheSeconds=2592000)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
-
-A modern React Native UI kit for SpaceDev applications, providing a collection of reusable components and utilities.
 
 </div>
 
@@ -29,73 +27,73 @@ npm install @space-uy/pulsar-ui
 
 # Using yarn
 yarn add @space-uy/pulsar-ui
-
-# Using pnpm
-pnpm add @space-uy/pulsar-ui
 ```
 
-### Peer Dependencies
-
-This library requires the following peer dependencies to be installed in your project:
-
-```json
-{
-  "@react-navigation/elements": "^2.3.8", // Required for navigation components
-  "lucide-react-native": "^0.503.0", // Required for icons
-  "react": "*", // Core React dependency
-  "react-native": "*", // Core React Native dependency
-  "react-native-gesture-handler": "^2.25.0", // Required for gesture interactions
-  "react-native-reanimated": "~3.16.1", // Required for animations
-  "react-native-svg": "^15.11.2" // Required for SVG support
-}
-```
-
-#### Installation
-
-You can install all peer dependencies at once using:
+### Install peer dependencies:
 
 ```sh
 # Using npm
-npm install @react-navigation/elements@^2.3.8 lucide-react-native@^0.503.0 react-native-gesture-handler@^2.25.0 react-native-reanimated@~3.16.1 react-native-svg@^15.11.2
+npm install react-native-svg react-native-gesture-handler react-native-reanimated lucide-react-native zustand @react-navigation/elements
 
 # Using yarn
-yarn add @react-navigation/elements@^2.3.8 lucide-react-native@^0.503.0 react-native-gesture-handler@^2.25.0 react-native-reanimated@~3.16.1 react-native-svg@^15.11.2
-
-# Using pnpm
-pnpm add @react-navigation/elements@^2.3.8 lucide-react-native@^0.503.0 react-native-gesture-handler@^2.25.0 react-native-reanimated@~3.16.1 react-native-svg@^15.11.2
+yarn add react-native-svg react-native-gesture-handler react-native-reanimated lucide-react-native zustand @react-navigation/elements
 ```
-
-Note: `react` and `react-native` are typically already installed in your React Native project, so you don't need to install them separately.
 
 ## 🚀 Quick Start
 
-```jsx
-import { Button } from '@space-uy/pulsar-ui';
+```tsx
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Button, Text, Card } from '@space-uy/pulsar-ui';
 
-function MyApp() {
+export default function App() {
+  const handlePress = () => {
+    console.log('Button pressed!');
+  };
+
   return (
-    <>
-      {/* Primary button */}
-      <Button text="Click me" onPress={() => console.log('Button pressed!')} />
-
-      {/* Outline button */}
-      <Button
-        text="Outline Button"
-        variant="outlined"
-        onPress={() => console.log('Outline button pressed!')}
-      />
-
-      {/* Small button with icon */}
-      <Button
-        text="Small Button"
-        size="small"
-        iconName="Plus"
-        onPress={() => console.log('Small button pressed!')}
-      />
-    </>
+    <View style={styles.container}>
+      <Card style={styles.card}>
+        <Text variant="h2" style={styles.title}>
+          Welcome to Pulsar UI
+        </Text>
+        <Text variant="pm" style={styles.description}>
+          This is a basic example of how to use our components.
+        </Text>
+        <Button
+          text="Get Started"
+          onPress={handlePress}
+          iconName="ArrowRight"
+        />
+      </Card>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    justifyContent: 'center',
+  },
+  card: {
+    padding: 20,
+  },
+  title: {
+    marginBottom: 12,
+  },
+  description: {
+    marginBottom: 20,
+    opacity: 0.7,
+  },
+});
 ```
+
+## 📚 Documentation
+
+For detailed documentation, examples, and interactive playground, visit:
+
+**🌐 [Pulsar UI Documentation & Playground](https://pulsarui-playground.netlify.app)**
 
 ## 🛠️ Development
 
@@ -111,7 +109,7 @@ function MyApp() {
 
 ```sh
 git clone https://github.com/SpaceUY/pulsar-ui.git
-cd @space-uy/pulsar-ui
+cd pulsar-ui
 ```
 
 2. Install dependencies:

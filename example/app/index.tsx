@@ -106,6 +106,7 @@ export default function UIKitScreen() {
             { paddingBottom: bottom + 16 },
             responsiveStyles.contentList,
           ]}
+          showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
             <Pressable
               style={styles.button}
