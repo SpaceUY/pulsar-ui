@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
 
 For detailed documentation, examples, and interactive playground, visit:
 
-**🌐 [Pulsar UI Documentation & Playground](https://pulsarui-playground.netlify.app)**
+**🌐 [Pulsar UI Documentation & Playground](https://spaceuy.github.io/pulsar-ui/)**
 
 ## 🛠️ Development
 
