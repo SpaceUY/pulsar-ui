@@ -57,7 +57,7 @@ export default function Text({ variant, style, children, ...props }: Props) {
   }, [variant, theme.fonts.bold, theme.fonts.medium, theme.fonts.regular]);
 
   return (
-    <RNText {...props} style={[style, textStyle, { color }]}>
+    <RNText {...props} style={[textStyle, { color }, style]}>
       {children}
     </RNText>
   );
