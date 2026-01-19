@@ -1,5 +1,5 @@
 import { useState, useLayoutEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, I18nManager } from 'react-native';
 import {
   Card,
   convertHexToRgba,
@@ -36,6 +36,7 @@ export default function HeadersExample() {
   };
 
   const { colors, theme } = useUIKitTheme();
+  const backIcon = I18nManager.isRTL ? 'ChevronRight' : 'ChevronLeft';
 
   return (
     <ResponsiveScroll>
@@ -73,7 +74,7 @@ export default function HeadersExample() {
             useInsets={false}
             title="My Profile"
             leftButton={{
-              iconName: 'ChevronLeft',
+              iconName: backIcon,
               onPress: () => showDialog('Left button pressed'),
             }}
           />
@@ -107,7 +108,7 @@ export default function HeadersExample() {
             useInsets={false}
             title="Messages"
             leftButton={{
-              iconName: 'ChevronLeft',
+              iconName: backIcon,
               onPress: () => showDialog('Back'),
             }}
             rightButton={{
@@ -128,7 +129,7 @@ export default function HeadersExample() {
             useInsets={false}
             title="Form"
             leftButton={{
-              iconName: 'ChevronLeft',
+              iconName: backIcon,
               onPress: () => showDialog('Back'),
               disabled: true,
             }}
@@ -157,7 +158,7 @@ export default function HeadersExample() {
             useInsets={false}
             title="This is a very long title that should be truncated"
             leftButton={{
-              iconName: 'ChevronLeft',
+              iconName: backIcon,
               onPress: () => showDialog('Back'),
             }}
             rightButton={{
@@ -177,7 +178,7 @@ export default function HeadersExample() {
           <Header
             title="Header with Safe Area"
             leftButton={{
-              iconName: 'ChevronLeft',
+              iconName: backIcon,
               onPress: () => showDialog('Back'),
             }}
             rightButton={{

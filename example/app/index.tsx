@@ -8,6 +8,7 @@ import {
   View,
   Platform,
   Dimensions,
+  I18nManager,
 } from 'react-native';
 import { Card, Icon, IconButton, Input, Text } from '@space-uy/pulsar-ui';
 import { router } from 'expo-router';
@@ -126,7 +127,7 @@ export default function UIKitScreen() {
                   </Text>
                   <Icon
                     style={styles.chevron}
-                    name="ChevronRight"
+                    name={I18nManager.isRTL ? 'ChevronLeft' : 'ChevronRight'}
                     size={16}
                     color={colors.foreground}
                   />

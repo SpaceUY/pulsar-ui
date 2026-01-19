@@ -1,5 +1,14 @@
-import { useEffect } from 'react';
-import { Platform, StyleSheet, useColorScheme } from 'react-native';
+import { useEffect, useState } from 'react';
+import {
+  Platform,
+  StyleSheet,
+  useColorScheme,
+  I18nManager,
+  NativeModules,
+} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Updates from 'expo-updates';
+import Constants from 'expo-constants';
 import { Stack, router } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { Header, useUIKitTheme } from '@space-uy/pulsar-ui';
@@ -30,18 +39,60 @@ export default function RootLayout() {
     Sora_500Medium,
     Sora_700Bold,
   });
+  const [rtlLoaded, setRtlLoaded] = useState(false);
+  const isExpoGo = Constants.appOwnership === 'expo';
+
+  // Load RTL preference on native builds
+  useEffect(() => {
+    const reloadApp = async () => {
+      try {
+        await Updates.reloadAsync();
+      } catch {
+        // Fallback for dev builds where Updates may not work
+        if (NativeModules.DevSettings) {
+          NativeModules.DevSettings.reload();
+        }
+      }
+    };
+
+    const loadRTLPreference = async () => {
+      // Skip RTL logic in Expo Go
+      if (isExpoGo) {
+        setRtlLoaded(true);
+        return;
+      }
+
+      try {
+        const rtlValue = await AsyncStorage.getItem('rtl_enabled');
+        if (rtlValue !== null) {
+          const isRTL = JSON.parse(rtlValue);
+          if (I18nManager.isRTL !== isRTL) {
+            I18nManager.forceRTL(isRTL);
+            I18nManager.allowRTL(isRTL);
+            await reloadApp();
+            return;
+          }
+        }
+      } catch (e) {
+        // Ignore errors
+      } finally {
+        setRtlLoaded(true);
+      }
+    };
+    loadRTLPreference();
+  }, [isExpoGo]);
 
   useEffect(() => {
     if (error) throw error;
   }, [error]);
 
   useEffect(() => {
-    if (loaded || Platform.OS === 'web') {
+    if ((loaded || Platform.OS === 'web') && rtlLoaded) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [loaded, rtlLoaded]);
 
-  if (!loaded && Platform.OS !== 'web') {
+  if ((!loaded && Platform.OS !== 'web') || !rtlLoaded) {
     return null;
   }
 
@@ -104,11 +155,12 @@ const Layout = () => {
 
   const renderHeader = (props: any): React.ReactNode => {
     const { options, back } = props as NativeStackHeaderProps;
+    const backIcon = I18nManager.isRTL ? 'ChevronRight' : 'ChevronLeft';
     return (
       <Header
         title={options.title || ''}
         {...(back && {
-          leftButton: { iconName: 'ChevronLeft', onPress: () => router.back() },
+          leftButton: { iconName: backIcon, onPress: () => router.back() },
         })}
       />
     );

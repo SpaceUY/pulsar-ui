@@ -6,6 +6,7 @@ import {
   type ViewStyle,
   type StyleProp,
   Pressable,
+  I18nManager,
 } from 'react-native';
 import { icons } from 'lucide-react-native';
 import { Icon, Input, Header } from '@space-uy/pulsar-ui';
@@ -105,7 +106,10 @@ export default function IconsScreen() {
       {headerVisible ? (
         <Header
           title="Icons"
-          leftButton={{ iconName: 'ChevronLeft', onPress: () => router.back() }}
+          leftButton={{
+            iconName: I18nManager.isRTL ? 'ChevronRight' : 'ChevronLeft',
+            onPress: () => router.back(),
+          }}
         >
           <Input
             placeholder="Search icons..."
