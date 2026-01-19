@@ -81,5 +81,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  icon: { marginRight: 8 },
+  icon: { marginEnd: 8 },
 });

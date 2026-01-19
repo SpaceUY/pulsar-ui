@@ -14,6 +14,7 @@ import {
   type TextInputFocusEventData,
   type NativeSyntheticEvent,
   Platform,
+  I18nManager,
 } from 'react-native';
 
 import InputContainer from './InputContainer';
@@ -111,6 +112,7 @@ export const TextArea = forwardRef<InputRef, Props>(
           numberOfLines={numberOfLines}
           maxLength={maxLength}
           textAlignVertical="top"
+          textAlign={I18nManager.isRTL ? 'right' : 'left'}
           onChangeText={handleChangeText}
           multiline
           cursorColor={colors.primary}
@@ -134,7 +136,7 @@ export const TextArea = forwardRef<InputRef, Props>(
 const styles = StyleSheet.create({
   container: { flexDirection: 'column' },
   input: { flex: 1, fontSize: 14, width: '100%', marginVertical: 8 },
-  caption: { marginBottom: 6, alignSelf: 'flex-end' },
+  caption: { marginBottom: 6, alignSelf: 'flex-end', textAlign: 'left' },
   webInput: { outlineWidth: 0 } as ViewStyle, // To remove native focus outline on web
 });
 

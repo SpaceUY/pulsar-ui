@@ -3,6 +3,7 @@ import {
   View,
   Pressable,
   StyleSheet,
+  I18nManager,
   type ViewStyle,
   type StyleProp,
 } from 'react-native';
@@ -34,8 +35,11 @@ export default function Tabs({ options, selected, onChange, style }: Props) {
   const tabHeight = height - 8;
 
   const tabAnimStyle = useAnimatedStyle(() => {
+    const translateX = I18nManager.isRTL
+      ? -index.value * tabWidth
+      : index.value * tabWidth;
     return {
-      transform: [{ translateX: index.value * tabWidth + 4 }],
+      transform: [{ translateX }],
     };
   }, [tabWidth, index]);
 
@@ -113,5 +117,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: 32,
   },
-  tab: { position: 'absolute', top: 4, borderWidth: 1 },
+  tab: { position: 'absolute', top: 4, start: 4, borderWidth: 1 },
 });

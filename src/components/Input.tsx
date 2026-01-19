@@ -8,6 +8,7 @@ import {
   type TextInputFocusEventData,
   type NativeSyntheticEvent,
   Platform,
+  I18nManager,
 } from 'react-native';
 
 import InputContainer from './InputContainer';
@@ -109,6 +110,7 @@ export const Input = forwardRef<InputRef, Props>(
             Platform.OS === 'web' && styles.webInput,
           ]}
           onFocus={handleFocus}
+          textAlign={I18nManager.isRTL ? 'right' : 'left'}
           onBlur={handleBlur}
           placeholderTextColor={convertHexToRgba(colors.foreground, 0.5)}
           editable={editable}

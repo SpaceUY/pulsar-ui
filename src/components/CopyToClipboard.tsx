@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    marginRight: 12, // Aumenté para dar más espacio al ícono
+    marginEnd: 12, // Aumenté para dar más espacio al ícono
     minWidth: 0, // Permite que el contenido se comprima si es necesario
     overflow: 'hidden', // Evita que el contenido se desborde
   },

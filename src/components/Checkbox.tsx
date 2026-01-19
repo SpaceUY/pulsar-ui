@@ -155,6 +155,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  textContainer: { marginLeft: 8, flex: 1 },
+  textContainer: { marginStart: 8, flex: 1 },
   description: { marginTop: 2, opacity: 0.5 },
 });

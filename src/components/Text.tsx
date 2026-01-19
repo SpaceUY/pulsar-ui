@@ -57,8 +57,12 @@ export default function Text({ variant, style, children, ...props }: Props) {
   }, [variant, theme.fonts.bold, theme.fonts.medium, theme.fonts.regular]);
 
   return (
-    <RNText {...props} style={[textStyle, { color }, style]}>
+    <RNText {...props} style={[textStyle, { color }, styles.text, style]}>
       {children}
     </RNText>
   );
 }
+
+const styles = StyleSheet.create({
+  text: { textAlign: 'left' },
+});

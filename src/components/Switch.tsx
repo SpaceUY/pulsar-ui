@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import {
   Pressable,
   StyleSheet,
+  I18nManager,
   type StyleProp,
   type ViewStyle,
 } from 'react-native';
@@ -61,16 +62,13 @@ export default function Switch({
   });
 
   const thumbAnimatedStyle = useAnimatedStyle(() => {
+    const translateX = interpolate(
+      active.value,
+      [0, 1],
+      [PADDING, SWITCH_WIDTH - (THUMB_SIZE + PADDING)]
+    );
     return {
-      transform: [
-        {
-          translateX: interpolate(
-            active.value,
-            [0, 1],
-            [PADDING, SWITCH_WIDTH - (THUMB_SIZE + PADDING)]
-          ),
-        },
-      ],
+      transform: [{ translateX: I18nManager.isRTL ? -translateX : translateX }],
     };
   });
 

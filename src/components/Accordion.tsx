@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 16,
   },
-  chevron: { marginLeft: 8, justifyContent: 'center', alignItems: 'center' },
+  chevron: { marginStart: 8, justifyContent: 'center', alignItems: 'center' },
   content: { paddingHorizontal: 16, paddingBottom: 16, overflow: 'hidden' },
   contentContainer: { overflow: 'hidden' },
   hiddenContent: { position: 'absolute', opacity: 0, zIndex: -1 },

@@ -6,6 +6,7 @@ import {
   StyleSheet,
   type StyleProp,
   type ViewStyle,
+  I18nManager,
 } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import type { DateData, MarkedDates } from 'react-native-calendars/src/types';
@@ -300,14 +301,12 @@ const CalendarPicker = ({
             <View style={styles.navigationButtons}>
               <IconButton
                 onPress={handlePrevMonth}
-                iconName="ChevronLeft"
-                // size="small"
+                iconName={I18nManager.isRTL ? 'ChevronRight' : 'ChevronLeft'}
                 variant="outline"
               />
               <IconButton
                 onPress={handleNextMonth}
-                iconName="ChevronRight"
-                // size="small"
+                iconName={I18nManager.isRTL ? 'ChevronLeft' : 'ChevronRight'}
                 variant="outline"
               />
             </View>
@@ -328,6 +327,7 @@ const CalendarPicker = ({
               onDayPress={handleDatePress}
               onMonthChange={handleMonthChange}
               disableAllTouchEventsForDisabledDays={true}
+              rtl={I18nManager.isRTL}
               markedDates={getMarkedDates()}
               showSixWeeks={true}
               hideExtraDays={false}
