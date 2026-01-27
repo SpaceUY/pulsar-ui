@@ -67,6 +67,12 @@ export default function IconButtonsExample() {
             loading={loadingStates['heart-large']}
             onPress={() => handlePress('heart-large', 'Large heart pressed')}
           />
+          <IconButton
+            iconName="Heart"
+            size="xlarge"
+            loading={loadingStates['heart-xlarge']}
+            onPress={() => handlePress('heart-xlarge', 'XLarge heart pressed')}
+          />
         </View>
       </Card>
 

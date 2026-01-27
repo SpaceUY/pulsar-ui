@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { StyleSheet, type ViewStyle, type StyleProp } from 'react-native';
 
 import ButtonContainer, {
@@ -30,13 +31,28 @@ export default function Button({
   onPress,
   iconName,
 }: Props) {
+  const iconSize = useMemo(() => {
+    switch (size) {
+      case 'small':
+        return 16;
+      case 'medium':
+        return 18;
+      case 'large':
+        return 20;
+      case 'xlarge':
+        return 22;
+      default:
+        return 16;
+    }
+  }, [size]);
+
   const renderIconOrLoader = (colors: ButtonColors) => {
     if (loading) {
       return (
         <LoadingIndicator
           style={styles.icon}
           color={colors.textColor}
-          size={size === 'small' ? 14 : 16}
+          size={iconSize}
         />
       );
     }

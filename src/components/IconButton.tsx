@@ -36,10 +36,20 @@ export default function IconButton({
   style,
   ...rest
 }: Props) {
-  const iconSize = useMemo(
-    () => meassures.button[size] - (size === 'small' ? PADDING : PADDING * 2),
-    [size]
-  );
+  const iconSize = useMemo(() => {
+    switch (size) {
+      case 'small':
+        return 12;
+      case 'medium':
+        return 16;
+      case 'large':
+        return 20;
+      case 'xlarge':
+        return 24;
+      default:
+        return 12;
+    }
+  }, [size]);
 
   return (
     <ButtonContainer
@@ -51,10 +61,7 @@ export default function IconButton({
       onPress={onPress}
       hitSlop={{ top: PADDING, left: PADDING, right: PADDING, bottom: PADDING }}
       style={[style, { width: meassures.button[size] }]}
-      contentContainerStyle={[
-        styles.container,
-        { padding: size === 'small' ? PADDING / 2 : PADDING },
-      ]}
+      contentContainerStyle={styles.container}
       renderContent={(colors: ButtonColors) =>
         loading ? (
           <LoadingIndicator size={iconSize} color={colors.textColor} />

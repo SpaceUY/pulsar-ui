@@ -44,7 +44,7 @@ export default function ButtonsExample() {
         style={[styles.exampleContainer, headerVisible && styles.firstExample]}
       >
         <Text variant="h4" style={styles.exampleTitle}>
-          Button Configuration
+          Button Sizes
         </Text>
         <View style={styles.buttonContainer}>
           <Button
@@ -64,6 +64,12 @@ export default function ButtonsExample() {
             size="large"
             loading={loadingStates.large}
             onPress={() => handlePress('large')}
+          />
+          <Button
+            text="XLarge"
+            size="xlarge"
+            loading={loadingStates.xlarge}
+            onPress={() => handlePress('xlarge')}
           />
         </View>
       </Card>
@@ -106,33 +112,57 @@ export default function ButtonsExample() {
         </Text>
         <View style={styles.buttonContainer}>
           <Button
-            text="Download"
+            text="Small"
             iconName="Download"
-            loading={loadingStates.download}
-            onPress={() => handlePress('download')}
+            size="small"
+            loading={loadingStates['icon-small']}
+            onPress={() => handlePress('icon-small')}
           />
           <Button
-            text="Share"
-            iconName="Share"
-            variant="outline"
-            loading={loadingStates.share}
-            onPress={() => handlePress('share')}
+            text="Medium"
+            iconName="Download"
+            size="medium"
+            loading={loadingStates['icon-medium']}
+            onPress={() => handlePress('icon-medium')}
+          />
+          <Button
+            text="Large"
+            iconName="Download"
+            size="large"
+            loading={loadingStates['icon-large']}
+            onPress={() => handlePress('icon-large')}
+          />
+          <Button
+            text="XLarge"
+            iconName="Download"
+            size="xlarge"
+            loading={loadingStates['icon-xlarge']}
+            onPress={() => handlePress('icon-xlarge')}
           />
         </View>
       </Card>
 
       <Card style={styles.exampleContainer}>
         <Text variant="h4" style={styles.exampleTitle}>
-          Button States
+          Loading States
         </Text>
         <View style={styles.buttonContainer}>
-          <Button
-            text="Normal"
-            loading={loadingStates.normal}
-            onPress={() => handlePress('normal')}
-          />
-          <Button text="Disabled" disabled />
-          <Button text="Loading" loading />
+          <Button text="Small" size="small" loading />
+          <Button text="Medium" size="medium" loading />
+          <Button text="Large" size="large" loading />
+          <Button text="XLarge" size="xlarge" loading />
+        </View>
+      </Card>
+
+      <Card style={styles.exampleContainer}>
+        <Text variant="h4" style={styles.exampleTitle}>
+          Disabled States
+        </Text>
+        <View style={styles.buttonContainer}>
+          <Button text="Small" size="small" disabled />
+          <Button text="Medium" size="medium" disabled />
+          <Button text="Large" size="large" disabled />
+          <Button text="XLarge" size="xlarge" disabled />
         </View>
       </Card>
 
