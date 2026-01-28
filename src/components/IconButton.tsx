@@ -22,6 +22,9 @@ type Props = PressableProps & {
   size?: keyof typeof ButtonSize;
   loading?: boolean;
   style?: StyleProp<ViewStyle>;
+  backgroundColor?: string;
+  textColor?: string;
+  borderColor?: string;
 };
 
 const PADDING = 8;
@@ -34,6 +37,9 @@ export default function IconButton({
   variant = 'flat',
   loading = false,
   style,
+  backgroundColor,
+  textColor,
+  borderColor,
   ...rest
 }: Props) {
   const iconSize = useMemo(() => {
@@ -62,6 +68,9 @@ export default function IconButton({
       hitSlop={{ top: PADDING, left: PADDING, right: PADDING, bottom: PADDING }}
       style={[style, { width: meassures.button[size] }]}
       contentContainerStyle={styles.container}
+      backgroundColor={backgroundColor}
+      textColor={textColor}
+      borderColor={borderColor}
       renderContent={(colors: ButtonColors) =>
         loading ? (
           <LoadingIndicator size={iconSize} color={colors.textColor} />

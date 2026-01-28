@@ -49,6 +49,9 @@ type Props = Omit<PressableProps, 'children'> & {
   loading?: boolean;
   renderContent: (colors: ButtonColors) => React.ReactNode;
   contentContainerStyle?: StyleProp<AnimatedStyle<StyleProp<ViewStyle>>>;
+  backgroundColor?: string;
+  textColor?: string;
+  borderColor?: string;
 };
 
 export default function ButtonContainer({
@@ -60,6 +63,9 @@ export default function ButtonContainer({
   onPressIn,
   onPressOut,
   contentContainerStyle,
+  backgroundColor,
+  textColor,
+  borderColor,
   ...rest
 }: Props) {
   const { theme, colors } = useTheme();
@@ -69,7 +75,7 @@ export default function ButtonContainer({
   const height = useMemo(() => meassures.button[size], [size]);
 
   const buttonColors: ButtonColors = useMemo(() => {
-    return {
+    const variantColors = {
       outline: {
         backgroundColor: 'transparent',
         borderColor: colors.border,
@@ -92,7 +98,17 @@ export default function ButtonContainer({
         pressedBackgroundColor: convertHexToRgba(colors.foreground, 0.8),
       },
     }[variant];
-  }, [variant, colors]);
+
+    return {
+      ...variantColors,
+      ...(backgroundColor && {
+        backgroundColor,
+        pressedBackgroundColor: convertHexToRgba(backgroundColor, 0.8),
+      }),
+      ...(textColor && { textColor }),
+      ...(borderColor && { borderColor }),
+    };
+  }, [variant, colors, backgroundColor, textColor, borderColor]);
 
   const animatedStyle = useAnimatedStyle(() => {
     return {

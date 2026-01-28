@@ -19,6 +19,9 @@ type Props = {
   disabled?: boolean;
   onPress?: () => void;
   iconName?: IconName;
+  backgroundColor?: string;
+  textColor?: string;
+  borderColor?: string;
 };
 
 export default function Button({
@@ -30,6 +33,9 @@ export default function Button({
   disabled = false,
   onPress,
   iconName,
+  backgroundColor,
+  textColor,
+  borderColor,
 }: Props) {
   const iconSize = useMemo(() => {
     switch (size) {
@@ -75,6 +81,9 @@ export default function Button({
       loading={loading}
       disabled={disabled}
       onPress={onPress}
+      backgroundColor={backgroundColor}
+      textColor={textColor}
+      borderColor={borderColor}
       renderContent={(colors: ButtonColors) => (
         <>
           {renderIconOrLoader(colors)}
