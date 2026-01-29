@@ -25,6 +25,7 @@ type Props = PressableProps & {
   backgroundColor?: string;
   textColor?: string;
   borderColor?: string;
+  rounded?: boolean;
 };
 
 const PADDING = 8;
@@ -40,6 +41,7 @@ export default function IconButton({
   backgroundColor,
   textColor,
   borderColor,
+  rounded = false,
   ...rest
 }: Props) {
   const iconSize = useMemo(() => {
@@ -71,6 +73,7 @@ export default function IconButton({
       backgroundColor={backgroundColor}
       textColor={textColor}
       borderColor={borderColor}
+      rounded={rounded}
       renderContent={(colors: ButtonColors) =>
         loading ? (
           <LoadingIndicator size={iconSize} color={colors.textColor} />

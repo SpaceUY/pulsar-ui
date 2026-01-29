@@ -52,6 +52,7 @@ type Props = Omit<PressableProps, 'children'> & {
   backgroundColor?: string;
   textColor?: string;
   borderColor?: string;
+  rounded?: boolean;
 };
 
 export default function ButtonContainer({
@@ -66,6 +67,7 @@ export default function ButtonContainer({
   backgroundColor,
   textColor,
   borderColor,
+  rounded = false,
   ...rest
 }: Props) {
   const { theme, colors } = useTheme();
@@ -159,7 +161,7 @@ export default function ButtonContainer({
           styles.contentContainer,
           {
             height,
-            borderRadius: theme.roundness,
+            borderRadius: rounded ? height / 2 : theme.roundness,
             borderWidth,
             borderColor: buttonColors.borderColor,
           },

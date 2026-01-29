@@ -8,31 +8,37 @@ export default function Card({
   children,
   style,
   variant = 'default',
+  noShadow = false,
+  noBorder = false,
 }: PropsWithChildren<{
   style?: StyleProp<ViewStyle>;
   variant?: 'default' | 'alternative' | 'tinted';
+  noShadow?: boolean;
+  noBorder?: boolean;
 }>) {
   const { theme, colors } = useTheme();
 
   const themeStyle = useMemo(() => {
+    const showShadow = variant === 'default' && !noShadow;
+    const showBorder = variant === 'default' && !noBorder;
+
     return {
       backgroundColor:
         variant === 'default'
           ? colors.background
           : convertHexToRgba(colors.border, 0.5),
       borderRadius: theme.roundness,
-      borderColor: variant === 'default' ? colors.border : 'transparent',
-      boxShadow:
-        variant === 'default' ? '0px 0px 1px 1px rgba(0, 0, 0, 0.05)' : 'none',
+      borderColor: showBorder ? colors.border : 'transparent',
+      boxShadow: showShadow ? '0px 0px 1px 1px rgba(0, 0, 0, 0.05)' : 'none',
     };
-  }, [colors, theme, variant]);
+  }, [colors, theme, variant, noShadow, noBorder]);
 
   return (
     <View
       style={[
         styles.card,
         themeStyle,
-        variant === 'default' && styles.withBorder,
+        variant === 'default' && !noBorder && styles.withBorder,
         style,
       ]}
     >

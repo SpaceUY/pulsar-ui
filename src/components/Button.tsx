@@ -22,6 +22,7 @@ type Props = {
   backgroundColor?: string;
   textColor?: string;
   borderColor?: string;
+  rounded?: boolean;
 };
 
 export default function Button({
@@ -36,6 +37,7 @@ export default function Button({
   backgroundColor,
   textColor,
   borderColor,
+  rounded = false,
 }: Props) {
   const iconSize = useMemo(() => {
     switch (size) {
@@ -84,6 +86,7 @@ export default function Button({
       backgroundColor={backgroundColor}
       textColor={textColor}
       borderColor={borderColor}
+      rounded={rounded}
       renderContent={(colors: ButtonColors) => (
         <>
           {renderIconOrLoader(colors)}
