@@ -248,14 +248,23 @@ export default function Accordion({
     [colors, theme]
   );
 
+  const childrenCount = React.Children.count(children);
+
   const accordionItems = React.Children.map(children, (child, index) => {
     if (React.isValidElement(child)) {
       const value = child.props.value || `item-${index}`;
+      const isLast = index === childrenCount - 1;
+      const existingStyle = (child.props as AccordionItemProps).style;
+      const itemStyle = isLast
+        ? [existingStyle, styles.lastItem]
+        : existingStyle;
+
       return React.cloneElement(
         child as React.ReactElement<AccordionItemProps>,
         {
           isExpanded: expandedItems.has(value),
           onToggle: () => toggleItem(value),
+          style: itemStyle,
           key: value,
         }
       );
@@ -281,4 +290,5 @@ const styles = StyleSheet.create({
   contentContainer: { overflow: 'hidden' },
   hiddenContent: { position: 'absolute', opacity: 0, zIndex: -1 },
   title: { flex: 1 },
+  lastItem: { borderBottomWidth: 0 },
 });
