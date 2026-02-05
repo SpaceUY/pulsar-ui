@@ -86,6 +86,12 @@ export default function ButtonsExample() {
             onPress={() => handlePress('flat')}
           />
           <Button
+            text="Secondary"
+            variant="secondary"
+            loading={loadingStates.secondary}
+            onPress={() => handlePress('secondary')}
+          />
+          <Button
             text="Outline"
             variant="outline"
             loading={loadingStates.outline}

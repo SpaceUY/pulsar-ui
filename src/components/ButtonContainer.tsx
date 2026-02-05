@@ -25,6 +25,7 @@ import meassures from '../theme/meassures';
 export enum ButtonVariant {
   flat = 'flat',
   outline = 'outline',
+  secondary = 'secondary',
   transparent = 'transparent',
   destructive = 'destructive',
 }
@@ -97,7 +98,12 @@ export default function ButtonContainer({
       flat: {
         backgroundColor: colors.primary,
         textColor: colors.altForeground,
-        pressedBackgroundColor: convertHexToRgba(colors.foreground, 0.8),
+        pressedBackgroundColor: convertHexToRgba(colors.primary, 0.8),
+      },
+      secondary: {
+        backgroundColor: convertHexToRgba(colors.foreground, 0.1),
+        textColor: colors.foreground,
+        pressedBackgroundColor: convertHexToRgba(colors.foreground, 0.2),
       },
     }[variant];
 

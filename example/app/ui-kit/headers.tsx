@@ -119,6 +119,31 @@ export default function HeadersExample() {
         </View>
       </Card>
 
+      {/* Secondary variant: bigger title on its own row */}
+      <Card variant="tinted" style={styles.exampleContainer}>
+        <Text variant="h4" style={styles.exampleTitle}>
+          Secondary Variant
+        </Text>
+        <Text variant="ps" style={styles.sectionDescription}>
+          Bigger title on its own row below the buttons
+        </Text>
+        <View style={[styles.headerWrapper, { borderRadius: theme.roundness }]}>
+          <Header
+            variant="secondary"
+            useInsets={false}
+            title="Account Settings"
+            leftButton={{
+              iconName: backIcon,
+              onPress: () => showDialog('Back'),
+            }}
+            rightButton={{
+              iconName: 'Settings',
+              onPress: () => showDialog('Settings'),
+            }}
+          />
+        </View>
+      </Card>
+
       {/* Header with disabled button */}
       <Card variant="tinted" style={styles.exampleContainer}>
         <Text variant="h4" style={styles.exampleTitle}>

@@ -91,6 +91,14 @@ export default function IconButtonsExample() {
           />
           <IconButton
             iconName="Settings"
+            variant="secondary"
+            loading={loadingStates['settings-secondary']}
+            onPress={() =>
+              handlePress('settings-secondary', 'Secondary settings pressed')
+            }
+          />
+          <IconButton
+            iconName="Settings"
             variant="outline"
             loading={loadingStates['settings-outline']}
             onPress={() =>

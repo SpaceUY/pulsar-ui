@@ -11,7 +11,7 @@ export { default as Checkbox } from './components/Checkbox';
 export { default as Chip } from './components/Chip';
 export { default as Icon, type IconName } from './components/Icon';
 export { default as IconButton } from './components/IconButton';
-export { default as Header } from './components/Header';
+export { default as Header, type HeaderVariant } from './components/Header';
 export { default as Switch } from './components/Switch';
 export {
   default as ButtonContainer,
