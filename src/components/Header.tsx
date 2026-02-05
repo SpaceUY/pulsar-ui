@@ -17,6 +17,7 @@ type HeaderButtonProps = {
   onPress?: () => void;
   disabled?: boolean;
   variant?: keyof typeof ButtonVariant;
+  rounded?: boolean;
 };
 
 type Props = PropsWithChildren & {
@@ -51,6 +52,7 @@ export default function Header({
         size="medium"
         onPress={button.onPress}
         disabled={button.disabled}
+        rounded={button.rounded}
       />
     );
   };
