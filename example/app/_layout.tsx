@@ -205,6 +205,10 @@ const Layout = () => {
       <Stack.Screen name="ui-kit/otp-input" options={{ title: 'Otp Input' }} />
       <Stack.Screen name="ui-kit/headers" options={{ title: 'Headers' }} />
       <Stack.Screen
+        name="ui-kit/animated-header"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
         name="ui-kit/copy-to-clipboard"
         options={{ title: 'Copy to Clipboard' }}
       />

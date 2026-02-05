@@ -85,6 +85,11 @@
     "iconName": "RectangleHorizontal"
   },
   {
+    "name": "Animated Header",
+    "route": "ui-kit/animated-header",
+    "iconName": "PanelTop"
+  },
+  {
     "name": "Copy to Clipboard",
     "route": "ui-kit/copy-to-clipboard",
     "iconName": "Copy"

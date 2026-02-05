@@ -23,14 +23,17 @@ import { Header } from '@space-uy/pulsar-ui';
 
 ## Properties
 
-| Property      | Type                   | Required | Default value | Description                                     |
-| ------------- | ---------------------- | -------- | ------------- | ----------------------------------------------- |
-| `title`       | `string`               | ✅       | -             | The title text to display in the header         |
-| `leftButton`  | `HeaderButtonProps`    | ❌       | -             | Configuration for the left button               |
-| `rightButton` | `HeaderButtonProps`    | ❌       | -             | Configuration for the right button              |
-| `style`       | `StyleProp<ViewStyle>` | ❌       | -             | Custom styles for the header container          |
-| `useInsets`   | `boolean`              | ❌       | `true`        | Whether to use safe area insets for top padding |
-| `children`    | `React.ReactNode`      | ❌       | -             | Additional content below the header             |
+| Property             | Type                   | Required | Default value | Description                                                                 |
+| -------------------- | ---------------------- | -------- | ------------- | --------------------------------------------------------------------------- |
+| `title`              | `string`               | ✅       | -             | The title text to display in the header                                     |
+| `variant`            | `'default' \| 'secondary'` | ❌   | `'default'`    | `secondary` shows a larger title on its own row (iOS large title style)     |
+| `leftButton`         | `HeaderButtonProps`    | ❌       | -             | Configuration for the left button                                           |
+| `rightButton`        | `HeaderButtonProps`    | ❌       | -             | Configuration for the right button                                          |
+| `style`              | `StyleProp<ViewStyle>` | ❌       | -             | Custom styles for the header container                                      |
+| `useInsets`          | `boolean`              | ❌       | `true`        | Whether to use safe area insets for top padding                             |
+| `scrollY`            | `SharedValue<number>`  | ❌       | -             | When set with `variant="secondary"`, header collapses on scroll (iOS-style)   |
+| `collapseThreshold`  | `number`               | ❌       | `80`          | Scroll offset (px) at which the header is fully collapsed; used with `scrollY` |
+| `children`           | `React.ReactNode`      | ❌       | -             | Additional content below the header                                         |
 
 ## HeaderButtonProps
 

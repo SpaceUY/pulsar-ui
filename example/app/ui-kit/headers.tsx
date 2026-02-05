@@ -1,6 +1,11 @@
 import { useState, useLayoutEffect } from 'react';
 import { View, StyleSheet, I18nManager } from 'react-native';
+import Animated, {
+  useSharedValue,
+  useAnimatedScrollHandler,
+} from 'react-native-reanimated';
 import {
+  Button,
   Card,
   convertHexToRgba,
   Header,
@@ -12,9 +17,82 @@ import {
   DialogFooter,
   DialogAction,
   useUIKitTheme,
+  type IconName,
 } from '@space-uy/pulsar-ui';
-import { useLocalSearchParams, useNavigation } from 'expo-router';
+import { useLocalSearchParams, useNavigation, router } from 'expo-router';
 import ResponsiveScroll from '../../components/ResponsiveScroll';
+
+function CollapsibleHeaderDemo({
+  backIcon,
+  showDialog,
+  themeRoundness,
+  colors,
+}: {
+  backIcon: IconName;
+  showDialog: (msg: string) => void;
+  themeRoundness: number;
+  colors: Record<string, string>;
+}) {
+  const scrollY = useSharedValue(0);
+  const scrollHandler = useAnimatedScrollHandler({
+    onScroll: (e) => {
+      scrollY.value = e.contentOffset.y;
+    },
+  });
+
+  return (
+    <Card variant="tinted" style={styles.exampleContainer}>
+      <Text variant="h4" style={styles.exampleTitle}>
+        Collapsible on scroll (iOS-style)
+      </Text>
+      <Text variant="ps" style={styles.sectionDescription}>
+        Secondary header animates to compact as you scroll
+      </Text>
+      <View
+        style={[
+          styles.headerWrapper,
+          styles.collapsibleDemo,
+          { borderRadius: themeRoundness, backgroundColor: colors.background },
+        ]}
+      >
+        <Header
+          variant="secondary"
+          useInsets={false}
+          title="My Account"
+          scrollY={scrollY}
+          collapseThreshold={80}
+          leftButton={{
+            iconName: backIcon,
+            onPress: () => showDialog('Back'),
+          }}
+          rightButton={{
+            iconName: 'Settings',
+            onPress: () => showDialog('Settings'),
+          }}
+        />
+        <Animated.ScrollView
+          onScroll={scrollHandler}
+          scrollEventThrottle={16}
+          style={styles.collapsibleScrollView}
+          contentContainerStyle={styles.collapsibleScrollContent}
+          showsVerticalScrollIndicator={false}
+        >
+          {Array.from({ length: 24 }, (_, i) => (
+            <View
+              key={i}
+              style={[
+                styles.collapsibleRow,
+                { borderBottomColor: colors.border },
+              ]}
+            >
+              <Text variant="pm">Row {i + 1}</Text>
+            </View>
+          ))}
+        </Animated.ScrollView>
+      </View>
+    </Card>
+  );
+}
 
 export default function HeadersExample() {
   const { showHeader } = useLocalSearchParams<{ showHeader: string }>();
@@ -144,6 +222,21 @@ export default function HeadersExample() {
         </View>
       </Card>
 
+      {/* Collapsible secondary header (iOS-style on scroll) */}
+      <CollapsibleHeaderDemo
+        backIcon={backIcon}
+        showDialog={showDialog}
+        themeRoundness={theme.roundness}
+        colors={colors}
+      />
+      <Card variant="tinted" style={styles.exampleContainer}>
+        <Button
+          variant="secondary"
+          text="Open full screen animated header demo"
+          onPress={() => router.push('/ui-kit/animated-header')}
+        />
+      </Card>
+
       {/* Header with disabled button */}
       <Card variant="tinted" style={styles.exampleContainer}>
         <Text variant="h4" style={styles.exampleTitle}>
@@ -241,5 +334,9 @@ const styles = StyleSheet.create({
   exampleContainer: { marginBottom: 24 },
   exampleTitle: { marginBottom: 12 },
   headerWrapper: { overflow: 'hidden' },
+  collapsibleDemo: { maxHeight: 320 },
+  collapsibleScrollView: { flex: 1 },
+  collapsibleScrollContent: { padding: 16, paddingTop: 8 },
+  collapsibleRow: { paddingVertical: 12, borderBottomWidth: 1 },
   spacer: { height: 40 },
 });

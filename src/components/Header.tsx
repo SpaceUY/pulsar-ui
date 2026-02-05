@@ -1,5 +1,10 @@
 import { type PropsWithChildren } from 'react';
 import { StyleSheet, View, type ViewStyle, type StyleProp } from 'react-native';
+import Animated, {
+  interpolate,
+  useAnimatedStyle,
+  type SharedValue,
+} from 'react-native-reanimated';
 
 import Text from './Text';
 import IconButton from './IconButton';
@@ -11,6 +16,8 @@ import meassures from '../theme/meassures';
 import type { ButtonVariant } from './ButtonContainer';
 
 export type HeaderVariant = 'default' | 'secondary';
+
+const DEFAULT_COLLAPSE_THRESHOLD = 80;
 
 type HeaderButtonProps = {
   iconName: IconName;
@@ -27,6 +34,10 @@ type Props = PropsWithChildren & {
   rightButton?: HeaderButtonProps;
   style?: StyleProp<ViewStyle>;
   useInsets?: boolean;
+  /** When set with variant="secondary", header animates from large title to compact as user scrolls (iOS-style). Pass the scroll view's contentOffset.y (e.g. from useAnimatedScrollHandler). */
+  scrollY?: SharedValue<number>;
+  /** Scroll offset at which the header is fully collapsed. Ignored when scrollY is not provided. */
+  collapseThreshold?: number;
 };
 
 const HEADER_BASE_HEIGHT = 52;
@@ -39,10 +50,57 @@ export default function Header({
   style,
   useInsets = true,
   children,
+  scrollY,
+  collapseThreshold = DEFAULT_COLLAPSE_THRESHOLD,
 }: Props) {
   const { colors, theme } = useTheme();
   const topInset = useInsets ? theme.insets?.top || 0 : 0;
   const isSecondary = variant === 'secondary';
+  const isCollapsible = isSecondary && scrollY != null;
+
+  const animatedHeaderStyle = useAnimatedStyle(() => {
+    if (!isCollapsible || scrollY == null) return {};
+    const progress = interpolate(
+      scrollY.value,
+      [0, collapseThreshold],
+      [0, 1],
+      'clamp'
+    );
+    return {
+      paddingBottom: interpolate(progress, [0, 1], [12, 0]),
+    };
+  }, [isCollapsible, collapseThreshold]);
+
+  const animatedTitleRowStyle = useAnimatedStyle(() => {
+    if (!isCollapsible || scrollY == null) return {};
+    const progress = interpolate(
+      scrollY.value,
+      [0, collapseThreshold],
+      [0, 1],
+      'clamp'
+    );
+    // Estimate: h1 fontSize 24 + line height ~16 + paddingTop 4 = ~44px
+    const titleRowHeight = 44;
+    return {
+      opacity: interpolate(progress, [0, 1], [1, 0]),
+      height: interpolate(progress, [0, 1], [titleRowHeight, 0]),
+      overflow: 'hidden' as const,
+      transform: [{ translateY: interpolate(progress, [0, 1], [0, -16]) }],
+    };
+  }, [isCollapsible, collapseThreshold]);
+
+  const animatedSmallTitleStyle = useAnimatedStyle(() => {
+    if (!isCollapsible || scrollY == null) return {};
+    const progress = interpolate(
+      scrollY.value,
+      [0, collapseThreshold],
+      [0, 1],
+      'clamp'
+    );
+    return {
+      opacity: interpolate(progress, [0, 1], [0, 1]),
+    };
+  }, [isCollapsible, collapseThreshold]);
 
   const renderButton = (button: HeaderButtonProps) => {
     return (
@@ -57,57 +115,104 @@ export default function Header({
     );
   };
 
-  return (
-    <View
-      style={[
-        styles.header,
-        {
-          backgroundColor: colors.background,
-          borderBottomColor: colors.border,
-          paddingTop: topInset,
-        },
-        isSecondary && styles.headerSecondary,
-        !!children && styles.paddingBottom,
-        style,
-      ]}
-    >
+  const showSmallTitleInBar = !isSecondary || isCollapsible;
+  const showBigTitleRow = isSecondary;
+
+  const headerContent = (
+    <>
       <View
         style={[
           styles.headerContent,
-          isSecondary && styles.headerContentSecondary,
+          isSecondary && !isCollapsible && styles.headerContentSecondary,
+          isCollapsible && styles.headerContentSecondary,
         ]}
       >
         <View style={[styles.slot, styles.leftSlot]}>
           {leftButton && renderButton(leftButton)}
         </View>
-        {!isSecondary && (
-          <View style={styles.titleContainer}>
-            <Text
-              variant="h3"
-              style={[styles.title, { color: colors.foreground }]}
-              numberOfLines={1}
-              ellipsizeMode="tail"
-            >
-              {title}
-            </Text>
+        {showSmallTitleInBar && (
+          <View style={styles.titleContainer} pointerEvents="none">
+            {isCollapsible ? (
+              <Animated.View
+                style={[styles.titleContainer, animatedSmallTitleStyle]}
+              >
+                <Text
+                  variant="h3"
+                  style={[styles.title, { color: colors.foreground }]}
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                >
+                  {title}
+                </Text>
+              </Animated.View>
+            ) : (
+              <Text
+                variant="h3"
+                style={[styles.title, { color: colors.foreground }]}
+                numberOfLines={1}
+                ellipsizeMode="tail"
+              >
+                {title}
+              </Text>
+            )}
           </View>
         )}
         <View style={[styles.slot, styles.rightSlot]}>
           {rightButton && renderButton(rightButton)}
         </View>
       </View>
-      {isSecondary && (
-        <View style={styles.titleRow}>
-          <Text
-            variant="h2"
-            style={[styles.titleSecondary, { color: colors.foreground }]}
-            numberOfLines={1}
-            ellipsizeMode="tail"
-          >
-            {title}
-          </Text>
-        </View>
-      )}
+      {showBigTitleRow &&
+        (isCollapsible ? (
+          <Animated.View style={[styles.titleRow, animatedTitleRowStyle]}>
+            <Text
+              variant="h1"
+              style={[styles.titleSecondary, { color: colors.foreground }]}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              {title}
+            </Text>
+          </Animated.View>
+        ) : (
+          <View style={styles.titleRow}>
+            <Text
+              variant="h1"
+              style={[styles.titleSecondary, { color: colors.foreground }]}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              {title}
+            </Text>
+          </View>
+        ))}
+    </>
+  );
+
+  const staticHeaderStyle = [
+    styles.header,
+    {
+      backgroundColor: colors.background,
+      borderBottomColor: colors.border,
+      paddingTop: topInset,
+    },
+    isSecondary && !isCollapsible && styles.headerSecondary,
+    isCollapsible && styles.headerSecondary,
+    !!children && styles.paddingBottom,
+    style,
+  ];
+
+  if (isCollapsible) {
+    return (
+      <Animated.View style={[staticHeaderStyle, animatedHeaderStyle]}>
+        {headerContent}
+        {children}
+      </Animated.View>
+    );
+  }
+
+  return (
+    <View style={staticHeaderStyle}>
+      {headerContent}
       {children}
     </View>
   );
