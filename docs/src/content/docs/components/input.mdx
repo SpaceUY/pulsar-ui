@@ -30,20 +30,21 @@ const [value, setValue] = useState('');
 
 ## Properties
 
-| Property       | Type                     | Required | Default value | Description                                   |
-| -------------- | ------------------------ | -------- | ------------- | --------------------------------------------- |
-| `label`        | `string`                 | ❌       | -             | Label text displayed above the input          |
-| `placeholder`  | `string`                 | ❌       | -             | Placeholder text when input is empty          |
-| `value`        | `string`                 | ❌       | -             | Current input value                           |
-| `onChangeText` | `(text: string) => void` | ❌       | -             | Callback when input text changes              |
-| `error`        | `boolean`                | ❌       | `false`       | Whether the input is in error state           |
-| `hint`         | `string`                 | ❌       | -             | Hint text displayed below the input           |
-| `iconName`     | `IconName`               | ❌       | -             | Icon displayed on the left side               |
-| `variant`      | `'text' \| 'password'`   | ❌       | `'text'`      | Input variant (text or password)              |
-| `clearable`    | `boolean`                | ❌       | `false`       | Whether to show clear button when has content |
-| `editable`     | `boolean`                | ❌       | `true`        | Whether the input is editable                 |
-| `style`        | `StyleProp<ViewStyle>`   | ❌       | -             | Custom styles for the input container         |
-| `...rest`      | `TextInputProps`         | ❌       | -             | Additional TextInput props                    |
+| Property           | Type                             | Required | Default value   | Description                                        |
+| ------------------ | -------------------------------- | -------- | --------------- | -------------------------------------------------- |
+| `label`            | `string`                         | ❌       | -               | Label text displayed above the input              |
+| `placeholder`      | `string`                         | ❌       | -               | Placeholder text when input is empty              |
+| `value`            | `string`                         | ❌       | -               | Current input value                               |
+| `onChangeText`     | `(text: string) => void`         | ❌       | -               | Callback when input text changes                  |
+| `error`            | `boolean`                        | ❌       | `false`         | Whether the input is in error state               |
+| `hint`             | `string`                         | ❌       | -               | Hint text displayed below the input               |
+| `iconName`         | `IconName`                       | ❌       | -               | Icon displayed on the left side                   |
+| `variant`          | `'text' \| 'password'`           | ❌       | `'text'`        | Input variant (text or password)                  |
+| `containerVariant` | `'default' \| 'alternative'`     | ❌       | `'default'`     | Visual variant for the input container background |
+| `clearable`        | `boolean`                        | ❌       | `false`         | Whether to show clear button when has content     |
+| `editable`         | `boolean`                        | ❌       | `true`          | Whether the input is editable                     |
+| `style`            | `StyleProp<ViewStyle>`           | ❌       | -               | Custom styles for the input container             |
+| `...rest`          | `TextInputProps`                 | ❌       | -               | Additional TextInput props                        |
 
 ## InputRef Methods
 

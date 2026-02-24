@@ -26,6 +26,7 @@ type Props = TextInputProps & {
   hint?: string;
   iconName?: IconName;
   variant?: 'text' | 'password';
+  containerVariant?: 'default' | 'alternative';
   clearable?: boolean;
 };
 
@@ -42,6 +43,7 @@ export const Input = forwardRef<InputRef, Props>(
       label,
       hint,
       variant = 'text',
+      containerVariant = 'default',
       onBlur,
       onFocus,
       iconName,
@@ -93,6 +95,7 @@ export const Input = forwardRef<InputRef, Props>(
         focused={focused}
         disabled={!editable}
         iconName={iconName}
+        variant={containerVariant}
       >
         <TextInput
           {...rest}

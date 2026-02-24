@@ -32,6 +32,7 @@ type Props = TextInputProps & {
   numberOfLines?: number;
   maxLength?: number;
   onChangeText?: (text: string) => void;
+  containerVariant?: 'default' | 'alternative';
 };
 
 export type InputRef = { focus: () => void; blur: () => void };
@@ -44,6 +45,7 @@ export const TextArea = forwardRef<InputRef, Props>(
       error,
       label,
       hint,
+      containerVariant = 'default',
       onBlur,
       onFocus,
       numberOfLines = 4,
@@ -90,6 +92,7 @@ export const TextArea = forwardRef<InputRef, Props>(
         focused={focused}
         disabled={!editable}
         height={numberOfLines * 22}
+        variant={containerVariant}
       >
         <TextInput
           {...rest}

@@ -30,17 +30,18 @@ const [message, setMessage] = useState('');
 
 ## Properties
 
-| Property        | Type                     | Required | Default value | Description                              |
-| --------------- | ------------------------ | -------- | ------------- | ---------------------------------------- |
-| `label`         | `string`                 | ❌       | -             | Label text displayed above the textarea  |
-| `hint`          | `string`                 | ❌       | -             | Hint text displayed below the textarea   |
-| `error`         | `boolean`                | ❌       | `false`       | Whether the textarea is in error state   |
-| `numberOfLines` | `number`                 | ❌       | `4`           | Number of visible lines in the textarea  |
-| `maxLength`     | `number`                 | ❌       | `1200`        | Maximum number of characters allowed     |
-| `onChangeText`  | `(text: string) => void` | ❌       | -             | Callback when textarea text changes      |
-| `editable`      | `boolean`                | ❌       | `true`        | Whether the textarea is editable         |
-| `style`         | `StyleProp<ViewStyle>`   | ❌       | -             | Custom styles for the textarea container |
-| `...rest`       | `TextInputProps`         | ❌       | -             | Additional TextInput props               |
+| Property           | Type                     | Required | Default value | Description                                        |
+| ------------------ | ------------------------ | -------- | ------------- | -------------------------------------------------- |
+| `label`            | `string`                 | ❌       | -             | Label text displayed above the textarea            |
+| `hint`             | `string`                 | ❌       | -             | Hint text displayed below the textarea             |
+| `error`            | `boolean`                | ❌       | `false`       | Whether the textarea is in error state             |
+| `numberOfLines`    | `number`                 | ❌       | `4`           | Number of visible lines in the textarea            |
+| `maxLength`        | `number`                 | ❌       | `1200`        | Maximum number of characters allowed               |
+| `onChangeText`     | `(text: string) => void` | ❌       | -             | Callback when textarea text changes                |
+| `editable`         | `boolean`                | ❌       | `true`        | Whether the textarea is editable                   |
+| `containerVariant` | `'default' \| 'alternative'` | ❌   | `'default'`   | Visual variant for the textarea container          |
+| `style`            | `StyleProp<ViewStyle>`   | ❌       | -             | Custom styles for the textarea container           |
+| `...rest`          | `TextInputProps`         | ❌       | -             | Additional TextInput props                         |
 
 ## InputRef Methods
 

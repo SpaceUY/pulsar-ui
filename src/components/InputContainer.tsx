@@ -29,6 +29,7 @@ type Props = PropsWithChildren & {
   focused?: boolean;
   disabled?: boolean;
   size?: 'small' | 'default';
+  variant?: 'default' | 'alternative';
   height?: number;
   iconName?: IconName;
 };
@@ -50,6 +51,7 @@ export default function InputContainer({
   children,
   size = 'default',
   disabled,
+  variant = 'default',
   height,
   iconName,
 }: Props) {
@@ -96,6 +98,12 @@ export default function InputContainer({
             animStyle,
             styles.container,
             { height: containerHeight, borderRadius: theme.roundness },
+            {
+              backgroundColor:
+                variant === 'alternative'
+                  ? colors.background
+                  : colors.altBackground,
+            },
             contentContainerStyle,
           ]}
         >

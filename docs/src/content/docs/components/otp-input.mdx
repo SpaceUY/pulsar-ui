@@ -23,14 +23,13 @@ import { OtpInput } from '@space-uy/pulsar-ui';
 
 ## Properties
 
-| Property       | Type                                                                | Required | Default value | Description                               |
-| -------------- | ------------------------------------------------------------------- | -------- | ------------- | ----------------------------------------- |
-| `placeholder`  | `string`                                                            | ❌       | `'*'`         | Placeholder character when input is empty |
-| `onChangeText` | `(text: string) => void`                                            | ❌       | -             | Callback when input text changes          |
-| `onKeyPress`   | `(event: NativeSyntheticEvent<TextInputKeyPressEventData>) => void` | ❌       | -             | Callback for key press events             |
-| `editable`     | `boolean`                                                           | ❌       | `true`        | Whether the input is editable             |
-| `style`        | `StyleProp<ViewStyle>`                                              | ❌       | -             | Custom styles for the input               |
-| `...rest`      | `TextInputProps`                                                    | ❌       | -             | Additional TextInput props                |
+| Property           | Type                         | Required | Default value | Description                                        |
+| ------------------ | ---------------------------- | -------- | ------------- | -------------------------------------------------- |
+| `length`           | `number`                     | ❌       | `4`           | Number of OTP cells to render                      |
+| `value`            | `string`                     | ❌       | `''`          | Current OTP code value                             |
+| `onChange`         | `(code: string) => void`     | ❌       | -             | Called whenever the OTP code changes               |
+| `secure`           | `boolean`                    | ❌       | `false`       | When `true`, masks digits like a password input    |
+| `variant`          | `'default' \| 'alternative'` | ❌       | `'default'`   | Visual variant for the underlying input container  |
 
 ## Basic examples
 
