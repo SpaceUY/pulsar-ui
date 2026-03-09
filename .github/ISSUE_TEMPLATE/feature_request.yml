@@ -1,0 +1,70 @@
+name: Feature request
+description: Suggest a new feature or enhancement for this library.
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # Feature request
+
+        Thanks for taking the time to suggest a feature!
+
+        Please fill out the sections below to help us understand your request.
+
+  - type: checkboxes
+    attributes:
+      label: Before submitting
+      options:
+        - label: I checked for existing feature requests to avoid duplicates.
+          required: true
+        - label: I checked the documentation to make sure this feature doesn't already exist.
+          required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement
+      description: |
+        A clear description of the problem this feature would solve.
+        Example: "I'm always frustrated when..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: |
+        Describe the solution you'd like. Include API examples or mockups if possible.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: |
+        Describe any alternative solutions or workarounds you've considered.
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Component scope
+      description: Which area of the library does this relate to?
+      options:
+        - New component
+        - Existing component enhancement
+        - Theme / styling
+        - Accessibility
+        - Performance
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: |
+        Add any other context, screenshots, or mockups about the feature request here.
