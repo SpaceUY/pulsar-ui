@@ -12,3 +12,18 @@ commit-msg:
   commands:
     commitlint:
       run: npx commitlint --edit
+pre-push:
+  commands:
+    branch-naming:
+      run: |
+        branch=$(git rev-parse --abbrev-ref HEAD)
+        if [ "$branch" = "main" ]; then
+          exit 0
+        fi
+        pattern="^(feat|fix|docs|chore|refactor|test|perf|ci|build|style|revert)/"
+        if ! echo "$branch" | grep -qE "$pattern"; then
+          echo "Branch name '$branch' does not follow the naming convention."
+          echo "Use: feat/, fix/, docs/, chore/, refactor/, test/, perf/, ci/, build/, style/, or revert/"
+          echo "Example: feat/add-new-button-variant"
+          exit 1
+        fi

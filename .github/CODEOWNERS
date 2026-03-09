@@ -1,0 +1,20 @@
+# Default owners for the entire repository
+* @chacaa
+
+# Core library
+/src/ @chacaa
+
+# Components
+/src/components/ @chacaa
+
+# Theme and styling
+/src/theme/ @chacaa
+
+# CI/CD and tooling
+/.github/ @chacaa
+/lefthook.yml @chacaa
+/package.json @chacaa
+
+# Documentation
+/example/ @chacaa
+*.md @chacaa
