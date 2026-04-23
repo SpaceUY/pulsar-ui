@@ -19,9 +19,10 @@ import Animated, {
 import InputContainer from './InputContainer';
 import BottomSheet, { type BottomSheetProps } from './BottomSheet';
 import Text from './Text';
-import Icon from './Icon';
+import Icon, { type IconName } from './Icon';
 import Button from './Button';
 import IconButton from './IconButton';
+import Chip from './Chip';
 
 import useTheme from '../hooks/useTheme';
 
@@ -40,6 +41,22 @@ type Props = {
   error?: boolean;
   hint?: string;
   title?: string;
+  /**
+   * Trigger rendering style.
+   * - `'input'` (default): full bordered input with label, icon, chevron and optional hint/error.
+   * - `'chip'`: compact pill (icon + text), ideal for filter toolbars.
+   *   In `'chip'` mode, `label`, `hint` and `error` are ignored.
+   */
+  variant?: 'input' | 'chip';
+  /**
+   * Text shown inside the chip when `variant='chip'`.
+   * Falls back to the formatted selected range, then to `placeholder`.
+   */
+  chipText?: string;
+  /** Icon shown inside the chip when `variant='chip'`. Defaults to `'Calendar'`. */
+  chipIconName?: IconName;
+  /** Size of the chip trigger when `variant='chip'`. Defaults to `'normal'`. */
+  chipSize?: 'normal' | 'small';
 };
 
 // Helper function to safely parse ISO date string to Date object
@@ -69,6 +86,10 @@ const CalendarPicker = ({
   disabled = false,
   error,
   hint,
+  variant = 'input',
+  chipText,
+  chipIconName,
+  chipSize = 'normal',
 }: Props) => {
   const [fromDate, setFromDate] = useState<string | undefined>(
     value?.fromDate ? format(new Date(value.fromDate), 'yyyy-MM-dd') : undefined
@@ -255,39 +276,49 @@ const CalendarPicker = ({
   return (
     <>
       <View style={style}>
-        <InputContainer
-          onPress={handlePress}
-          disabled={disabled}
-          focused={isOpen}
-          error={error}
-          hint={hint}
-          label={label}
-        >
-          <Icon
-            style={styles.icon}
-            name="Calendar"
-            size={18}
-            color={convertHexToRgba(colors.foreground, 0.5)}
+        {variant === 'chip' ? (
+          <Chip
+            text={chipText ?? displayValue ?? placeholder}
+            iconName={chipIconName ?? 'Calendar'}
+            size={chipSize}
+            disabled={disabled}
+            onPress={handlePress}
           />
-          <Text
-            variant="pm"
-            style={[
-              styles.selectText,
-              {
-                color: displayValue
-                  ? getInputTextColor()
-                  : convertHexToRgba(colors.foreground, 0.5),
-                fontFamily: theme.fonts.regular,
-              },
-            ]}
-            numberOfLines={1}
+        ) : (
+          <InputContainer
+            onPress={handlePress}
+            disabled={disabled}
+            focused={isOpen}
+            error={error}
+            hint={hint}
+            label={label}
           >
-            {displayValue ?? placeholder}
-          </Text>
-          <Animated.View style={animatedStyle}>
-            <Icon name="ChevronDown" size={16} color={colors.foreground} />
-          </Animated.View>
-        </InputContainer>
+            <Icon
+              style={styles.icon}
+              name="Calendar"
+              size={18}
+              color={convertHexToRgba(colors.foreground, 0.5)}
+            />
+            <Text
+              variant="pm"
+              style={[
+                styles.selectText,
+                {
+                  color: displayValue
+                    ? getInputTextColor()
+                    : convertHexToRgba(colors.foreground, 0.5),
+                  fontFamily: theme.fonts.regular,
+                },
+              ]}
+              numberOfLines={1}
+            >
+              {displayValue ?? placeholder}
+            </Text>
+            <Animated.View style={animatedStyle}>
+              <Icon name="ChevronDown" size={16} color={colors.foreground} />
+            </Animated.View>
+          </InputContainer>
+        )}
       </View>
       <BottomSheet ref={bottomSheetRef} onBackdropPress={handleClose}>
         <View style={styles.calendarContainer}>
