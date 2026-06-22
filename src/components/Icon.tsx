@@ -16,7 +16,13 @@ type Props = Omit<LucideProps, 'style'> & {
   style?: StyleProp<ViewStyle>;
 };
 
-export default function Icon({ name, size = 24, color, style, ...props }: Props) {
+export default function Icon({
+  name,
+  size = 24,
+  color,
+  style,
+  ...props
+}: Props) {
   const { colors } = useTheme();
 
   const IconComponent = icons[name] as LucideIcon;

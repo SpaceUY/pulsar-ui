@@ -5,7 +5,13 @@ import { darkColors, lightColors, type ColorPalette } from '../theme/colors';
 
 type Theme = {
   colors: { dark: ColorPalette; light: ColorPalette };
-  fonts: { light: string; regular: string; medium: string; semibold?: string; bold: string };
+  fonts: {
+    light: string;
+    regular: string;
+    medium: string;
+    semibold?: string;
+    bold: string;
+  };
   roundness: number;
   insets: { top: number; left: number; right: number; bottom: number };
 };

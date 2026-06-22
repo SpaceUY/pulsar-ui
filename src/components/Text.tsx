@@ -9,7 +9,13 @@ type Props = TextProps & {
   weight?: keyof Theme['fonts'];
 };
 
-export default function Text({ variant, weight, style, children, ...props }: Props) {
+export default function Text({
+  variant,
+  weight,
+  style,
+  children,
+  ...props
+}: Props) {
   const { theme, colors } = useTheme();
 
   const color = useMemo(
@@ -63,7 +69,13 @@ export default function Text({ variant, weight, style, children, ...props }: Pro
   return (
     <RNText
       {...props}
-      style={[textStyle, { color }, styles.text, fontFamily ? { fontFamily } : null, style]}
+      style={[
+        textStyle,
+        { color },
+        styles.text,
+        fontFamily ? { fontFamily } : null,
+        style,
+      ]}
     >
       {children}
     </RNText>
