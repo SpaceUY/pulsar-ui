@@ -3,9 +3,11 @@ import { add, format, isBefore, addMonths, subMonths } from 'date-fns';
 import {
   useWindowDimensions,
   View,
+  Pressable,
   StyleSheet,
   type StyleProp,
   type ViewStyle,
+  type TextStyle,
   I18nManager,
 } from 'react-native';
 import { Calendar } from 'react-native-calendars';
@@ -22,8 +24,6 @@ import Text from './Text';
 import Icon, { type IconName } from './Icon';
 import Button from './Button';
 import IconButton from './IconButton';
-import Chip from './Chip';
-
 import useTheme from '../hooks/useTheme';
 
 import { convertDateToISOString } from '../utils/stringUtils';
@@ -57,6 +57,28 @@ type Props = {
   chipIconName?: IconName;
   /** Size of the chip trigger when `variant='chip'`. Defaults to `'normal'`. */
   chipSize?: 'normal' | 'small';
+  /** Style overrides for the chip trigger container when `variant='chip'`. */
+  chipContainerStyle?: StyleProp<ViewStyle>;
+  /** Text style overrides for the chip trigger when `variant='chip'`. */
+  chipTextStyle?: StyleProp<TextStyle>;
+  chipTextVariant?:
+    | 'h1'
+    | 'h2'
+    | 'h3'
+    | 'h4'
+    | 'h5'
+    | 'pl'
+    | 'pm'
+    | 'ps'
+    | 'caption';
+  /** Icon style overrides for the chip trigger when `variant='chip'`. */
+  chipIconStyle?: StyleProp<ViewStyle>;
+  /** Icon size override for the chip trigger when `variant='chip'`. */
+  chipIconSize?: number;
+  /** Label for the clear button. Defaults to 'Limpiar'. */
+  clearLabel?: string;
+  /** Label for the confirm button. Defaults to 'Confirmar'. */
+  confirmLabel?: string;
 };
 
 // Helper function to safely parse ISO date string to Date object
@@ -90,6 +112,13 @@ const CalendarPicker = ({
   chipText,
   chipIconName,
   chipSize = 'normal',
+  chipContainerStyle,
+  chipTextStyle,
+  chipTextVariant,
+  chipIconStyle,
+  chipIconSize,
+  clearLabel = 'Limpiar',
+  confirmLabel = 'Confirmar',
 }: Props) => {
   const [fromDate, setFromDate] = useState<string | undefined>(
     value?.fromDate ? format(new Date(value.fromDate), 'yyyy-MM-dd') : undefined
@@ -277,13 +306,37 @@ const CalendarPicker = ({
     <>
       <View style={style}>
         {variant === 'chip' ? (
-          <Chip
-            text={chipText ?? displayValue ?? placeholder}
-            iconName={chipIconName ?? 'Calendar'}
-            size={chipSize}
-            disabled={disabled}
-            onPress={handlePress}
-          />
+          <Pressable onPress={handlePress} disabled={disabled}>
+            <View
+              style={[
+                styles.defaultChip,
+                chipSize === 'small'
+                  ? styles.defaultChipSmall
+                  : styles.defaultChipNormal,
+                {
+                  borderRadius: theme.roundness,
+                  backgroundColor: convertHexToRgba(colors.foreground, 0.08),
+                },
+                chipContainerStyle,
+              ]}
+            >
+              <Icon
+                style={[styles.defaultChipIcon, chipIconStyle]}
+                name={chipIconName ?? 'Calendar'}
+                size={chipIconSize ?? (chipSize === 'small' ? 12 : 14)}
+                color={colors.foreground}
+              />
+              <Text
+                variant={
+                  chipTextVariant ?? (chipSize === 'small' ? 'ps' : 'pm')
+                }
+                style={[{ color: colors.foreground }, chipTextStyle]}
+                numberOfLines={1}
+              >
+                {chipText ?? displayValue ?? placeholder}
+              </Text>
+            </View>
+          </Pressable>
         ) : (
           <InputContainer
             onPress={handlePress}
@@ -408,14 +461,14 @@ const CalendarPicker = ({
           <View style={styles.buttonRow}>
             {toDate && fromDate && (
               <Button
-                text="Limpiar"
+                text={clearLabel}
                 variant="outline"
                 onPress={handleClear}
                 style={styles.secondaryButton}
               />
             )}
             <Button
-              text="Confirmar"
+              text={confirmLabel}
               onPress={handleConfirm}
               disabled={isButtonDisabled}
               style={styles.primaryButton}
@@ -428,6 +481,15 @@ const CalendarPicker = ({
 };
 
 const styles = StyleSheet.create({
+  defaultChip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 12,
+  },
+  defaultChipNormal: { height: 32 },
+  defaultChipSmall: { height: 24 },
+  defaultChipIcon: { marginEnd: 8 },
   icon: { marginEnd: 8 },
   selectText: { flex: 1 },
   calendarContainer: {
