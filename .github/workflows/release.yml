@@ -48,7 +48,11 @@ jobs:
       - name: Update npm
         run: npm install -g npm@latest
 
+      # Version bumping is expected to already be done in package.json before
+      # this workflow runs (currently done manually; the release-pr skill will
+      # take over computing and committing it). --no-increment tells release-it
+      # to publish whatever version is already there instead of recomputing one.
       - name: Release
-        run: yarn release --ci
+        run: yarn release --ci --no-increment
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
