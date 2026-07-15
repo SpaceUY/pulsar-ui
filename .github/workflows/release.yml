@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch: # TEMPORARY: for manually testing this workflow before merge, remove before merging to main
 
 jobs:
   release:
@@ -36,17 +37,19 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
       # npm Trusted Publishing (OIDC) requires npm >= 11.5.1 and Node >= 22.14.0,
-      # newer than the .nvmrc pin used for the build above.
+      # newer than the .nvmrc pin used for the build above. Float to the latest
+      # 22.x patch rather than pinning one, since npm@latest's own engine
+      # requirement creeps forward over time.
       - name: Setup Node.js for npm publish
         uses: actions/setup-node@v4
         with:
-          node-version: '22.14.0'
+          node-version: '22'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Update npm
         run: npm install -g npm@latest
 
       - name: Release
-        run: yarn release --ci
+        run: yarn release --dry-run --ci # TEMPORARY: swap back to `yarn release --ci` before merging to main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
