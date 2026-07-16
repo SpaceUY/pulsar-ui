@@ -39,11 +39,16 @@ jobs:
       # newer than the .nvmrc pin used for the build above. Float to the latest
       # 22.x patch rather than pinning one, since npm@latest's own engine
       # requirement creeps forward over time.
+      #
+      # Deliberately omit registry-url: passing it makes setup-node write a
+      # placeholder NODE_AUTH_TOKEN/.npmrc auth token, which makes npm use
+      # classic token auth instead of the OIDC trusted-publishing exchange
+      # (causing a 404 on publish). package.json's publishConfig already
+      # points npm at the right registry with public access.
       - name: Setup Node.js for npm publish
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          registry-url: 'https://registry.npmjs.org'
 
       - name: Update npm
         run: npm install -g npm@latest
