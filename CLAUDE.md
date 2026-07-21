@@ -20,8 +20,8 @@
 - **Language**: TypeScript (strict). All source files in `src/`.
 - **Formatting**: Prettier — single quotes, 2-space indent, trailing commas (es5), no tabs.
 - **Linting**: ESLint with `@react-native` config + Prettier plugin.
-- **Commits**: Follow [Conventional Commits](https://www.conventionalcommits.org/en). Prefixes: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`.
-- **Branch naming**: Use `feat/`, `fix/`, `docs/`, `chore/`, `refactor/`, or `test/` prefixes (e.g., `feat/new-button-variant`).
+- **Commits**: Follow [Conventional Commits](https://www.conventionalcommits.org/en). Prefixes: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`.
+- **Branch naming**: Use `feat/`, `fix/`, `docs/`, `style/`, `refactor/`, `perf/`, `test/`, `build/`, `ci/`, `chore/`, or `revert/` prefixes (e.g., `feat/new-button-variant`). Enforced by a pre-push hook.
 - **PR titles**: Must follow conventional commits format (enforced by CI).
 
 ## Architecture

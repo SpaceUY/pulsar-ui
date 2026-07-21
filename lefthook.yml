@@ -24,7 +24,7 @@ pre-push:
     branch-naming:
       run: |
         branch=$(git rev-parse --abbrev-ref HEAD)
-        if [ "$branch" = "main" ]; then
+        if [ "$branch" = "main" ] || [ "$branch" = "dev" ]; then
           exit 0
         fi
         pattern="^(feat|fix|docs|chore|refactor|test|perf|ci|build|style|revert)/"

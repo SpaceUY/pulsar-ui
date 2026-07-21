@@ -1,20 +1,20 @@
 # Default owners for the entire repository
-* @chacaa
+* @chacaa @pvicensSpacedev
 
 # Core library
-/src/ @chacaa
+/src/ @chacaa @pvicensSpacedev
 
 # Components
-/src/components/ @chacaa
+/src/components/ @chacaa @pvicensSpacedev
 
 # Theme and styling
-/src/theme/ @chacaa
+/src/theme/ @chacaa @pvicensSpacedev
 
 # CI/CD and tooling
-/.github/ @chacaa
-/lefthook.yml @chacaa
-/package.json @chacaa
+/.github/ @chacaa @pvicensSpacedev
+/lefthook.yml @chacaa @pvicensSpacedev
+/package.json @chacaa @pvicensSpacedev
 
 # Documentation
-/example/ @chacaa
-*.md @chacaa
+/example/ @chacaa @pvicensSpacedev
+*.md @chacaa @pvicensSpacedev
