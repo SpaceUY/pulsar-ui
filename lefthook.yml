@@ -1,3 +1,10 @@
+# Sourced by lefthook before running any hook command. Needed because git
+# hooks run in a plain, non-interactive shell that never loads ~/.zshrc, so
+# node/npx installed via a version manager (nvm here) aren't on PATH when
+# committing from a GUI client, editor, or any shell that skips rc files.
+# See: https://lefthook.dev/configuration/rc.html
+rc: .lefthookrc
+
 pre-commit:
   parallel: true
   commands:

@@ -30,6 +30,11 @@ export default function CalendarPickerExample() {
     toDate?: string;
   }>({});
 
+  const [selectedDateRange4, setSelectedDateRange4] = useState<{
+    fromDate?: string;
+    toDate?: string;
+  }>({});
+
   return (
     <ResponsiveScroll>
       {headerVisible && (
@@ -112,6 +117,31 @@ export default function CalendarPickerExample() {
         )}
       </Card>
 
+      <Card style={styles.exampleContainer}>
+        <Text variant="h4" style={styles.exampleTitle}>
+          Chip Variant (Filter)
+        </Text>
+        <View style={styles.chipRow}>
+          <CalendarPicker
+            value={selectedDateRange4}
+            onChange={setSelectedDateRange4}
+            variant="chip"
+            chipText="Filter"
+            chipIconName="SlidersHorizontal"
+          />
+        </View>
+        {(selectedDateRange4.fromDate || selectedDateRange4.toDate) && (
+          <Text variant="pm" style={styles.selectedDate}>
+            {selectedDateRange4.fromDate &&
+              !selectedDateRange4.toDate &&
+              `Start: ${new Date(selectedDateRange4.fromDate).toLocaleDateString()}`}
+            {selectedDateRange4.fromDate &&
+              selectedDateRange4.toDate &&
+              `Range: ${new Date(selectedDateRange4.fromDate).toLocaleDateString()} - ${new Date(selectedDateRange4.toDate).toLocaleDateString()}`}
+          </Text>
+        )}
+      </Card>
+
       <View style={styles.spacer} />
     </ResponsiveScroll>
   );
@@ -132,4 +162,5 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   spacer: { height: 40 },
+  chipRow: { flexDirection: 'row', alignItems: 'flex-start' },
 });

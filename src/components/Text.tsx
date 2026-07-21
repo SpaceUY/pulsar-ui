@@ -1,13 +1,21 @@
 import { useMemo } from 'react';
 import { StyleSheet, Text as RNText, type TextProps } from 'react-native';
 
+import type { Theme } from '../store/themeStore';
 import useTheme from '../hooks/useTheme';
 
 type Props = TextProps & {
   variant: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'pl' | 'pm' | 'ps' | 'caption';
+  weight?: keyof Theme['fonts'];
 };
 
-export default function Text({ variant, style, children, ...props }: Props) {
+export default function Text({
+  variant,
+  weight,
+  style,
+  children,
+  ...props
+}: Props) {
   const { theme, colors } = useTheme();
 
   const color = useMemo(
@@ -56,8 +64,19 @@ export default function Text({ variant, style, children, ...props }: Props) {
     }[variant];
   }, [variant, theme.fonts.bold, theme.fonts.medium, theme.fonts.regular]);
 
+  const fontFamily = weight ? theme.fonts[weight] : undefined;
+
   return (
-    <RNText {...props} style={[textStyle, { color }, styles.text, style]}>
+    <RNText
+      {...props}
+      style={[
+        textStyle,
+        { color },
+        styles.text,
+        fontFamily ? { fontFamily } : null,
+        style,
+      ]}
+    >
       {children}
     </RNText>
   );

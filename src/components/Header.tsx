@@ -13,7 +13,7 @@ import { type IconName } from './Icon';
 import useTheme from '../hooks/useTheme';
 
 import meassures from '../theme/meassures';
-import type { ButtonVariant } from './ButtonContainer';
+import type { ButtonSize, ButtonVariant } from './ButtonContainer';
 
 export type HeaderVariant = 'default' | 'secondary';
 
@@ -21,6 +21,7 @@ const DEFAULT_COLLAPSE_THRESHOLD = 80;
 
 type HeaderButtonProps = {
   iconName: IconName;
+  iconSize?: keyof typeof ButtonSize;
   onPress?: () => void;
   disabled?: boolean;
   variant?: keyof typeof ButtonVariant;
@@ -107,7 +108,7 @@ export default function Header({
       <IconButton
         iconName={button.iconName}
         variant={button.variant ?? 'transparent'}
-        size="medium"
+        size={button.iconSize ?? 'medium'}
         onPress={button.onPress}
         disabled={button.disabled}
         rounded={button.rounded}
