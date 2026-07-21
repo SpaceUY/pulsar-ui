@@ -73,7 +73,7 @@ export default function RootLayout() {
             return;
           }
         }
-      } catch (e) {
+      } catch {
         // Ignore errors
       } finally {
         setRtlLoaded(true);

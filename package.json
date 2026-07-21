@@ -91,6 +91,10 @@
     "typescript": "^5.2.2",
     "zustand": "^5.0.4"
   },
+  "resolutions": {
+    "@typescript-eslint/eslint-plugin": "^8.65.0",
+    "@typescript-eslint/parser": "^8.65.0"
+  },
   "peerDependencies": {
     "@react-navigation/elements": ">=2.3.8",
     "lucide-react-native": ">=0.503.0",
