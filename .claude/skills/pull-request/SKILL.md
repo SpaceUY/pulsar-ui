@@ -49,7 +49,22 @@ Only consider commits that are not merge commits (already filtered in Step 1). D
 
 ## Step 3 — Generate the PR title
 
-Write a concise, descriptive title (under 72 characters) that summarizes the actual work done. Use imperative mood (e.g. "Fix pull-to-refresh behavior on Android", "Add send flow with WDK integration"). Do not include the branch name literally.
+The title MUST follow Conventional Commits format, enforced by CI (`.github/workflows/pr-title.yml`) — a non-compliant title fails the "Validate PR title" check:
+
+```
+<type>[(scope)][!]: <lowercase subject>
+```
+
+- `<type>` is one of: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`
+- `(scope)` is optional
+- `!` after the type/scope marks a breaking change
+- the subject must NOT start with an uppercase letter
+- keep the whole title under 72 characters
+- do not include the branch name literally
+
+Pick `<type>` from what the diff actually is (bug fix → `fix`, new feature → `feat`, CI/workflow change → `ci`, tooling → `chore`, etc.) — match it to the same category used for TYPE OF CHANGE in Step 4.
+
+Examples: `fix: resolve header alignment issue`, `feat: add send flow with WDK integration`, `ci: fix beta-release EBADENGINE on npm update`.
 
 ## Step 4 — Fill in the PR description
 

@@ -65,13 +65,20 @@ jobs:
         run: npm version "${{ steps.version.outputs.version }}" --no-git-tag-version --allow-same-version
 
       # npm Trusted Publishing (OIDC) requires npm >= 11.5.1 and Node >= 22.14.0,
-      # newer than the .nvmrc pin used for the build above.
+      # newer than the .nvmrc pin used for the build above. Float to the latest
+      # 22.x patch rather than pinning one, since npm@latest's own engine
+      # requirement creeps forward over time.
+      #
+      # Deliberately omit registry-url: passing it makes setup-node write a
+      # placeholder NODE_AUTH_TOKEN/.npmrc auth token, which makes npm use
+      # classic token auth instead of the OIDC trusted-publishing exchange
+      # (causing a 404 on publish). package.json's publishConfig already
+      # points npm at the right registry with public access.
       - name: Setup Node.js for npm publish
         if: steps.check.outputs.skip == 'false'
         uses: actions/setup-node@v4
         with:
-          node-version: '22.14.0'
-          registry-url: 'https://registry.npmjs.org'
+          node-version: '22'
 
       - name: Update npm
         if: steps.check.outputs.skip == 'false'
