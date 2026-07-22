@@ -59,3 +59,4 @@ Releases are managed via `release-it` with conventional changelog.
 - Do not commit `.env` files or secrets.
 - Do not use `npm` — this project uses Yarn workspaces.
 - Do not bypass pre-commit hooks with `--no-verify`.
+- Never author or co-author commits. Do not add `Co-Authored-By: Claude ...` or similar AI attribution lines to commit messages, PR descriptions, or CHANGELOG.md.
