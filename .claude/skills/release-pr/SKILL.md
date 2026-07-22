@@ -1,17 +1,23 @@
 ---
 name: release-pr
-description: Prepares a release pull request targeting main (the branch that triggers the automated npm publish workflow). Computes the next version and changelog from conventional commits, updates CHANGELOG.md, syncs the docs site and the example app (mobile + web) with any component/util changes, and opens the PR for review.
+description: Prepares a release pull request from dev targeting main (the branch that triggers the automated npm publish workflow). Only runs when the current branch is dev. Computes the next version and changelog from conventional commits, updates CHANGELOG.md, syncs the docs site and the example app (mobile + web) with any component/util changes, and opens the PR for review.
 ---
 
 Create a release pull request by following these steps exactly. This is a higher-stakes PR than a regular feature PR: **merging it to `main` triggers a real npm publish** via `.github/workflows/release.yml`. Never skip the safety checks below.
 
-## Argument parsing
-
-Check whether the invocation included a `--branch:"<name>"` argument. If present, use that as the **base branch**. If absent, default to `main`.
-
-Call this value `$BASE`.
+The base branch is always `main` — call this `$BASE` throughout. There is no override for it: a release PR only ever goes `dev` → `main`, so this skill takes no `--branch` argument.
 
 Check for a `--dry-run` argument (see Arguments section below).
+
+## Step 0 — Verify the source branch is dev
+
+Run:
+
+```bash
+git branch --show-current
+```
+
+If the output is not exactly `dev`, stop immediately and tell the user: release PRs must be created from `dev` (checked out locally as `dev`), targeting `main`. Do not proceed with any further step — do not gather commits, do not touch `package.json` or `CHANGELOG.md`, do not open a PR. Suggest they run `git checkout dev && git pull` first.
 
 ## Step 1 — Gather what's shipping
 
@@ -140,6 +146,8 @@ Output the PR URL so it's visible in the conversation.
 
 ## Rules
 
+- Only run from the `dev` branch — if the current branch isn't exactly `dev`, stop at Step 0 and do not proceed.
+- The base is always `main` — never accept or infer a different target branch.
 - Never invent changes that are not in the diff.
 - Never guess the version bump or bump type — always derive both from `yarn release --dry-run --ci`.
 - Always set `package.json`'s `"version"` to that exact computed value — CI runs with `--no-increment` and trusts this file as-is.

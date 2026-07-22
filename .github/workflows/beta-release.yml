@@ -1,0 +1,82 @@
+name: Beta Release
+
+on:
+  push:
+    branches:
+      - dev
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Compute the version and build, but do not publish'
+        type: boolean
+        default: false
+
+jobs:
+  beta-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Check for commits since last release
+        id: check
+        run: |
+          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          if [ -n "$LAST_TAG" ] && [ -z "$(git log --no-merges "$LAST_TAG"..HEAD)" ]; then
+            echo "No commits since $LAST_TAG, skipping beta release."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build package
+        if: steps.check.outputs.skip == 'false'
+        run: yarn prepare
+
+      # Same release-it + conventional-changelog pipeline the release-pr skill and the
+      # Release workflow trust for the next version — never hand-guess it here either.
+      # --npm.skipChecks avoids requiring npm auth just to read the computed version.
+      - name: Compute next version
+        if: steps.check.outputs.skip == 'false'
+        id: version
+        run: |
+          BASE_VERSION=$(yarn release --release-version --ci --npm.skipChecks --no-github.release)
+          BETA_VERSION="${BASE_VERSION}-beta.${{ github.run_number }}"
+          echo "Computed beta version: $BETA_VERSION (base $BASE_VERSION)"
+          echo "version=$BETA_VERSION" >> "$GITHUB_OUTPUT"
+
+      # Only bumps package.json locally in this ephemeral runner — never committed, tagged,
+      # or pushed back to dev, so this can't collide with the real release-pr version diffing.
+      - name: Set package version
+        if: steps.check.outputs.skip == 'false'
+        run: npm version "${{ steps.version.outputs.version }}" --no-git-tag-version --allow-same-version
+
+      # npm Trusted Publishing (OIDC) requires npm >= 11.5.1 and Node >= 22.14.0,
+      # newer than the .nvmrc pin used for the build above.
+      - name: Setup Node.js for npm publish
+        if: steps.check.outputs.skip == 'false'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.14.0'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Update npm
+        if: steps.check.outputs.skip == 'false'
+        run: npm install -g npm@latest
+
+      - name: Publish beta
+        if: steps.check.outputs.skip == 'false' && !inputs.dry_run
+        run: npm publish --tag beta
