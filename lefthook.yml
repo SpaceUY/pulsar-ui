@@ -1,3 +1,10 @@
+# Sourced by lefthook before running any hook command. Needed because git
+# hooks run in a plain, non-interactive shell that never loads ~/.zshrc, so
+# node/npx installed via a version manager (nvm here) aren't on PATH when
+# committing from a GUI client, editor, or any shell that skips rc files.
+# See: https://lefthook.dev/configuration/rc.html
+rc: .lefthookrc
+
 pre-commit:
   parallel: true
   commands:
@@ -12,3 +19,18 @@ commit-msg:
   commands:
     commitlint:
       run: npx commitlint --edit
+pre-push:
+  commands:
+    branch-naming:
+      run: |
+        branch=$(git rev-parse --abbrev-ref HEAD)
+        if [ "$branch" = "main" ] || [ "$branch" = "dev" ]; then
+          exit 0
+        fi
+        pattern="^(feat|fix|docs|chore|refactor|test|perf|ci|build|style|revert)/"
+        if ! echo "$branch" | grep -qE "$pattern"; then
+          echo "Branch name '$branch' does not follow the naming convention."
+          echo "Use: feat/, fix/, docs/, chore/, refactor/, test/, perf/, ci/, build/, style/, or revert/"
+          echo "Example: feat/add-new-button-variant"
+          exit 1
+        fi

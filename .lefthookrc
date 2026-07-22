@@ -1,0 +1,42 @@
+#!/bin/sh
+# Sourced by lefthook (see `rc:` in lefthook.yml) before running hook commands.
+# Docs: https://lefthook.dev/configuration/rc.html
+#
+# Git hooks run in a plain, non-interactive `sh` that never loads
+# ~/.zshrc / ~/.bash_profile, so node/npx installed via a version manager
+# aren't on PATH. That surfaces as "npx: command not found" when committing
+# from a GUI git client, an editor, or any shell that skips rc files.
+
+# nvm (Homebrew or standard install location)
+export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+if [ -s "/opt/homebrew/opt/nvm/nvm.sh" ]; then
+  . "/opt/homebrew/opt/nvm/nvm.sh"
+elif [ -s "/usr/local/opt/nvm/nvm.sh" ]; then
+  . "/usr/local/opt/nvm/nvm.sh"
+elif [ -s "$NVM_DIR/nvm.sh" ]; then
+  . "$NVM_DIR/nvm.sh"
+fi
+
+# Sourcing nvm.sh only defines the `nvm` function, it does not activate a
+# version, so node/npx are still missing until we explicitly switch.
+if command -v nvm >/dev/null 2>&1; then
+  nvm use >/dev/null 2>&1 || nvm use default >/dev/null 2>&1 || {
+    # Both the pinned .nvmrc version and the `default` alias can point at a
+    # version that was never installed locally (e.g. `default` resolves via
+    # the "lts/*" alias, which can drift ahead of what's on disk). Fall back
+    # to whatever is actually installed rather than failing the hook.
+    latest="$(ls -1 "$NVM_DIR/versions/node" 2>/dev/null | sort -V | tail -1)"
+    [ -n "$latest" ] && export PATH="$NVM_DIR/versions/node/$latest/bin:$PATH"
+  }
+fi
+
+# fnm
+if command -v fnm >/dev/null 2>&1; then
+  eval "$(fnm env)" 2>/dev/null || true
+fi
+
+# asdf
+[ -s "$HOME/.asdf/asdf.sh" ] && . "$HOME/.asdf/asdf.sh"
+
+# volta
+[ -d "$HOME/.volta/bin" ] && export PATH="$HOME/.volta/bin:$PATH"

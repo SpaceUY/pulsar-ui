@@ -39,7 +39,7 @@ export const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
       setTimeout(() => {
         setCopied(false);
       }, 2500);
-    } catch (error) {
+    } catch {
       Alert.alert('Error', 'Failed to copy to clipboard');
     }
   };

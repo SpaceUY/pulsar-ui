@@ -68,6 +68,22 @@ Remember to add tests for your change if possible. Run the unit tests by:
 yarn test
 ```
 
+### Branch naming convention
+
+All branches must follow a naming convention with a type prefix. This is enforced by a pre-push hook.
+
+```
+<type>/<short-description>
+```
+
+Allowed prefixes: `feat/`, `fix/`, `docs/`, `chore/`, `refactor/`, `test/`, `perf/`, `ci/`, `build/`, `style/`, `revert/`
+
+Examples:
+- `feat/add-date-picker`
+- `fix/button-alignment`
+- `docs/update-contributing-guide`
+- `refactor/simplify-theme-logic`
+
 ### Commit message convention
 
 We follow the [conventional commits specification](https://www.conventionalcommits.org/en) for our commit messages:
@@ -75,11 +91,15 @@ We follow the [conventional commits specification](https://www.conventionalcommi
 - `fix`: bug fixes, e.g. fix crash due to deprecated method.
 - `feat`: new features, e.g. add new method to the module.
 - `refactor`: code refactor, e.g. migrate from class components to hooks.
-- `docs`: changes into documentation, e.g. add usage example for the module..
+- `docs`: changes into documentation, e.g. add usage example for the module.
 - `test`: adding or updating tests, e.g. add integration tests using detox.
 - `chore`: tooling changes, e.g. change CI config.
 
 Our pre-commit hooks verify that your commit message matches this format when committing.
+
+### Pull request titles
+
+PR titles must also follow the conventional commits format (e.g., `feat: add new button variant`). This is enforced by CI and is especially important if you squash-merge, since the PR title becomes the commit message.
 
 ### Linting and tests
 
@@ -110,6 +130,15 @@ The `package.json` file contains various scripts for common tasks:
 - `yarn example start`: start the Metro server for the example app.
 - `yarn example android`: run the example app on Android.
 - `yarn example ios`: run the example app on iOS.
+
+### Versioning
+
+This project follows [Semantic Versioning](https://semver.org/). See [VERSIONING.md](./VERSIONING.md) for full details.
+
+Version bumps are determined automatically from conventional commits:
+- `fix:` commits trigger a **patch** bump.
+- `feat:` commits trigger a **minor** bump.
+- `feat!:` or `BREAKING CHANGE:` trigger a **major** bump.
 
 ### Sending a pull request
 
