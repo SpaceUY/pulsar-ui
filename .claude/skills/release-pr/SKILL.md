@@ -131,8 +131,10 @@ Read `.github/pull_request_template.md` and use it as the exact base structure, 
 
 ## Step 9 — Create the pull request
 
+The title MUST follow Conventional Commits format, enforced by CI (`.github/workflows/pr-title.yml`) — a non-compliant title fails the "Validate PR title" check. Use `chore(release)` as the type/scope, since this isn't captured by any of the other conventional-commit types:
+
 ```bash
-gh pr create --base $BASE --title "Release v<next-version>" --body "$(cat <<'EOF'
+gh pr create --base $BASE --title "chore(release): v<next-version>" --body "$(cat <<'EOF'
 <filled template content>
 EOF
 )"
